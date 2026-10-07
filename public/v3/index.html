@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="tr" class="archive-landing">
 <head>
-<link rel="stylesheet" href="/archive-common.css">
-<script src="/archive-common.js"></script>
+<link rel="stylesheet" href="/titanlar/archive-common.css">
+<script src="/titanlar/archive-common.js"></script>
 
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
@@ -115,7 +115,7 @@ body::after{
 .hl{flex:1;max-width:660px;z-index:2;position:relative}
 .hr{flex:1;position:relative;height:580px;display:flex;align-items:center;justify-content:center;z-index:2}
 /* eyebrow */
-.eyebr{
+.eyebr{max-width:100%;flex-wrap:wrap;
   display:inline-flex;align-items:center;gap:.6rem;
   font-size:max(var(--archive-font-min),.65rem);letter-spacing:.26em;text-transform:uppercase;
   color:transparent;background:var(--grd);-webkit-background-clip:text;background-clip:text;
@@ -187,7 +187,7 @@ h1.ht{font-size:max(var(--archive-font-min),clamp(3.4rem,8vw,6.8rem));font-weigh
 /* ======================== SECTION COMMON ======================== */
 .section{padding:9rem 0;position:relative;z-index:2}
 .sh{text-align:center;margin-bottom:5rem}
-.sh .eyebr{justify-content:center}
+.sh .eyebr{max-width:100%;flex-wrap:wrap;justify-content:center}
 .sh h2{font-size:max(var(--archive-font-min),clamp(2.4rem,5vw,4.2rem));font-weight:900;margin-bottom:.9rem;line-height:1.05}
 .sh p{color:var(--txt2);max-width:520px;margin:0 auto;line-height:1.8;font-size:max(var(--archive-font-min),1rem)}
 
@@ -921,6 +921,7 @@ const cur = document.getElementById('cur');
 const curRing = document.getElementById('cur-ring');
 let mx=0, my=0, rx=0, ry=0;
 document.addEventListener('mousemove', e => {
+  if (archiveMotionQuery.matches) return;
   mx=e.clientX; my=e.clientY;
   document.body.classList.add('visible');
   gsap.to(cur,{x:mx-5,y:my-5,duration:.08,ease:'none'});
@@ -945,12 +946,13 @@ const mouse={x:-999,y:-999,vx:0,vy:0};
 let pmx=0,pmy=0;
 
 function resize(){
-  W=glc.width=window.innerWidth;
+  W=glc.width=document.documentElement.clientWidth;
   H=glc.height=window.innerHeight;
 }
 resize(); window.addEventListener('resize',resize);
 
 document.addEventListener('mousemove',e=>{
+  if (archiveMotionQuery.matches) return;
   mouse.vx=e.clientX-pmx; mouse.vy=e.clientY-pmy;
   mouse.x=e.clientX; mouse.y=e.clientY;
   pmx=e.clientX; pmy=e.clientY;
@@ -1084,6 +1086,7 @@ gsap.to('#fc3',{y:-18,rotation:.5,duration:3.8,ease:'sine.inOut',yoyo:true,repea
 function addTilt(sel,maxAngle=14,perspective=700){
   document.querySelectorAll(sel).forEach(el=>{
     el.addEventListener('mousemove',e=>{
+  if (archiveMotionQuery.matches) return;
       const r=el.getBoundingClientRect();
       const dx=(e.clientX-r.left)/r.width-.5;
       const dy=(e.clientY-r.top)/r.height-.5;
@@ -1120,6 +1123,7 @@ addTilt('.sgi',8,600);
 ═══════════════════════════════════════════════════════ */
 document.querySelectorAll('.btn').forEach(btn=>{
   btn.addEventListener('mousemove',e=>{
+  if (archiveMotionQuery.matches) return;
     const r=btn.getBoundingClientRect();
     const dx=e.clientX-(r.left+r.width/2);
     const dy=e.clientY-(r.top+r.height/2);
@@ -1234,6 +1238,7 @@ gsap.from('.tc',{
 document.querySelectorAll('.tc').forEach(tc=>{
   const orb=tc.querySelector('.tc-orb');
   tc.addEventListener('mousemove',e=>{
+  if (archiveMotionQuery.matches) return;
     const r=tc.getBoundingClientRect();
     gsap.to(orb,{x:e.clientX-r.left-140,y:e.clientY-r.top-140,duration:.5,ease:'power2.out'});
   });

@@ -120,19 +120,29 @@
     scroll-behavior: auto !important;
   }
 
-  .archive-landing { height: auto !important; }
+  .archive-landing { height: auto !important; cursor: auto !important; }
+  .archive-landing :is(#cur, #cur-ring, #cur-dot, #cur-outer, #cur-trail) { display: none; }
   .archive-landing #smooth-wrapper { position: static !important; height: auto !important; overflow: visible !important; }
   .archive-landing #smooth-content { transform: none !important; }
   .archive-landing .story-wrap { height: auto; }
   .archive-landing .story-pin { position: static; height: auto; overflow: visible; }
   .archive-landing .slides-track { width: 100%; display: block; transform: none !important; }
-  .archive-landing .slide { width: 100%; min-height: 0; flex-wrap: wrap; padding-block: calc(2 * var(--archive-gap)); }
-  .archive-landing :is(.s-txt, .s-vis) { min-width: 0; max-width: 100%; }
+  .archive-landing .slide { width: 100%; min-height: 0; flex-direction: column; align-items: stretch; flex-wrap: wrap; padding-block: calc(2 * var(--archive-gap)); }
+  .archive-landing :is(.s-txt, .s-vis, .s-card) { min-width: 0; max-width: 100%; }
   .fe-hero-title, .fe-hero-title span { filter: none !important; transform: none !important; }
-  .fe-circular { transform: none !important; }
+  .fe-circular, .archive-landing .btn, .archive-landing .soc { transform: none !important; }
 }
 
 @media (max-width: 64rem) {
+  .archive-landing #nav {
+    position: sticky; top: 0; left: auto; transform: none; width: auto;
+    margin: var(--archive-gap); padding: var(--archive-gap);
+    border-radius: var(--archive-nav-radius); flex-wrap: wrap; gap: var(--archive-gap);
+  }
+  .archive-landing #nav > div { min-width: 0; flex: 1 1 100%; display: flex; flex-wrap: wrap; gap: var(--archive-gap); }
+  .archive-landing #nav :is(.nlinks, .nl) { display: flex; flex: 1 1 100%; flex-wrap: wrap; order: 3; gap: var(--archive-gap); }
+  .archive-landing .hero { padding-top: var(--archive-gap); }
+
   .fe-hero > .mantine-Group-root { flex-wrap: wrap; gap: var(--archive-gap); }
   .fe-hero > .mantine-Group-root > .mantine-Stack-root { flex: 1 1 100%; }
 }

@@ -10,3 +10,5 @@
 - Run `npm run test:ui` against the production `dist` output after `npm run build`. The CI QA workflow covers Chromium, Firefox and WebKit; Pages deployment depends on all three. Screenshots and traces are evidence, not automatically approved visual baselines. Real Safari and physical-device checks are separate.
 - Obtain independent read-only QA for meaningful UI changes. Report browser, viewport and input evidence accurately; distinguish real Safari/device checks from emulation. The restored legacy snapshots have accessibility gaps and must not be represented as meeting all of these acceptance criteria.
 - On the user's Mac, read the shared coding standards at `/Users/w6x/.claude/skills/coding-standards/SKILL.md` and its relevant references before code changes. Do not bypass Git hooks or restart existing Colima services.
+
+- Publish only under `https://atonota.github.io/titanlar/`. Keep Vite and shared archive asset paths under `/titanlar/`; do not add a CNAME or custom domain unless the user requests one.

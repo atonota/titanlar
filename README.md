@@ -4,9 +4,9 @@
 
 Ajans sitesi taslağı. Çalışma footer'dan başladı: kurumsal bir footer'da ve Güven Merkezi'nde bulunan her öğenin hangi olgunluk aşamasında (Gün 1, Büyüme, Kurumsal olgunluk) gerektiğini gösteren, JSON içerikten beslenen bir motor.
 
-Yayın: https://titanlar.com/
+Yayın: https://atonota.github.io/titanlar/
 
-GitHub Pages adresi: https://atonota.github.io/titanlar/ (özel alan adına yönlenir).
+Ana sayfa ve tüm alt sayfalar yalnızca GitHub Pages üzerinde yayınlanır. Özel alan adı bağlantısı kaldırılmıştır.
 
 ## Yığın
 
@@ -38,20 +38,6 @@ npm run build
 
 Bu proje statik bir frontend olarak GitHub Pages'te yayınlanır. Sunucu veya Tailscale bağlantısı gerekmez. `ops/` kaynak projeden korunan Hetzner yayın referansıdır; bu reponun GitHub Pages yayını onu çalıştırmaz.
 
-Alan adının DNS sağlayıcısı Cloudflare'dır. GitHub Pages özel alan adı `titanlar.com` olarak kaydedilmiş ve aşağıdaki kayıtlar uygulanmıştır:
-
-| Tür | Ad | Değer |
-|---|---|---|
-| A | @ | 185.199.108.153 |
-| A | @ | 185.199.109.153 |
-| A | @ | 185.199.110.153 |
-| A | @ | 185.199.111.153 |
-| CNAME | www | atonota.github.io |
-
-Kayıtlar DNS only durumundadır. GitHub Pages'te HTTPS zorunludur; `http://titanlar.com` ve `www.titanlar.com` ana HTTPS adresine yönlenir. `agency.titanlar.com` ayrı yayın olarak korunmuştur.
-
-DNS kaydı kaynağı: [GitHub Pages özel alan adı rehberi](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site).
-
 ## Lisans
 
 Proje lisansı henüz belirlenmedi. `src/components/reactbits/` altındaki bileşenler React Bits'ten alınmıştır ve `REACT-BITS-LICENSE.md` koşullarına tabidir.
@@ -59,15 +45,15 @@ Proje lisansı henüz belirlenmedi. `src/components/reactbits/` altındaki bile�
 ## Archived landing prototypes
 
 The recovered local Titanlar v3 and v4 landing prototypes are published at
-[https://titanlar.com/v3/](https://titanlar.com/v3/) and
-[https://titanlar.com/v4/](https://titanlar.com/v4/).
+[https://atonota.github.io/titanlar/v3/](https://atonota.github.io/titanlar/v3/) and
+[https://atonota.github.io/titanlar/v4/](https://atonota.github.io/titanlar/v4/).
 Their recovered standalone HTML is kept in `public/v3/index.html` and
 `public/v4/index.html`; Vite copies these files into the Pages build.
 These historical previews retain their CDN scripts and prototype interactions, with shared minimum text size, visible keyboard focus and reduced-motion handling.
 
 ## Selected historical homepage
 
-The homepage and [https://titanlar.com/izometrik/](https://titanlar.com/izometrik/)
+The homepage and [https://atonota.github.io/titanlar/izometrik/](https://atonota.github.io/titanlar/izometrik/)
 serve the isometric MARKA snapshot recovered from the 26 September 2026 local
 file history (the 13:38 build). `public/izometrik/index.html` contains its
 recovered compiled CSS and JavaScript. The document wrapper adds UTF-8, Turkish

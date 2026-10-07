@@ -7,7 +7,7 @@ for (const route of ['/', '/izometrik/', '/v3/', '/v4/']) {
     await page.setViewportSize({ width: 320, height: 568 })
     const failures = []
     page.on('pageerror', (error) => failures.push(error.message))
-    const response = await page.goto(route)
+    const response = await page.goto(`/titanlar${route}`)
     expect(response.status()).toBe(200)
     await expect(page.locator('body')).toContainText(route.startsWith('/v') ? 'Titanlar' : 'MARKA')
     await page.evaluate(() => document.fonts.ready)
@@ -17,7 +17,17 @@ for (const route of ['/', '/izometrik/', '/v3/', '/v4/']) {
       await expect.poll(() => page.evaluate(() => {
         const root = document.documentElement
         return root.scrollWidth - root.clientWidth
-      })).toBeLessThanOrEqual(1)
+      })).toBeLessThanOrEqual(1).catch(async (error) => {
+        console.log('Overflow evidence', width, await page.evaluate(() => Array.from(document.querySelectorAll('body *'))
+          .filter((element) => element.getBoundingClientRect().right > document.documentElement.clientWidth &&
+            element.getBoundingClientRect().width > 0)
+          .slice(0, 30).map((element) => ({
+            tag: element.tagName, class: element.className, id: element.id,
+            right: element.getBoundingClientRect().right,
+            width: element.clientWidth, scroll: element.scrollWidth,
+          }))))
+        throw error
+      })
       const small = await page.evaluate(() => {
         const minimum = Number.parseFloat(getComputedStyle(document.documentElement).fontSize)
         return Array.from(document.querySelectorAll('body *')).filter((element) => {
@@ -41,7 +51,7 @@ for (const route of ['/', '/izometrik/', '/v3/', '/v4/']) {
 
 for (const route of ['/v3/', '/v4/']) {
   test(`${route} exposes keyboard focus without framing its parent`, async ({ page }) => {
-    await page.goto(route)
+    await page.goto(`/titanlar${route}`)
     const input = page.getByPlaceholder('E-posta adresin...', { exact: true })
     await input.click()
     await input.press('Tab')
@@ -55,7 +65,7 @@ for (const route of ['/v3/', '/v4/']) {
 
 test('/v4/ testimonials support keyboard scrolling', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 568 })
-  await page.goto('/v4/')
+  await page.goto('/titanlar/v4/')
   const carousel = page.getByRole('region', { name: 'Başarı hikayeleri; yatay kaydırın' })
   await carousel.focus()
   await page.keyboard.press('ArrowRight')
@@ -65,7 +75,7 @@ test('/v4/ testimonials support keyboard scrolling', async ({ page }) => {
 test('/v3/ reduced motion preserves all three story steps and entered text', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 568 })
   await page.emulateMedia({ reducedMotion: 'no-preference' })
-  await page.goto('/v3/')
+  await page.goto('/titanlar/v3/')
   await page.emulateMedia({ reducedMotion: 'reduce' })
   for (const name of ['Analiz & Tani', 'Strateji & Yol Haritasi', 'Uygulama & Sonuc']) {
     const heading = page.getByRole('heading', { name, exact: true })
@@ -76,6 +86,8 @@ test('/v3/ reduced motion preserves all three story steps and entered text', asy
     expect(box.y).toBeGreaterThanOrEqual(0)
     expect(box.y + box.height).toBeLessThanOrEqual(568)
   }
+  expect(await page.locator('.slide').evaluateAll((elements) => elements.map((element) => element.scrollWidth - element.clientWidth)))
+    .toEqual([0, 0, 0])
   const input = page.getByPlaceholder('E-posta adresin...', { exact: true })
   await input.fill('regression@example.test')
   await page.emulateMedia({ reducedMotion: 'no-preference' })
@@ -87,21 +99,31 @@ test('/v3/ reduced motion preserves all three story steps and entered text', asy
 
 test('/v4/ reduced motion preserves natural scrolling and filter completion', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 568 })
-  await page.goto('/v4/')
+  await page.goto('/titanlar/v4/')
   expect(await page.evaluate(() => document.scrollingElement.scrollHeight)).toBeGreaterThan(568)
   await page.keyboard.press('PageDown')
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0)
   await page.getByRole('button', { name: 'Strateji', exact: true }).click()
-  await expect(page.locator('.card-grid > [data-cat]:visible')).toHaveCount(1)
+  await expect(page.locator('.card-grid > [data-cat]:visible')).toHaveCount(2)
   await page.getByRole('button', { name: 'Tumunu Goster', exact: true }).click()
   await expect(page.locator('.card-grid > [data-cat]:visible')).toHaveCount(6)
+})
+
+test('/v4/ decorative click particles follow the motion preference', async ({ page }) => {
+  await page.goto('/titanlar/v4/')
+  const input = page.getByPlaceholder('E-posta adresin...', { exact: true })
+  await input.click()
+  await expect(page.locator('.phys-pt')).toHaveCount(0)
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  await input.click()
+  await expect.poll(() => page.locator('.phys-pt').count()).toBeGreaterThan(0)
 })
 
 test.describe('touch and keyboard together', () => {
   test.use({ hasTouch: true, viewport: { width: 320, height: 568 } })
   for (const route of ['/v3/', '/v4/']) {
     test(`${route} retains standalone hit areas`, async ({ page }) => {
-      await page.goto(route)
+      await page.goto(`/titanlar${route}`)
       const controls = await page.locator('.btn, .soc, .socs a').evaluateAll((elements) => {
         const minimum = matchMedia('(any-pointer: coarse)').matches ? 48 : 44
         return elements.filter((element) => element.getBoundingClientRect().width > 0).map((element) => ({

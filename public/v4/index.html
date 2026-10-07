@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="tr" class="archive-landing">
 <head>
-<link rel="stylesheet" href="/archive-common.css">
-<script src="/archive-common.js"></script>
+<link rel="stylesheet" href="/titanlar/archive-common.css">
+<script src="/titanlar/archive-common.js"></script>
 
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
@@ -700,6 +700,7 @@ const ring = document.getElementById('cur-outer');
 const trail = document.getElementById('cur-trail');
 let mx=0,my=0,rx=0,ry=0,tx=0,ty=0;
 document.addEventListener('mousemove',e=>{
+  if (archiveMotionQuery.matches) return;
   mx=e.clientX;my=e.clientY;
   gsap.to(dot,{x:mx-4,y:my-4,duration:.06,ease:'none'});
 });
@@ -807,6 +808,7 @@ gsap.to('#sat3',{
 gsap.to('.core-card',{y:-18,duration:3.5,ease:'sine.inOut',yoyo:true,repeat:-1});
 /* 3D tilt orbit on hover */
 scene.addEventListener('mousemove',e=>{
+  if (archiveMotionQuery.matches) return;
   const r=scene.getBoundingClientRect();
   const dx=(e.clientX-r.left)/r.width-.5;
   const dy=(e.clientY-r.top)/r.height-.5;
@@ -819,6 +821,7 @@ scene.addEventListener('mouseleave',()=>gsap.to(scene,{rotateY:0,rotateX:0,durat
 ═══════════════════════════════════════════════════ */
 const ptColors=['#9333ea','#ec4899','#06b6d4','#10b981','#f59e0b','#f43f5e','#a855f7','#22d3ee'];
 document.addEventListener('click',e=>{
+  if (archiveMotionQuery.matches) return;
   for(let i=0;i<14;i++){
     const pt=document.createElement('div');
     pt.className='phys-pt';
@@ -839,6 +842,7 @@ document.addEventListener('click',e=>{
 ═══════════════════════════════════════════════════ */
 document.querySelectorAll('.btn').forEach(btn=>{
   btn.addEventListener('mousemove',e=>{
+  if (archiveMotionQuery.matches) return;
     const r=btn.getBoundingClientRect();
     const dx=e.clientX-(r.left+r.width/2);
     const dy=e.clientY-(r.top+r.height/2);
@@ -876,6 +880,7 @@ document.querySelectorAll('.ftab').forEach(tab=>{
 function addTilt(sel,max=12,persp=700){
   document.querySelectorAll(sel).forEach(el=>{
     el.addEventListener('mousemove',e=>{
+  if (archiveMotionQuery.matches) return;
       const r=el.getBoundingClientRect();
       const dx=(e.clientX-r.left)/r.width-.5;
       const dy=(e.clientY-r.top)/r.height-.5;
@@ -911,6 +916,7 @@ Draggable.create(track.parentElement,{
 /* cards tilt while dragging */
 document.querySelectorAll('.tcard').forEach(c=>{
   c.addEventListener('mousemove',e=>{
+  if (archiveMotionQuery.matches) return;
     const r=c.getBoundingClientRect();
     const dx=(e.clientX-r.left)/r.width-.5;
     const dy=(e.clientY-r.top)/r.height-.5;
