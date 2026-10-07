@@ -1,0 +1,127 @@
+:root {
+  --archive-font-min: 1rem;
+  --archive-focus-color: #4f8c95;
+  --archive-focus-width: 2px;
+  --archive-focus-offset: 3px;
+  --archive-hit-area: 44px;
+  --archive-gap: 1rem;
+  --archive-nav-radius: 1rem;
+}
+
+.archive-landing {
+  --archive-focus-color: #e6c0ff;
+}
+
+:is(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: var(--archive-focus-width) solid var(--archive-focus-color) !important;
+  outline-offset: var(--archive-focus-offset);
+  box-shadow: none !important;
+}
+
+:is(button, [role='button']) {
+  min-height: var(--archive-hit-area);
+  min-width: var(--archive-hit-area);
+}
+
+@media (any-pointer: coarse) {
+  :root { --archive-hit-area: 48px; }
+}
+
+/* Prevent intrinsic flex widths from clipping the restored hero. */
+.fe-zone-inner .mantine-Stack-root,
+.fe-zone-inner .mantine-Group-root,
+.fe-zone-inner .mantine-SimpleGrid-root {
+  min-width: 0;
+}
+
+@media (max-width: 40rem) {
+  .archive-landing #nav {
+    position: sticky;
+    top: 0;
+    left: auto;
+    transform: none;
+    width: auto;
+    margin: var(--archive-gap);
+    padding: var(--archive-gap);
+    border-radius: var(--archive-nav-radius);
+    flex-wrap: wrap;
+    gap: var(--archive-gap);
+  }
+
+  .archive-landing #nav > div {
+    min-width: 0;
+    flex: 1 1 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--archive-gap);
+  }
+
+  .archive-landing #nav :is(.nlinks, .nl) {
+    display: flex;
+    flex: 1 1 100%;
+    flex-wrap: wrap;
+    order: 3;
+    gap: var(--archive-gap);
+  }
+
+  .archive-landing .hero { padding-top: var(--archive-gap); }
+
+  .fe-hero > .mantine-Group-root {
+    flex-wrap: wrap;
+    gap: var(--archive-gap);
+  }
+
+  .fe-hero > .mantine-Group-root > .mantine-Stack-root {
+    flex: 1 1 100%;
+  }
+
+  .fe-eyebrow { white-space: normal; }
+
+  .fe-topnav > .mantine-Container-root > .mantine-Group-root {
+    height: auto !important;
+    flex-wrap: wrap;
+    padding-block: var(--archive-gap);
+  }
+
+  .fe-topnav-links {
+    flex: 1 1 100%;
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+
+  .archive-landing .nav-in {
+    flex-wrap: wrap;
+    gap: var(--archive-gap);
+  }
+
+  .archive-landing :is(.nlinks, .nav-links) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--archive-gap);
+  }
+
+  .archive-landing h1.ht { font-size: clamp(2.5rem, 10vw, 3.5rem); }
+  .archive-landing .pgrid { grid-template-columns: minmax(0, 1fr); }
+  .archive-landing :is(.erow, .nfrow) { flex-wrap: wrap; }
+  .archive-landing :is(.erow, .nfrow) input { min-width: 0; }
+}
+
+.fe-proc-layout > * { min-width: 0; }
+
+.archive-landing .tcarousel { overflow-x: auto; }
+.archive-landing .ttrack { padding-inline: var(--archive-gap); }
+.archive-landing .tcard { width: min(25rem, calc(100vw - 4rem)); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (max-width: 64rem) {
+  .fe-hero > .mantine-Group-root { flex-wrap: wrap; gap: var(--archive-gap); }
+  .fe-hero > .mantine-Group-root > .mantine-Stack-root { flex: 1 1 100%; }
+}

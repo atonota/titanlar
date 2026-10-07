@@ -1,6 +1,9 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" class="archive-landing">
 <head>
+<link rel="stylesheet" href="/archive-common.css">
+<script src="/archive-common.js"></script>
+
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Titanlar | Ultra Experience</title>
@@ -42,7 +45,7 @@
   --ease-spring:cubic-bezier(.34,1.56,.64,1);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{font-size:16px}
+html{font-size:max(var(--archive-font-min),100%)}
 body{font-family:'Urbanist',sans-serif;background:var(--bg);color:var(--txt);overflow-x:hidden;-webkit-font-smoothing:antialiased;cursor:none}
 ::-webkit-scrollbar{width:2px}
 ::-webkit-scrollbar-thumb{background:var(--grd);border-radius:2px}
@@ -62,12 +65,12 @@ body.dragging #cur-outer{width:80px;height:80px;border-color:rgba(6,182,212,.8);
 #nav{position:fixed;top:1rem;left:50%;transform:translateX(-50%);z-index:1000;width:92%;max-width:1340px;display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.5rem;border-radius:100px;background:rgba(2,2,9,.5);backdrop-filter:blur(40px) saturate(200%);border:1px solid var(--gb);box-shadow:0 4px 30px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.04);transition:all .5s}
 #nav.sc{background:rgba(2,2,9,.9);border-color:rgba(147,51,234,.25)}
 .logo-w{display:flex;align-items:center;gap:.6rem;text-decoration:none}
-.lmk{width:36px;height:36px;border-radius:10px;background:var(--grd);display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:900;font-size:.95rem;color:#fff;box-shadow:var(--neon-pur)}
-.lt{font-family:'Bricolage Grotesque',sans-serif;font-weight:900;font-size:1.15rem;background:var(--grd);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.lmk{width:36px;height:36px;border-radius:10px;background:var(--grd);display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:900;font-size:max(var(--archive-font-min),.95rem);color:#fff;box-shadow:var(--neon-pur)}
+.lt{font-family:'Bricolage Grotesque',sans-serif;font-weight:900;font-size:max(var(--archive-font-min),1.15rem);background:var(--grd);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .nl{display:flex;align-items:center;gap:1.5rem;list-style:none}
-.nl a{color:var(--txt2);text-decoration:none;font-size:.85rem;font-weight:500;transition:color .2s;cursor:none}
+.nl a{color:var(--txt2);text-decoration:none;font-size:max(var(--archive-font-min),.85rem);font-weight:500;transition:color .2s;cursor:none}
 .nl a:hover{color:var(--txt)}
-.btn{display:inline-flex;align-items:center;gap:.45rem;padding:10px 22px;border-radius:100px;font-family:'Urbanist',sans-serif;font-weight:700;font-size:.85rem;border:none;cursor:none;text-decoration:none;transition:transform .3s var(--ease-spring),box-shadow .3s;position:relative;overflow:hidden}
+.btn{display:inline-flex;align-items:center;gap:.45rem;padding:10px 22px;border-radius:100px;font-family:'Urbanist',sans-serif;font-weight:700;font-size:max(var(--archive-font-min),.85rem);border:none;cursor:none;text-decoration:none;transition:transform .3s var(--ease-spring),box-shadow .3s;position:relative;overflow:hidden}
 .btn::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,.15);transform:translateX(-110%) skewX(-20deg);transition:transform .4s ease}
 .btn:hover::after{transform:translateX(110%) skewX(-20deg)}
 .bp{background:var(--grd);color:#fff;box-shadow:var(--neon-pur)}
@@ -87,32 +90,32 @@ body.dragging #cur-outer{width:80px;height:80px;border-color:rgba(6,182,212,.8);
 .hero{min-height:100vh;display:flex;align-items:center;padding:0 5vw;padding-top:6rem;position:relative;overflow:hidden}
 .hl{flex:1;max-width:680px;position:relative;z-index:2}
 .hr{flex:1;position:relative;height:600px;z-index:2;display:flex;align-items:center;justify-content:center}
-.eyebr{display:inline-flex;align-items:center;gap:.6rem;font-size:.65rem;letter-spacing:.26em;text-transform:uppercase;font-weight:700;margin-bottom:1.5rem;background:var(--grd);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.eyebr{display:inline-flex;align-items:center;gap:.6rem;font-size:max(var(--archive-font-min),.65rem);letter-spacing:.26em;text-transform:uppercase;font-weight:700;margin-bottom:1.5rem;background:var(--grd);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .eyebr::before{content:'';width:28px;height:1.5px;background:var(--grd);border-radius:2px;flex-shrink:0}
-h1.ht{font-size:clamp(3.5rem,8.5vw,7.5rem);font-weight:900;line-height:.92;letter-spacing:-.04em;margin-bottom:2rem}
+h1.ht{font-size:max(var(--archive-font-min),clamp(3.5rem,8.5vw,7.5rem));font-weight:900;line-height:.92;letter-spacing:-.04em;margin-bottom:2rem}
 /* split text chars */
 .char{display:inline-block;will-change:transform}
 .line-wrap{overflow:hidden;display:block}
 .grad{background:var(--grd);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;display:inline-block}
 .grad2{background:var(--grd2);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;display:inline-block}
 .grad3{background:var(--grd3);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;display:inline-block}
-.hdesc{font-size:1.1rem;line-height:1.9;color:var(--txt2);max-width:540px;margin-bottom:2.75rem}
+.hdesc{font-size:max(var(--archive-font-min),1.1rem);line-height:1.9;color:var(--txt2);max-width:540px;margin-bottom:2.75rem}
 .brow{display:flex;gap:.9rem;flex-wrap:wrap;margin-bottom:3rem}
 .trust{display:flex;gap:2rem;padding-top:2rem;border-top:1px solid var(--gb);flex-wrap:wrap}
-.ti{font-size:.8rem;color:var(--mut);display:flex;align-items:center;gap:.35rem}
-.ti i{font-size:1rem}.ti strong{color:var(--txt);font-weight:700}
+.ti{font-size:max(var(--archive-font-min),.8rem);color:var(--mut);display:flex;align-items:center;gap:.35rem}
+.ti i{font-size:max(var(--archive-font-min),1rem)}.ti strong{color:var(--txt);font-weight:700}
 
 /* ── HERO 3D ORBIT ─────────────────────────────────────────── */
 .orbit-scene{width:460px;height:460px;position:relative;transform-style:preserve-3d;perspective:1200px}
 .orbit-core{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
 .core-card{width:190px;padding:1.75rem;border-radius:24px;background:var(--g2);backdrop-filter:blur(32px);border:1px solid var(--gb2);box-shadow:0 0 60px rgba(147,51,234,.2),inset 0 1px 0 rgba(255,255,255,.07);text-align:center}
-.core-val{font-family:'Bricolage Grotesque',sans-serif;font-size:3rem;font-weight:900;line-height:1;background:var(--grd);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.core-val{font-family:'Bricolage Grotesque',sans-serif;font-size:max(var(--archive-font-min),3rem);font-weight:900;line-height:1;background:var(--grd);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .orbit-ring{position:absolute;border-radius:50%;border:1px dashed;animation:orbit-rot linear infinite;transform-style:preserve-3d}
 .r1{width:300px;height:300px;border-color:rgba(147,51,234,.3);animation-duration:14s;top:80px;left:80px}
 .r2{width:420px;height:420px;border-color:rgba(236,72,153,.2);animation-duration:22s;top:20px;left:20px;animation-direction:reverse}
 .r3{width:200px;height:200px;border-color:rgba(6,182,212,.25);animation-duration:9s;top:130px;left:130px}
 @keyframes orbit-rot{from{transform:rotateX(75deg) rotateZ(0deg)}to{transform:rotateX(75deg) rotateZ(360deg)}}
-.orbit-sat{position:absolute;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;transform:translateX(-50%) translateY(-50%)}
+.orbit-sat{position:absolute;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:max(var(--archive-font-min),1.2rem);transform:translateX(-50%) translateY(-50%)}
 /* motion path sats */
 #sat-path1,#sat-path2,#sat-path3{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}
 
@@ -125,15 +128,15 @@ h1.ht{font-size:clamp(3.5rem,8.5vw,7.5rem);font-weight:900;line-height:.92;lette
 .mq-f{animation:mq 24s linear infinite}
 .mq-r{animation:mq 30s linear infinite reverse}
 @keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.mqi{display:flex;align-items:center;gap:.6rem;padding:0 2rem;font-family:'Bricolage Grotesque',sans-serif;font-size:.95rem;font-weight:700;color:var(--mut);white-space:nowrap;cursor:none}
+.mqi{display:flex;align-items:center;gap:.6rem;padding:0 2rem;font-family:'Bricolage Grotesque',sans-serif;font-size:max(var(--archive-font-min),.95rem);font-weight:700;color:var(--mut);white-space:nowrap;cursor:none}
 .mqi:hover{color:var(--txt2)}
-.mqi i{font-size:1rem;flex-shrink:0}
+.mqi i{font-size:max(var(--archive-font-min),1rem);flex-shrink:0}
 .mq-dot{width:5px;height:5px;border-radius:50%;background:var(--grd);margin:0 .5rem;flex-shrink:0}
 
 /* ── SERVICES — FLIP FILTER ─────────────────────────────────────────── */
 .services{padding:9rem 0;position:relative;z-index:2}
 .filter-tabs{display:flex;gap:.6rem;justify-content:center;margin-bottom:3.5rem;flex-wrap:wrap}
-.ftab{padding:8px 22px;border-radius:100px;font-size:.82rem;font-weight:700;background:var(--g1);border:1px solid var(--gb);color:var(--mut);cursor:none;transition:all .3s var(--ease-spring)}
+.ftab{padding:8px 22px;border-radius:100px;font-size:max(var(--archive-font-min),.82rem);font-weight:700;background:var(--g1);border:1px solid var(--gb);color:var(--mut);cursor:none;transition:all .3s var(--ease-spring)}
 .ftab.on{background:var(--grd);color:#fff;border-color:transparent;box-shadow:var(--neon-pur)}
 .card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
 .scard{padding:2.5rem;border-radius:24px;position:relative;overflow:hidden;cursor:none;background:var(--g1);backdrop-filter:blur(24px);border:1px solid var(--gb);box-shadow:0 16px 48px rgba(0,0,0,.4);transition:border-color .4s,box-shadow .4s}
@@ -146,11 +149,11 @@ h1.ht{font-size:clamp(3.5rem,8.5vw,7.5rem);font-weight:900;line-height:.92;lette
 /* scan */
 .scard-scan{position:absolute;top:-100%;left:0;right:0;height:60%;background:linear-gradient(180deg,transparent,rgba(255,255,255,.03) 50%,transparent);animation:sc-scan 4s ease-in-out infinite var(--sc-del,0s);pointer-events:none}
 @keyframes sc-scan{from{top:-60%}to{top:100%}}
-.scard .icon{font-size:2.4rem;margin-bottom:1.2rem;display:block;transition:transform .5s var(--ease-spring),filter .4s}
+.scard .icon{font-size:max(var(--archive-font-min),2.4rem);margin-bottom:1.2rem;display:block;transition:transform .5s var(--ease-spring),filter .4s}
 .scard:hover .icon{transform:scale(1.2) translateY(-6px) rotate(-8deg);filter:drop-shadow(0 0 14px var(--ic-c,rgba(147,51,234,.9)))}
-.scard h3{font-family:'Bricolage Grotesque',sans-serif;font-size:1.2rem;font-weight:800;margin-bottom:.5rem}
-.scard p{font-size:.85rem;color:var(--mut);line-height:1.7}
-.pill{display:inline-flex;align-items:center;padding:3px 11px;border-radius:100px;font-size:.67rem;font-weight:700;letter-spacing:.02em}
+.scard h3{font-family:'Bricolage Grotesque',sans-serif;font-size:max(var(--archive-font-min),1.2rem);font-weight:800;margin-bottom:.5rem}
+.scard p{font-size:max(var(--archive-font-min),.85rem);color:var(--mut);line-height:1.7}
+.pill{display:inline-flex;align-items:center;padding:3px 11px;border-radius:100px;font-size:max(var(--archive-font-min),.67rem);font-weight:700;letter-spacing:.02em}
 .pp{background:rgba(147,51,234,.1);border:1px solid rgba(147,51,234,.22);color:#c4b5fd}
 .pk{background:rgba(236,72,153,.09);border:1px solid rgba(236,72,153,.2);color:#fbb6ce}
 .pc{background:rgba(6,182,212,.08);border:1px solid rgba(6,182,212,.18);color:#a5f3fc}
@@ -170,7 +173,7 @@ h1.ht{font-size:clamp(3.5rem,8.5vw,7.5rem);font-weight:900;line-height:.92;lette
 #morph-svg-container{position:absolute;inset:0;pointer-events:none}
 .morph-text-wrap{position:relative;z-index:2;text-align:center}
 .morph-steps-wrap{position:relative;height:300vh}
-#morph-num{font-family:'Bricolage Grotesque',sans-serif;font-size:14rem;font-weight:900;line-height:1;color:rgba(255,255,255,.04);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;letter-spacing:-.06em;will-change:transform}
+#morph-num{font-family:'Bricolage Grotesque',sans-serif;font-size:max(var(--archive-font-min),14rem);font-weight:900;line-height:1;color:rgba(255,255,255,.04);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;letter-spacing:-.06em;will-change:transform}
 
 /* ── STATS ─────────────────────────────────────────── */
 .stats-sec{padding:9rem 0;position:relative;z-index:2}
@@ -178,24 +181,24 @@ h1.ht{font-size:clamp(3.5rem,8.5vw,7.5rem);font-weight:900;line-height:.92;lette
 .stat-c{padding:2.75rem 1.5rem;border-radius:24px;text-align:center;position:relative;overflow:hidden;cursor:none;background:var(--g1);backdrop-filter:blur(24px);border:1px solid var(--gb)}
 /* drawsvg ring inside each stat */
 .stat-ring-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.4}
-.stat-n{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(2.8rem,5vw,4.8rem);font-weight:900;line-height:1;position:relative;z-index:1}
-.stat-l{font-size:.72rem;text-transform:uppercase;letter-spacing:.15em;color:var(--mut);font-weight:700;position:relative;z-index:1;margin-top:.4rem}
+.stat-n{font-family:'Bricolage Grotesque',sans-serif;font-size:max(var(--archive-font-min),clamp(2.8rem,5vw,4.8rem));font-weight:900;line-height:1;position:relative;z-index:1}
+.stat-l{font-size:max(var(--archive-font-min),.72rem);text-transform:uppercase;letter-spacing:.15em;color:var(--mut);font-weight:700;position:relative;z-index:1;margin-top:.4rem}
 @media(max-width:700px){.stats-grid{grid-template-columns:1fr 1fr}}
 
 /* ── DRAGGABLE TESTIMONIALS ─────────────────────────────────────────── */
 .testi-sec{padding:9rem 0;position:relative;z-index:2;overflow:hidden}
-.drag-hint{font-size:.78rem;color:var(--mut);text-align:center;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:center;gap:.4rem}
+.drag-hint{font-size:max(var(--archive-font-min),.78rem);color:var(--mut);text-align:center;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:center;gap:.4rem}
 .tcarousel{position:relative;overflow:visible;cursor:none}
 .ttrack{display:flex;gap:1.5rem;width:max-content;padding:.5rem 5vw .5rem calc(50vw - 250px)}
 .tcard{width:400px;flex-shrink:0;padding:2.4rem;border-radius:24px;background:var(--g1);backdrop-filter:blur(24px);border:1px solid var(--gb);box-shadow:0 20px 50px rgba(0,0,0,.4);cursor:grab;transition:box-shadow .3s;select:none}
 .tcard:active{cursor:grabbing}
 .tcard.active-drag{box-shadow:0 32px 70px rgba(0,0,0,.6),0 0 50px rgba(147,51,234,.15)}
-.tcard .quote{font-size:.95rem;line-height:1.9;color:var(--txt2);font-style:italic;margin:1rem 0 1.5rem;position:relative}
-.tcard .quote::before{content:'\u201C';font-size:3.5rem;line-height:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:900;color:var(--pur);opacity:.3;vertical-align:-.5rem;margin-right:.15rem}
+.tcard .quote{font-size:max(var(--archive-font-min),.95rem);line-height:1.9;color:var(--txt2);font-style:italic;margin:1rem 0 1.5rem;position:relative}
+.tcard .quote::before{content:'\u201C';font-size:max(var(--archive-font-min),3.5rem);line-height:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:900;color:var(--pur);opacity:.3;vertical-align:-.5rem;margin-right:.15rem}
 .stars{display:flex;gap:3px;margin-bottom:.75rem}
-.stars i{color:#f59e0b;font-size:.85rem}
+.stars i{color:#f59e0b;font-size:max(var(--archive-font-min),.85rem)}
 .ta{display:flex;align-items:center;gap:.75rem}
-.av{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:.88rem;color:#fff;flex-shrink:0}
+.av{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:max(var(--archive-font-min),.88rem);color:#fff;flex-shrink:0}
 
 /* ── PROGRAMS ─────────────────────────────────────────── */
 .prog-sec{padding:9rem 0;position:relative;z-index:2}
@@ -207,10 +210,10 @@ h1.ht{font-size:clamp(3.5rem,8.5vw,7.5rem);font-weight:900;line-height:.92;lette
 @property --psa{syntax:'<angle>';initial-value:0deg;inherits:false}
 @keyframes pgcard-rot{to{--psa:360deg}}
 .pgcard:hover .pgcard-spin{opacity:1}
-.pgcard .picon{font-size:2.3rem;margin-bottom:1.1rem;display:block;transition:transform .5s var(--ease-spring),filter .4s}
+.pgcard .picon{font-size:max(var(--archive-font-min),2.3rem);margin-bottom:1.1rem;display:block;transition:transform .5s var(--ease-spring),filter .4s}
 .pgcard:hover .picon{transform:scale(1.18) translateY(-5px);filter:drop-shadow(0 0 14px var(--ic-c,rgba(147,51,234,.9)))}
-.pgcard h3{font-family:'Bricolage Grotesque',sans-serif;font-size:1.25rem;font-weight:800;margin-bottom:.6rem}
-.pgcard p{font-size:.875rem;color:var(--txt2);line-height:1.8;margin-bottom:1.3rem}
+.pgcard h3{font-family:'Bricolage Grotesque',sans-serif;font-size:max(var(--archive-font-min),1.25rem);font-weight:800;margin-bottom:.6rem}
+.pgcard p{font-size:max(var(--archive-font-min),.875rem);color:var(--txt2);line-height:1.8;margin-bottom:1.3rem}
 
 /* ── CTA ─────────────────────────────────────────── */
 .cta-sec{padding:9rem 0;position:relative;z-index:2}
@@ -220,35 +223,35 @@ h1.ht{font-size:clamp(3.5rem,8.5vw,7.5rem);font-weight:900;line-height:.92;lette
 .cta-grid{position:absolute;inset:0;border-radius:48px;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:52px 52px;mask-image:radial-gradient(ellipse at 50% 50%,black 0%,transparent 65%)}
 .cta-orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;animation:dl-drift 12s ease-in-out infinite}
 @keyframes dl-drift{0%,100%{transform:translate(0,0)}33%{transform:translate(20px,-20px)}66%{transform:translate(-20px,20px)}}
-.ctabox h2{font-size:clamp(2.5rem,6vw,5rem);font-weight:900;color:#fff;margin-bottom:1.2rem;position:relative;z-index:1;text-shadow:0 0 60px rgba(147,51,234,.4)}
-.ctabox p{color:rgba(255,255,255,.78);max-width:520px;margin:0 auto 3rem;line-height:1.85;font-size:1.05rem;position:relative;z-index:1}
+.ctabox h2{font-size:max(var(--archive-font-min),clamp(2.5rem,6vw,5rem));font-weight:900;color:#fff;margin-bottom:1.2rem;position:relative;z-index:1;text-shadow:0 0 60px rgba(147,51,234,.4)}
+.ctabox p{color:rgba(255,255,255,.78);max-width:520px;margin:0 auto 3rem;line-height:1.85;font-size:max(var(--archive-font-min),1.05rem);position:relative;z-index:1}
 .erow{display:flex;gap:.45rem;max-width:520px;margin:0 auto 2rem;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:100px;padding:.45rem .45rem .45rem 1.5rem;position:relative;z-index:1;backdrop-filter:blur(16px)}
-.erow input{flex:1;background:transparent;border:none;color:#fff;font-family:'Urbanist',sans-serif;font-size:.95rem;outline:none}
+.erow input{flex:1;background:transparent;border:none;color:#fff;font-family:'Urbanist',sans-serif;font-size:max(var(--archive-font-min),.95rem);outline:revert}
 .erow input::placeholder{color:rgba(255,255,255,.38)}
 .tpills{display:flex;gap:.7rem;flex-wrap:wrap;justify-content:center;position:relative;z-index:1}
-.tpill{padding:5px 14px;border-radius:100px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);font-size:.73rem;color:rgba(255,255,255,.75);display:inline-flex;align-items:center;gap:.3rem;transition:all .3s;cursor:none}
+.tpill{padding:5px 14px;border-radius:100px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);font-size:max(var(--archive-font-min),.73rem);color:rgba(255,255,255,.75);display:inline-flex;align-items:center;gap:.3rem;transition:all .3s;cursor:none}
 .tpill:hover{background:rgba(255,255,255,.16);transform:translateY(-2px)}
 
 /* ── FOOTER ─────────────────────────────────────────── */
 footer{padding:5rem 0 2rem;border-top:1px solid var(--gb);position:relative;z-index:2}
 footer::before{content:'';position:absolute;top:-1px;left:15%;right:15%;height:1px;background:var(--grd);opacity:.35}
 .ftg{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:3rem;margin-bottom:4rem}
-.ftd{font-size:.875rem;color:var(--mut);line-height:1.85;max-width:270px;margin-bottom:1.5rem}
+.ftd{font-size:max(var(--archive-font-min),.875rem);color:var(--mut);line-height:1.85;max-width:270px;margin-bottom:1.5rem}
 .socs{display:flex;gap:.5rem;margin-top:1.2rem}
-.soc{width:38px;height:38px;border-radius:10px;background:var(--g1);border:1px solid var(--gb);display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:1rem;text-decoration:none;cursor:none;transition:all .35s var(--ease-spring)}
+.soc{width:38px;height:38px;border-radius:10px;background:var(--g1);border:1px solid var(--gb);display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:max(var(--archive-font-min),1rem);text-decoration:none;cursor:none;transition:all .35s var(--ease-spring)}
 .soc:hover{background:var(--g3);color:var(--txt);transform:translateY(-4px) scale(1.12);box-shadow:0 8px 20px rgba(147,51,234,.3)}
-.fth{font-family:'Bricolage Grotesque',sans-serif;font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.15em;color:var(--txt);margin-bottom:1rem}
+.fth{font-family:'Bricolage Grotesque',sans-serif;font-size:max(var(--archive-font-min),.75rem);font-weight:800;text-transform:uppercase;letter-spacing:.15em;color:var(--txt);margin-bottom:1rem}
 .ftl{list-style:none;display:flex;flex-direction:column;gap:.5rem}
-.ftl a{color:var(--mut);font-size:.875rem;text-decoration:none;transition:all .25s;cursor:none;display:flex;align-items:center;gap:.35rem}
+.ftl a{color:var(--mut);font-size:max(var(--archive-font-min),.875rem);text-decoration:none;transition:all .25s;cursor:none;display:flex;align-items:center;gap:.35rem}
 .ftl a::before{content:'';width:0;height:1px;background:var(--grd);transition:width .25s;flex-shrink:0}
 .ftl a:hover{color:var(--txt2);padding-left:.25rem}.ftl a:hover::before{width:12px}
 .ftbot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;border-top:1px solid var(--gb);padding-top:1.5rem}
-.ftcopy{font-size:.75rem;color:rgba(241,236,255,.28)}
+.ftcopy{font-size:max(var(--archive-font-min),.75rem);color:rgba(241,236,255,.28)}
 .ftll{display:flex;gap:1.5rem}
-.ftll a{font-size:.75rem;color:rgba(241,236,255,.28);text-decoration:none;cursor:none;transition:color .2s}
+.ftll a{font-size:max(var(--archive-font-min),.75rem);color:rgba(241,236,255,.28);text-decoration:none;cursor:none;transition:color .2s}
 .ftll a:hover{color:var(--mut)}
 @media(max-width:900px){.ftg{grid-template-columns:1fr 1fr}}
-@media(max-width:600px){.hero{flex-direction:column}.hr{display:none}.ftg{grid-template-columns:1fr}}
+@media(max-width:600px){.hero{flex-direction:column}.hr{display:none}.ftg{grid-template-columns:minmax(0,1fr)}}
 </style>
 </head>
 <body>
@@ -303,8 +306,8 @@ footer::before{content:'';position:absolute;top:-1px;left:15%;right:15%;height:1
     <li><a href="#cta" data-scramble="Iletisim">Iletisim</a></li>
   </ul>
   <div style="display:flex;gap:.55rem">
-    <a href="#" class="btn bg" style="padding:8px 18px;font-size:.82rem">Giris Yap</a>
-    <a href="#cta" class="btn bp" style="padding:9px 20px;font-size:.82rem">Ucretsiz Dene <i class="ph ph-sparkle"></i></a>
+    <a href="#" class="btn bg" style="padding:8px 18px;font-size:max(var(--archive-font-min),.82rem)">Giris Yap</a>
+    <a href="#cta" class="btn bp" style="padding:9px 20px;font-size:max(var(--archive-font-min),.82rem)">Ucretsiz Dene <i class="ph ph-sparkle"></i></a>
   </div>
 </nav>
 
@@ -333,9 +336,9 @@ footer::before{content:'';position:absolute;top:-1px;left:15%;right:15%;height:1
     <div class="orbit-scene" id="orbit">
       <div class="orbit-core">
         <div class="core-card">
-          <div style="font-size:1.8rem;margin-bottom:.5rem;filter:drop-shadow(0 0 10px rgba(147,51,234,.8))"><i class="ph-fill ph-trophy"></i></div>
+          <div style="font-size:max(var(--archive-font-min),1.8rem);margin-bottom:.5rem;filter:drop-shadow(0 0 10px rgba(147,51,234,.8))"><i class="ph-fill ph-trophy"></i></div>
           <div class="core-val" id="core-num">500+</div>
-          <div style="font-size:.72rem;color:var(--mut);font-weight:700;margin-top:.3rem">Mutlu Musteri</div>
+          <div style="font-size:max(var(--archive-font-min),.72rem);color:var(--mut);font-weight:700;margin-top:.3rem">Mutlu Musteri</div>
         </div>
       </div>
       <div class="orbit-ring r1"></div>
@@ -397,7 +400,7 @@ footer::before{content:'';position:absolute;top:-1px;left:15%;right:15%;height:1
   <div class="container">
     <div class="s-head" style="text-align:center;margin-bottom:5rem">
       <p class="eyebr" style="justify-content:center">Hizmetlerimiz</p>
-      <h2 id="sh1" style="font-size:clamp(2.4rem,5vw,4rem);font-weight:900;margin-bottom:.9rem">Butunsel <span class="grad">Cozum</span> Ekosistemi</h2>
+      <h2 id="sh1" style="font-size:max(var(--archive-font-min),clamp(2.4rem,5vw,4rem));font-weight:900;margin-bottom:.9rem">Butunsel <span class="grad">Cozum</span> Ekosistemi</h2>
       <p style="color:var(--txt2);max-width:500px;margin:0 auto;line-height:1.8">Stratejiden sahaya, vizyondan olculebilir sonuclara.</p>
     </div>
     <!-- Flip filter tabs -->
@@ -454,7 +457,7 @@ footer::before{content:'';position:absolute;top:-1px;left:15%;right:15%;height:1
   <div class="container">
     <div style="text-align:center;margin-bottom:4rem">
       <p class="eyebr" style="justify-content:center">Rakamlarla</p>
-      <h2 id="sh2" style="font-size:clamp(2.4rem,5vw,4rem);font-weight:900">Kanitlanmis <span class="grad">Sonuclar</span></h2>
+      <h2 id="sh2" style="font-size:max(var(--archive-font-min),clamp(2.4rem,5vw,4rem));font-weight:900">Kanitlanmis <span class="grad">Sonuclar</span></h2>
     </div>
     <div class="stats-grid">
       <div class="stat-c" id="sc1">
@@ -486,7 +489,7 @@ footer::before{content:'';position:absolute;top:-1px;left:15%;right:15%;height:1
   <div class="container">
     <div style="text-align:center;margin-bottom:5rem">
       <p class="eyebr" style="justify-content:center">Egitim Programlari</p>
-      <h2 id="sh3" style="font-size:clamp(2.4rem,5vw,4rem);font-weight:900;margin-bottom:.9rem">Gelecegi <span class="grad2">Insa Eden</span> Programlar</h2>
+      <h2 id="sh3" style="font-size:max(var(--archive-font-min),clamp(2.4rem,5vw,4rem));font-weight:900;margin-bottom:.9rem">Gelecegi <span class="grad2">Insa Eden</span> Programlar</h2>
       <p style="color:var(--txt2);max-width:500px;margin:0 auto;line-height:1.8">Her birinde yasayan, evrimlesip buyuyen ustalasma sureclerini yasatin.</p>
     </div>
     <div class="pgrid">
@@ -547,35 +550,35 @@ footer::before{content:'';position:absolute;top:-1px;left:15%;right:15%;height:1
   <div class="container">
     <div style="text-align:center;margin-bottom:3rem">
       <p class="eyebr" style="justify-content:center">Basari Hikayeleri</p>
-      <h2 id="sh4" style="font-size:clamp(2.4rem,5vw,4rem);font-weight:900">Titanlarin <span class="grad">Sesine</span> Kulak Ver</h2>
+      <h2 id="sh4" style="font-size:max(var(--archive-font-min),clamp(2.4rem,5vw,4rem));font-weight:900">Titanlarin <span class="grad">Sesine</span> Kulak Ver</h2>
     </div>
     <div class="drag-hint" id="drag-hint"><i class="ph ph-hand-grabbing"></i> Surukleyerek gezin</div>
-    <div class="tcarousel">
+    <div class="tcarousel" tabindex="0" role="region" aria-label="Başarı hikayeleri; yatay kaydırın">
       <div class="ttrack" id="ttrack">
         <div class="tcard">
           <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
           <p class="quote">E-ticaret hacmimizi 3 ayda 4 katina cikardik. Veri odakli yaklasimlar gercekten ilham verici ve sonuc odakli calisiyorlar.</p>
-          <div class="ta"><div class="av" style="background:linear-gradient(135deg,#9333ea,#ec4899)">SY</div><div><div style="font-weight:700;font-size:.9rem">Selin Yilmaz</div><div style="font-size:.76rem;color:var(--mut)">Kurucu, PureBeauty</div></div></div>
+          <div class="ta"><div class="av" style="background:linear-gradient(135deg,#9333ea,#ec4899)">SY</div><div><div style="font-weight:700;font-size:max(var(--archive-font-min),.9rem)">Selin Yilmaz</div><div style="font-size:max(var(--archive-font-min),.76rem);color:var(--mut)">Kurucu, PureBeauty</div></div></div>
         </div>
         <div class="tcard">
           <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
           <p class="quote">Dijital donusum surecimizde essis bir rehber oldular. AI entegrasyonu ile verimliligi %60 arttirdik.</p>
-          <div class="ta"><div class="av" style="background:linear-gradient(135deg,#06b6d4,#6366f1)">MA</div><div><div style="font-weight:700;font-size:.9rem">Merve Aksoy</div><div style="font-size:.76rem;color:var(--mut)">COO, TechSolutions AS</div></div></div>
+          <div class="ta"><div class="av" style="background:linear-gradient(135deg,#06b6d4,#6366f1)">MA</div><div><div style="font-weight:700;font-size:max(var(--archive-font-min),.9rem)">Merve Aksoy</div><div style="font-size:max(var(--archive-font-min),.76rem);color:var(--mut)">COO, TechSolutions AS</div></div></div>
         </div>
         <div class="tcard">
           <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
           <p class="quote">Mentorluk programi kariyerimin donum noktasi oldu. Amazon'da ilk 6 ayda 200K TL ciro elde ettim.</p>
-          <div class="ta"><div class="av" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">ED</div><div><div style="font-weight:700;font-size:.9rem">Ece Demir</div><div style="font-size:.76rem;color:var(--mut)">E-Ihracat Girisimcisi</div></div></div>
+          <div class="ta"><div class="av" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">ED</div><div><div style="font-weight:700;font-size:max(var(--archive-font-min),.9rem)">Ece Demir</div><div style="font-size:max(var(--archive-font-min),.76rem);color:var(--mut)">E-Ihracat Girisimcisi</div></div></div>
         </div>
         <div class="tcard">
           <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
           <p class="quote">Strateji atolyesi sonrasinda sirketimizin 3 yillik yol haritasini olusturup tum ekibe sunabilecek hale geldim.</p>
-          <div class="ta"><div class="av" style="background:linear-gradient(135deg,#10b981,#06b6d4)">AK</div><div><div style="font-weight:700;font-size:.9rem">Ayse Kara</div><div style="font-size:.76rem;color:var(--mut)">CEO, InnovateTR</div></div></div>
+          <div class="ta"><div class="av" style="background:linear-gradient(135deg,#10b981,#06b6d4)">AK</div><div><div style="font-weight:700;font-size:max(var(--archive-font-min),.9rem)">Ayse Kara</div><div style="font-size:max(var(--archive-font-min),.76rem);color:var(--mut)">CEO, InnovateTR</div></div></div>
         </div>
         <div class="tcard">
           <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
           <p class="quote">E-ihracat programi sayesinde Avrupa pazarinda 3 farkli markam var. Titanlar olmasa bunlari basaramazdim.</p>
-          <div class="ta"><div class="av" style="background:linear-gradient(135deg,#f43f5e,#ec4899)">ZO</div><div><div style="font-weight:700;font-size:.9rem">Zeynep Ozturk</div><div style="font-size:.76rem;color:var(--mut)">Global Girişimci</div></div></div>
+          <div class="ta"><div class="av" style="background:linear-gradient(135deg,#f43f5e,#ec4899)">ZO</div><div><div style="font-weight:700;font-size:max(var(--archive-font-min),.9rem)">Zeynep Ozturk</div><div style="font-size:max(var(--archive-font-min),.76rem);color:var(--mut)">Global Girişimci</div></div></div>
         </div>
       </div>
     </div>
@@ -611,7 +614,7 @@ footer::before{content:'';position:absolute;top:-1px;left:15%;right:15%;height:1
   <div class="container">
     <div class="ftg">
       <div>
-        <div class="logo-w" style="margin-bottom:1rem"><div class="lmk" style="width:40px;height:40px;font-size:1rem">T</div><span class="lt" style="font-size:1.3rem">Titanlar</span></div>
+        <div class="logo-w" style="margin-bottom:1rem"><div class="lmk" style="width:40px;height:40px;font-size:max(var(--archive-font-min),1rem)">T</div><span class="lt" style="font-size:max(var(--archive-font-min),1.3rem)">Titanlar</span></div>
         <p class="ftd">Z kusaginin dinamizmi ile enterprise standartlarini birlestiren Turkiye'nin lider danismanlik ve egitim platformu.</p>
         <div class="socs">
           <a href="#" class="soc"><i class="ph ph-instagram-logo"></i></a>
@@ -643,12 +646,12 @@ footer::before{content:'';position:absolute;top:-1px;left:15%;right:15%;height:1
       </div>
       <div>
         <div class="fth">Bulten</div>
-        <p style="font-size:.82rem;color:var(--mut);margin-bottom:.75rem;line-height:1.6">Haftalik strateji ve sektor icgoruleri.</p>
+        <p style="font-size:max(var(--archive-font-min),.82rem);color:var(--mut);margin-bottom:.75rem;line-height:1.6">Haftalik strateji ve sektor icgoruleri.</p>
         <div style="display:flex;border:1px solid var(--gb2);border-radius:12px;overflow:hidden;background:var(--g1);margin-bottom:.65rem">
-          <input type="email" style="flex:1;padding:.65rem 1rem;background:transparent;border:none;color:var(--txt);font-family:'Urbanist',sans-serif;font-size:.85rem;outline:none" placeholder="e-posta..."/>
-          <button style="padding:.65rem 1.1rem;background:var(--grd);border:none;color:#fff;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.78rem;cursor:none">Abone Ol</button>
+          <input type="email" style="flex:1;padding:.65rem 1rem;background:transparent;border:none;color:var(--txt);font-family:'Urbanist',sans-serif;font-size:max(var(--archive-font-min),.85rem);outline:none" placeholder="e-posta..."/>
+          <button style="padding:.65rem 1.1rem;background:var(--grd);border:none;color:#fff;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:max(var(--archive-font-min),.78rem);cursor:none">Abone Ol</button>
         </div>
-        <p style="font-size:.7rem;color:rgba(241,236,255,.28);display:flex;align-items:center;gap:.3rem"><i class="ph ph-lock-simple"></i>Spam yok.</p>
+        <p style="font-size:max(var(--archive-font-min),.7rem);color:rgba(241,236,255,.28);display:flex;align-items:center;gap:.3rem"><i class="ph ph-lock-simple"></i>Spam yok.</p>
       </div>
     </div>
     <div class="ftbot">
@@ -705,7 +708,7 @@ document.addEventListener('mousemove',e=>{
   tx+=(mx-tx)*.05; ty+=(my-ty)*.05;
   gsap.set(ring,{x:rx-20,y:ry-20});
   gsap.set(trail,{x:tx-140,y:ty-140});
-  requestAnimationFrame(lerpRingTrail);
+  if (!archiveMotionQuery.matches) requestAnimationFrame(lerpRingTrail);
 })();
 document.querySelectorAll('a,button,.scard,.pgcard,.tcard,.stat-c,.btn').forEach(el=>{
   el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
@@ -889,11 +892,10 @@ addTilt('.stat-c',8,600);
    DRAGGABLE TESTIMONIALS + InertiaPlugin
 ═══════════════════════════════════════════════════ */
 const track=document.getElementById('ttrack');
-Draggable.create(track,{
-  type:'x',
+Draggable.create(track.parentElement,{
+  type:'scrollLeft',
   inertia:true,
   edgeResistance:.85,
-  bounds:{minX:-(track.scrollWidth-window.innerWidth*1.1),maxX:0},
   cursor:'grab',activeCursor:'grabbing',
   onDragStart(){
     document.body.classList.add('dragging');

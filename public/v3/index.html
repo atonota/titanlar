@@ -1,6 +1,9 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" class="archive-landing">
 <head>
+<link rel="stylesheet" href="/archive-common.css">
+<script src="/archive-common.js"></script>
+
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Titanlar | Kariyerini Sekillendir</title>
@@ -21,7 +24,7 @@
   --grd3:linear-gradient(135deg,#34d399,#38e0f8);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{font-size:16px;scroll-behavior:auto}
+html{font-size:max(var(--archive-font-min),100%);scroll-behavior:auto}
 body{
   font-family:'Urbanist',sans-serif;
   background:var(--bg);
@@ -78,17 +81,17 @@ body::after{
 .lmk{
   width:36px;height:36px;border-radius:10px;
   background:var(--grd);display:flex;align-items:center;justify-content:center;
-  font-family:'Bricolage Grotesque',sans-serif;font-weight:900;font-size:.95rem;color:#fff;
+  font-family:'Bricolage Grotesque',sans-serif;font-weight:900;font-size:max(var(--archive-font-min),.95rem);color:#fff;
   box-shadow:0 0 20px rgba(157,84,246,.55),0 0 50px rgba(157,84,246,.15);
   animation:logo-pulse 3s ease-in-out infinite;
 }
 @keyframes logo-pulse{0%,100%{box-shadow:0 0 20px rgba(157,84,246,.55),0 0 50px rgba(157,84,246,.15)}50%{box-shadow:0 0 30px rgba(157,84,246,.8),0 0 70px rgba(157,84,246,.3)}}
-.lt{font-family:'Bricolage Grotesque',sans-serif;font-weight:900;font-size:1.15rem;letter-spacing:-.02em;background:linear-gradient(135deg,#c084fc,#f472b6);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.lt{font-family:'Bricolage Grotesque',sans-serif;font-weight:900;font-size:max(var(--archive-font-min),1.15rem);letter-spacing:-.02em;background:linear-gradient(135deg,#c084fc,#f472b6);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .nlinks{display:flex;align-items:center;gap:1.4rem;list-style:none}
-.nlinks a{color:var(--txt2);text-decoration:none;font-size:.85rem;font-weight:500;position:relative;transition:color .2s}
+.nlinks a{color:var(--txt2);text-decoration:none;font-size:max(var(--archive-font-min),.85rem);font-weight:500;position:relative;transition:color .2s}
 .nlinks a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1.5px;background:var(--grd);transition:width .3s;border-radius:2px}
 .nlinks a:hover{color:var(--txt)}.nlinks a:hover::after{width:100%}
-.btn{display:inline-flex;align-items:center;gap:.45rem;padding:10px 22px;border-radius:100px;font-family:'Urbanist',sans-serif;font-weight:700;font-size:.85rem;border:none;cursor:none;text-decoration:none;position:relative;overflow:hidden;transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s}
+.btn{display:inline-flex;align-items:center;gap:.45rem;padding:10px 22px;border-radius:100px;font-family:'Urbanist',sans-serif;font-weight:700;font-size:max(var(--archive-font-min),.85rem);border:none;cursor:none;text-decoration:none;position:relative;overflow:hidden;transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s}
 .btn::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,.12);transform:translateX(-110%) skewX(-15deg);transition:transform .45s ease}
 .btn:hover::after{transform:translateX(110%) skewX(-15deg)}
 .bp{background:var(--grd);color:#fff;box-shadow:0 0 24px rgba(157,84,246,.38)}
@@ -114,21 +117,21 @@ body::after{
 /* eyebrow */
 .eyebr{
   display:inline-flex;align-items:center;gap:.6rem;
-  font-size:.65rem;letter-spacing:.26em;text-transform:uppercase;
+  font-size:max(var(--archive-font-min),.65rem);letter-spacing:.26em;text-transform:uppercase;
   color:transparent;background:var(--grd);-webkit-background-clip:text;background-clip:text;
   font-weight:700;margin-bottom:1.5rem;
 }
 .eyebr::before{content:'';width:28px;height:1.5px;background:var(--grd);border-radius:2px;flex-shrink:0}
 .eyebr::after{content:'';width:80px;height:1px;background:linear-gradient(90deg,rgba(157,84,246,.4),transparent);flex-shrink:0}
 /* HERO H1 */
-h1.ht{font-size:clamp(3.4rem,8vw,6.8rem);font-weight:900;line-height:.96;margin-bottom:1.75rem;perspective:800px}
+h1.ht{font-size:max(var(--archive-font-min),clamp(3.4rem,8vw,6.8rem));font-weight:900;line-height:.96;margin-bottom:1.75rem;perspective:800px}
 .hc{display:inline-block;will-change:transform,opacity;transform-origin:50% 100%}
 .grad{background:var(--grd);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .grad2{background:var(--grd2);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.hdesc{font-size:1.05rem;line-height:1.9;color:var(--txt2);max-width:520px;margin-bottom:2.5rem}
+.hdesc{font-size:max(var(--archive-font-min),1.05rem);line-height:1.9;color:var(--txt2);max-width:520px;margin-bottom:2.5rem}
 .brow{display:flex;gap:.85rem;flex-wrap:wrap;margin-bottom:3rem}
 .trust{display:flex;gap:1.75rem;flex-wrap:wrap;padding-top:1.75rem;border-top:1px solid var(--gb)}
-.ti{display:flex;align-items:center;gap:.35rem;font-size:.78rem;color:var(--mut);transition:color .3s}
+.ti{display:flex;align-items:center;gap:.35rem;font-size:max(var(--archive-font-min),.78rem);color:var(--mut);transition:color .3s}
 .ti:hover{color:var(--txt2)}.ti strong{color:var(--txt);font-weight:700}
 
 /* ======================== HERO FLOATING CARDS ======================== */
@@ -145,17 +148,17 @@ h1.ht{font-size:clamp(3.4rem,8vw,6.8rem);font-weight:900;line-height:.96;margin-
 .fc::before{content:'';position:absolute;inset:-8px;border-radius:30px;background:var(--aura,var(--grd));filter:blur(20px);opacity:.12;z-index:-1;animation:aura-pulse 3s ease-in-out infinite}
 @keyframes aura-pulse{0%,100%{opacity:.12;transform:scale(1)}50%{opacity:.2;transform:scale(1.05)}}
 .fc2::before{animation-delay:.8s} .fc3::before{animation-delay:1.6s}
-.fci{font-size:1.85rem;margin-bottom:.8rem;display:block;filter:drop-shadow(0 0 10px var(--ic-clr,rgba(157,84,246,.8)))}
-.fcv{font-family:'Bricolage Grotesque',sans-serif;font-size:2.1rem;font-weight:900;line-height:1}
-.fch{font-family:'Bricolage Grotesque',sans-serif;font-size:.88rem;font-weight:800;margin:.35rem 0 .15rem;color:var(--txt)}
-.fcp{font-size:.73rem;color:var(--mut)}
+.fci{font-size:max(var(--archive-font-min),1.85rem);margin-bottom:.8rem;display:block;filter:drop-shadow(0 0 10px var(--ic-clr,rgba(157,84,246,.8)))}
+.fcv{font-family:'Bricolage Grotesque',sans-serif;font-size:max(var(--archive-font-min),2.1rem);font-weight:900;line-height:1}
+.fch{font-family:'Bricolage Grotesque',sans-serif;font-size:max(var(--archive-font-min),.88rem);font-weight:800;margin:.35rem 0 .15rem;color:var(--txt)}
+.fcp{font-size:max(var(--archive-font-min),.73rem);color:var(--mut)}
 /* shimmer sweep */
 .fc::after{content:'';position:absolute;top:0;left:-100%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.05),transparent);animation:card-shimmer 4s ease-in-out infinite}
 @keyframes card-shimmer{0%,100%{left:-100%}50%{left:200%}}
 .fc2::after{animation-delay:1.2s} .fc3::after{animation-delay:2.4s}
 
 /* ======================== PILL TAGS ======================== */
-.pill{display:inline-flex;align-items:center;padding:4px 12px;border-radius:100px;font-size:.68rem;font-weight:700;letter-spacing:.02em}
+.pill{display:inline-flex;align-items:center;padding:4px 12px;border-radius:100px;font-size:max(var(--archive-font-min),.68rem);font-weight:700;letter-spacing:.02em}
 .pp{background:rgba(157,84,246,.1);border:1px solid rgba(157,84,246,.22);color:#c4b5fd}
 .pk{background:rgba(255,95,172,.09);border:1px solid rgba(255,95,172,.2);color:#fbb6ce}
 .pc{background:rgba(56,224,248,.08);border:1px solid rgba(56,224,248,.18);color:#a5f3fc}
@@ -177,16 +180,16 @@ h1.ht{font-size:clamp(3.4rem,8vw,6.8rem);font-weight:900;line-height:.96;margin-
 .mq-fwd{animation:mq-run 22s linear infinite}
 .mq-rev{animation:mq-run 26s linear infinite reverse}
 @keyframes mq-run{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.mqi{display:flex;align-items:center;gap:.6rem;padding:0 2rem;white-space:nowrap;font-family:'Bricolage Grotesque',sans-serif;font-size:1rem;font-weight:700;color:var(--mut);transition:color .3s}
-.mqi:hover{color:var(--txt2)}.mqi i{font-size:1rem;flex-shrink:0}
+.mqi{display:flex;align-items:center;gap:.6rem;padding:0 2rem;white-space:nowrap;font-family:'Bricolage Grotesque',sans-serif;font-size:max(var(--archive-font-min),1rem);font-weight:700;color:var(--mut);transition:color .3s}
+.mqi:hover{color:var(--txt2)}.mqi i{font-size:max(var(--archive-font-min),1rem);flex-shrink:0}
 .mqi .sep{width:4px;height:4px;border-radius:50%;margin:0 .3rem;flex-shrink:0;background:var(--grd)}
 
 /* ======================== SECTION COMMON ======================== */
 .section{padding:9rem 0;position:relative;z-index:2}
 .sh{text-align:center;margin-bottom:5rem}
 .sh .eyebr{justify-content:center}
-.sh h2{font-size:clamp(2.4rem,5vw,4.2rem);font-weight:900;margin-bottom:.9rem;line-height:1.05}
-.sh p{color:var(--txt2);max-width:520px;margin:0 auto;line-height:1.8;font-size:1rem}
+.sh h2{font-size:max(var(--archive-font-min),clamp(2.4rem,5vw,4.2rem));font-weight:900;margin-bottom:.9rem;line-height:1.05}
+.sh p{color:var(--txt2);max-width:520px;margin:0 auto;line-height:1.8;font-size:max(var(--archive-font-min),1rem)}
 
 /* ======================== BENTO GRID ======================== */
 .bento{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:260px;gap:1.2rem}
@@ -221,11 +224,11 @@ h1.ht{font-size:clamp(3.4rem,8vw,6.8rem);font-weight:900;line-height:.96;margin-
 .bs3::after{display:none}
 .bs3::before{display:none}
 .bs4{grid-column:11/13;--scan-del:1.1s;--scan-dur:5s}
-.bci{font-size:2.3rem;margin-bottom:1rem;display:block;position:relative;z-index:2;transition:transform .5s cubic-bezier(.34,1.56,.64,1),filter .4s}
+.bci{font-size:max(var(--archive-font-min),2.3rem);margin-bottom:1rem;display:block;position:relative;z-index:2;transition:transform .5s cubic-bezier(.34,1.56,.64,1),filter .4s}
 .bc:hover .bci{transform:translateY(-6px) scale(1.18) rotate(-8deg);filter:drop-shadow(0 0 14px var(--ic,rgba(157,84,246,.8)))}
-.bc h3{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.2rem;margin-bottom:.45rem;position:relative;z-index:2}
-.bc .bd{font-size:.82rem;color:var(--mut);line-height:1.65;position:relative;z-index:2}
-.bc-lnk{color:rgba(157,84,246,.85);font-weight:700;font-size:.8rem;text-decoration:none;display:inline-flex;align-items:center;gap:.3rem;transition:gap .3s,color .2s;position:relative;z-index:2}
+.bc h3{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:max(var(--archive-font-min),1.2rem);margin-bottom:.45rem;position:relative;z-index:2}
+.bc .bd{font-size:max(var(--archive-font-min),.82rem);color:var(--mut);line-height:1.65;position:relative;z-index:2}
+.bc-lnk{color:rgba(157,84,246,.85);font-weight:700;font-size:max(var(--archive-font-min),.8rem);text-decoration:none;display:inline-flex;align-items:center;gap:.3rem;transition:gap .3s,color .2s;position:relative;z-index:2}
 .bc-lnk:hover{gap:.7rem;color:#c4b5fd}
 @media(max-width:900px){.bento{display:flex;flex-direction:column}.bc{min-height:200px}}
 
@@ -236,7 +239,7 @@ h1.ht{font-size:clamp(3.4rem,8vw,6.8rem);font-weight:900;line-height:.96;margin-
 .slides-track{display:flex;width:300%;height:100%}
 .slide{flex:0 0 33.333%;display:flex;align-items:center;justify-content:center;padding:0 8vw;gap:6vw}
 .s-txt{flex:1;max-width:480px}
-.s-num{font-family:'Bricolage Grotesque',sans-serif;font-size:9rem;font-weight:900;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.06);position:absolute;top:50%;right:10%;transform:translateY(-50%);pointer-events:none;letter-spacing:-.05em}
+.s-num{font-family:'Bricolage Grotesque',sans-serif;font-size:max(var(--archive-font-min),9rem);font-weight:900;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.06);position:absolute;top:50%;right:10%;transform:translateY(-50%);pointer-events:none;letter-spacing:-.05em}
 .s-vis{flex:1;display:flex;justify-content:center;align-items:center;position:relative}
 .s-card{
   width:340px;padding:2.5rem;border-radius:26px;position:relative;
@@ -280,10 +283,10 @@ h1.ht{font-size:clamp(3.4rem,8vw,6.8rem);font-weight:900;line-height:.96;margin-
 .sgi:hover .sgi-ring{opacity:1}
 @keyframes ring-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 /* number */
-.sgn{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(3rem,5.5vw,5rem);font-weight:900;line-height:1;margin-bottom:.5rem;position:relative;z-index:1;transition:transform .4s}
+.sgn{font-family:'Bricolage Grotesque',sans-serif;font-size:max(var(--archive-font-min),clamp(3rem,5.5vw,5rem));font-weight:900;line-height:1;margin-bottom:.5rem;position:relative;z-index:1;transition:transform .4s}
 .sgi:hover .sgn{transform:scale(1.08)}
-.sgl{font-size:.75rem;color:var(--mut);text-transform:uppercase;letter-spacing:.14em;font-weight:700;position:relative;z-index:1}
-.sgp{font-size:.82rem;color:var(--mut);margin-top:.4rem;line-height:1.5;position:relative;z-index:1}
+.sgl{font-size:max(var(--archive-font-min),.75rem);color:var(--mut);text-transform:uppercase;letter-spacing:.14em;font-weight:700;position:relative;z-index:1}
+.sgp{font-size:max(var(--archive-font-min),.82rem);color:var(--mut);margin-top:.4rem;line-height:1.5;position:relative;z-index:1}
 @media(max-width:700px){.sgrid{grid-template-columns:1fr 1fr}}
 
 /* ======================== PROGRAMS ======================== */
@@ -305,10 +308,10 @@ h1.ht{font-size:clamp(3.4rem,8vw,6.8rem);font-weight:900;line-height:.96;margin-
 @property --sa{syntax:'<angle>';initial-value:0deg;inherits:false}
 @keyframes pgc-spin{to{--sa:360deg}}
 /* icon */
-.pgci{font-size:2.3rem;margin-bottom:1.1rem;display:block;position:relative;z-index:2;transition:transform .5s cubic-bezier(.34,1.56,.64,1),filter .4s}
+.pgci{font-size:max(var(--archive-font-min),2.3rem);margin-bottom:1.1rem;display:block;position:relative;z-index:2;transition:transform .5s cubic-bezier(.34,1.56,.64,1),filter .4s}
 .pgc:hover .pgci{transform:scale(1.15) translateY(-5px);filter:drop-shadow(0 0 14px var(--ic,currentColor))}
-.pgc h3{font-family:'Bricolage Grotesque',sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:.65rem;position:relative;z-index:2}
-.pgc .pgd{font-size:.875rem;color:var(--txt2);line-height:1.8;margin-bottom:1.35rem;position:relative;z-index:2}
+.pgc h3{font-family:'Bricolage Grotesque',sans-serif;font-size:max(var(--archive-font-min),1.3rem);font-weight:800;margin-bottom:.65rem;position:relative;z-index:2}
+.pgc .pgd{font-size:max(var(--archive-font-min),.875rem);color:var(--txt2);line-height:1.8;margin-bottom:1.35rem;position:relative;z-index:2}
 /* scan hover line */
 .pgc-scan{position:absolute;top:0;left:0;right:0;height:100%;background:linear-gradient(180deg,var(--pg,rgba(157,84,246,.03)) 0%,transparent 100%);opacity:0;transition:opacity .5s;pointer-events:none;z-index:0}
 .pgc:hover .pgc-scan{opacity:1}
@@ -328,17 +331,17 @@ h1.ht{font-size:clamp(3.4rem,8vw,6.8rem);font-weight:900;line-height:.96;margin-
 .tc-orb{position:absolute;width:280px;height:280px;border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);background:radial-gradient(circle,var(--oc,rgba(157,84,246,.25)) 0%,transparent 70%);filter:blur(30px);opacity:0;transition:opacity .4s;z-index:0;will-change:transform}
 .tc:hover .tc-orb{opacity:1}
 .stars{display:flex;gap:3px;margin-bottom:1rem;position:relative;z-index:1}
-.stars i{font-size:.85rem;transition:transform .2s,color .2s;color:#fbbf24}
+.stars i{font-size:max(var(--archive-font-min),.85rem);transition:transform .2s,color .2s;color:#fbbf24}
 .tc:hover .stars i:nth-child(1){animation:star-wave .5s .0s forwards}
 .tc:hover .stars i:nth-child(2){animation:star-wave .5s .07s forwards}
 .tc:hover .stars i:nth-child(3){animation:star-wave .5s .14s forwards}
 .tc:hover .stars i:nth-child(4){animation:star-wave .5s .21s forwards}
 .tc:hover .stars i:nth-child(5){animation:star-wave .5s .28s forwards}
 @keyframes star-wave{0%{transform:scale(1) rotate(0)}40%{transform:scale(1.5) rotate(15deg);color:#fde68a}100%{transform:scale(1) rotate(0)}}
-.tq{font-size:.93rem;line-height:1.85;color:var(--txt2);font-style:italic;margin-bottom:1.6rem;position:relative;z-index:1}
-.tq::before{content:'\u201C';font-size:3rem;font-family:'Bricolage Grotesque',sans-serif;font-weight:900;color:rgba(157,84,246,.25);line-height:0;vertical-align:-.5rem;margin-right:.2rem}
+.tq{font-size:max(var(--archive-font-min),.93rem);line-height:1.85;color:var(--txt2);font-style:italic;margin-bottom:1.6rem;position:relative;z-index:1}
+.tq::before{content:'\u201C';font-size:max(var(--archive-font-min),3rem);font-family:'Bricolage Grotesque',sans-serif;font-weight:900;color:rgba(157,84,246,.25);line-height:0;vertical-align:-.5rem;margin-right:.2rem}
 .ta{display:flex;align-items:center;gap:.75rem;position:relative;z-index:1}
-.av{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:.9rem;color:#fff;flex-shrink:0;box-shadow:0 0 16px var(--ac,rgba(157,84,246,.5));animation:av-pulse 3s ease-in-out infinite}
+.av{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:max(var(--archive-font-min),.9rem);color:#fff;flex-shrink:0;box-shadow:0 0 16px var(--ac,rgba(157,84,246,.5));animation:av-pulse 3s ease-in-out infinite}
 @keyframes av-pulse{0%,100%{box-shadow:0 0 12px var(--ac,rgba(157,84,246,.4))}50%{box-shadow:0 0 24px var(--ac,rgba(157,84,246,.7))}}
 
 /* ======================== PRICING ======================== */
@@ -360,14 +363,14 @@ h1.ht{font-size:clamp(3.4rem,8vw,6.8rem);font-weight:900;line-height:.96;margin-
 .feat::after{content:'';position:absolute;inset:-2px;border-radius:30px;background:conic-gradient(from var(--fa,0deg),#9d54f6,#ff5fac,#38e0f8,#34d399,#9d54f6);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:destination-out;mask-composite:exclude;padding:2px;animation:feat-border 4s linear infinite;z-index:-1}
 @property --fa{syntax:'<angle>';initial-value:0deg;inherits:false}
 @keyframes feat-border{to{--fa:360deg}}
-.pcname{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--mut);margin-bottom:1rem}
-.pcprice{font-family:'Bricolage Grotesque',sans-serif;font-size:3.4rem;font-weight:900;line-height:1;margin-bottom:.35rem}
-.pcsub{font-size:.8rem;color:var(--mut);margin-bottom:1.75rem}
+.pcname{font-size:max(var(--archive-font-min),.7rem);letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--mut);margin-bottom:1rem}
+.pcprice{font-family:'Bricolage Grotesque',sans-serif;font-size:max(var(--archive-font-min),3.4rem);font-weight:900;line-height:1;margin-bottom:.35rem}
+.pcsub{font-size:max(var(--archive-font-min),.8rem);color:var(--mut);margin-bottom:1.75rem}
 .pcf{list-style:none;display:flex;flex-direction:column;gap:.7rem;margin-bottom:2rem;flex:1}
-.pcf li{display:flex;align-items:center;gap:.55rem;font-size:.875rem;color:var(--txt2)}
-.pcf i{font-size:1rem;flex-shrink:0;transition:transform .3s}
+.pcf li{display:flex;align-items:center;gap:.55rem;font-size:max(var(--archive-font-min),.875rem);color:var(--txt2)}
+.pcf i{font-size:max(var(--archive-font-min),1rem);flex-shrink:0;transition:transform .3s}
 .pcard:hover .pcf i{transform:scale(1.2)}
-.pcbadge{background:var(--grd);color:#fff;font-size:.6rem;font-weight:800;padding:3px 10px;border-radius:100px;margin-bottom:.8rem;display:inline-block;letter-spacing:.08em;text-transform:uppercase;animation:badge-glow 2s ease-in-out infinite}
+.pcbadge{background:var(--grd);color:#fff;font-size:max(var(--archive-font-min),.6rem);font-weight:800;padding:3px 10px;border-radius:100px;margin-bottom:.8rem;display:inline-block;letter-spacing:.08em;text-transform:uppercase;animation:badge-glow 2s ease-in-out infinite}
 @keyframes badge-glow{0%,100%{box-shadow:0 0 12px rgba(157,84,246,.4)}50%{box-shadow:0 0 24px rgba(255,95,172,.6)}}
 @media(max-width:800px){.pgrid3{grid-template-columns:1fr}}
 
@@ -389,13 +392,13 @@ h1.ht{font-size:clamp(3.4rem,8vw,6.8rem);font-weight:900;line-height:.96;margin-
 .cta-grid{position:absolute;inset:0;border-radius:44px;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse at 50% 50%,black 0%,transparent 72%)}
 /* floating orbs inside cta */
 .cta-orb{position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none;animation:dl-drift 12s ease-in-out infinite}
-.ctabox h2{font-size:clamp(2.4rem,5.5vw,4.5rem);font-weight:900;color:#fff;margin-bottom:1.1rem;position:relative;z-index:1;text-shadow:0 0 40px rgba(157,84,246,.3)}
-.ctabox p{color:rgba(255,255,255,.82);max-width:500px;margin:0 auto 3rem;line-height:1.8;position:relative;z-index:1;font-size:1.05rem}
+.ctabox h2{font-size:max(var(--archive-font-min),clamp(2.4rem,5.5vw,4.5rem));font-weight:900;color:#fff;margin-bottom:1.1rem;position:relative;z-index:1;text-shadow:0 0 40px rgba(157,84,246,.3)}
+.ctabox p{color:rgba(255,255,255,.82);max-width:500px;margin:0 auto 3rem;line-height:1.8;position:relative;z-index:1;font-size:max(var(--archive-font-min),1.05rem)}
 .erow{display:flex;gap:.45rem;max-width:500px;margin:0 auto 2rem;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:100px;padding:.45rem .45rem .45rem 1.5rem;position:relative;z-index:1;backdrop-filter:blur(16px)}
-.erow input{flex:1;background:transparent;border:none;color:#fff;font-family:'Urbanist',sans-serif;font-size:.95rem;outline:none}
+.erow input{flex:1;background:transparent;border:none;color:#fff;font-family:'Urbanist',sans-serif;font-size:max(var(--archive-font-min),.95rem);outline:revert}
 .erow input::placeholder{color:rgba(255,255,255,.42)}
 .tpills{display:flex;gap:.7rem;flex-wrap:wrap;justify-content:center;position:relative;z-index:1}
-.tpill{padding:5px 14px;border-radius:100px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.14);font-size:.73rem;color:rgba(255,255,255,.78);display:inline-flex;align-items:center;gap:.3rem;transition:all .3s;cursor:none}
+.tpill{padding:5px 14px;border-radius:100px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.14);font-size:max(var(--archive-font-min),.73rem);color:rgba(255,255,255,.78);display:inline-flex;align-items:center;gap:.3rem;transition:all .3s;cursor:none}
 .tpill:hover{background:rgba(255,255,255,.17);transform:translateY(-2px)}
 
 /* ======================== FOOTER ======================== */
@@ -403,27 +406,27 @@ footer{padding:5.5rem 0 2.5rem;border-top:1px solid var(--gb);position:relative;
 /* gradient top line */
 footer::before{content:'';position:absolute;top:-1px;left:10%;right:10%;height:1px;background:var(--grd);opacity:.4}
 .ftgrid{display:grid;grid-template-columns:1.7fr 1fr 1fr 1fr;gap:3rem;margin-bottom:4.5rem}
-.ftdesc{font-size:.875rem;color:var(--mut);line-height:1.85;max-width:270px;margin-bottom:1.5rem}
+.ftdesc{font-size:max(var(--archive-font-min),.875rem);color:var(--mut);line-height:1.85;max-width:270px;margin-bottom:1.5rem}
 .socs{display:flex;gap:.5rem;margin-top:1.5rem}
-.soc{width:38px;height:38px;border-radius:10px;background:var(--g1);border:1px solid var(--gb);display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:1rem;text-decoration:none;cursor:none;transition:all .35s cubic-bezier(.34,1.56,.64,1)}
+.soc{width:38px;height:38px;border-radius:10px;background:var(--g1);border:1px solid var(--gb);display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:max(var(--archive-font-min),1rem);text-decoration:none;cursor:none;transition:all .35s cubic-bezier(.34,1.56,.64,1)}
 .soc:hover{background:var(--g3);color:var(--txt);transform:translateY(-4px) scale(1.1);border-color:var(--gb2);box-shadow:0 8px 20px rgba(157,84,246,.25)}
-.fth{font-family:'Bricolage Grotesque',sans-serif;font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.15em;color:var(--txt);margin-bottom:1.1rem}
+.fth{font-family:'Bricolage Grotesque',sans-serif;font-size:max(var(--archive-font-min),.76rem);font-weight:800;text-transform:uppercase;letter-spacing:.15em;color:var(--txt);margin-bottom:1.1rem}
 .ftl{list-style:none;display:flex;flex-direction:column;gap:.55rem}
-.ftl a{color:var(--mut);font-size:.875rem;text-decoration:none;transition:all .25s;display:inline-flex;align-items:center;gap:.35rem}
+.ftl a{color:var(--mut);font-size:max(var(--archive-font-min),.875rem);text-decoration:none;transition:all .25s;display:inline-flex;align-items:center;gap:.35rem}
 .ftl a::before{content:'';width:0;height:1px;background:var(--grd);transition:width .25s;flex-shrink:0}
 .ftl a:hover{color:var(--txt2);padding-left:.25rem}.ftl a:hover::before{width:12px}
 .ftbot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;border-top:1px solid var(--gb);padding-top:1.5rem}
-.ftcopy{font-size:.76rem;color:rgba(244,238,255,.28)}
+.ftcopy{font-size:max(var(--archive-font-min),.76rem);color:rgba(244,238,255,.28)}
 .ftll{display:flex;gap:1.5rem}
-.ftll a{font-size:.76rem;color:rgba(244,238,255,.28);text-decoration:none;transition:color .2s;cursor:none}
+.ftll a{font-size:max(var(--archive-font-min),.76rem);color:rgba(244,238,255,.28);text-decoration:none;transition:color .2s;cursor:none}
 .ftll a:hover{color:var(--mut)}
 .nlform{display:flex;border:1px solid var(--gb2);border-radius:14px;overflow:hidden;margin-bottom:.65rem;background:rgba(255,255,255,.02)}
-.nlinput{flex:1;padding:.7rem 1rem;background:transparent;border:none;color:var(--txt);font-family:'Urbanist',sans-serif;font-size:.85rem;outline:none}
+.nlinput{flex:1;padding:.7rem 1rem;background:transparent;border:none;color:var(--txt);font-family:'Urbanist',sans-serif;font-size:max(var(--archive-font-min),.85rem);outline:revert}
 .nlinput::placeholder{color:rgba(244,238,255,.28)}
-.nlbtn{padding:.65rem 1.1rem;background:var(--grd);border:none;color:#fff;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.78rem;cursor:none;transition:opacity .2s}
+.nlbtn{padding:.65rem 1.1rem;background:var(--grd);border:none;color:#fff;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:max(var(--archive-font-min),.78rem);cursor:none;transition:opacity .2s}
 .nlbtn:hover{opacity:.85}
 @media(max-width:900px){.ftgrid{grid-template-columns:1fr 1fr}}
-@media(max-width:600px){.hero{flex-direction:column;padding-top:8rem;min-height:auto;padding-bottom:4rem}.hr{display:none}.ftgrid{grid-template-columns:1fr}}
+@media(max-width:600px){.hero{flex-direction:column;padding-top:8rem;min-height:auto;padding-bottom:4rem}.hr{display:none}.ftgrid{grid-template-columns:minmax(0,1fr)}}
 </style>
 </head>
 <body>
@@ -445,8 +448,8 @@ footer::before{content:'';position:absolute;top:-1px;left:10%;right:10%;height:1
     <li><a href="#cta">Iletisim</a></li>
   </ul>
   <div style="display:flex;gap:.55rem;flex-shrink:0">
-    <a href="#" class="btn bg" style="padding:8px 18px;font-size:.82rem">Giris Yap</a>
-    <a href="#cta" class="btn bp" style="padding:9px 20px;font-size:.82rem">Ucretsiz Dene <i class="ph ph-sparkle"></i></a>
+    <a href="#" class="btn bg" style="padding:8px 18px;font-size:max(var(--archive-font-min),.82rem)">Giris Yap</a>
+    <a href="#cta" class="btn bp" style="padding:9px 20px;font-size:max(var(--archive-font-min),.82rem)">Ucretsiz Dene <i class="ph ph-sparkle"></i></a>
   </div>
 </nav>
 
@@ -468,10 +471,10 @@ footer::before{content:'';position:absolute;top:-1px;left:10%;right:10%;height:1
       <a href="#egitim" class="btn bg"><i class="ph ph-graduation-cap"></i> Programlari Incele</a>
     </div>
     <div class="trust" id="trust">
-      <div class="ti"><i class="ph-fill ph-seal-check" style="color:#34d399;font-size:1rem"></i><strong>500+</strong>&nbsp;Musteri</div>
-      <div class="ti"><i class="ph-fill ph-seal-check" style="color:#9d54f6;font-size:1rem"></i><strong>%94</strong>&nbsp;Basari</div>
-      <div class="ti"><i class="ph-fill ph-seal-check" style="color:#ff5fac;font-size:1rem"></i><strong>14 Yil</strong>&nbsp;Deneyim</div>
-      <div class="ti"><i class="ph-fill ph-seal-check" style="color:#fbbf24;font-size:1rem"></i><strong>NPS 82</strong></div>
+      <div class="ti"><i class="ph-fill ph-seal-check" style="color:#34d399;font-size:max(var(--archive-font-min),1rem)"></i><strong>500+</strong>&nbsp;Musteri</div>
+      <div class="ti"><i class="ph-fill ph-seal-check" style="color:#9d54f6;font-size:max(var(--archive-font-min),1rem)"></i><strong>%94</strong>&nbsp;Basari</div>
+      <div class="ti"><i class="ph-fill ph-seal-check" style="color:#ff5fac;font-size:max(var(--archive-font-min),1rem)"></i><strong>14 Yil</strong>&nbsp;Deneyim</div>
+      <div class="ti"><i class="ph-fill ph-seal-check" style="color:#fbbf24;font-size:max(var(--archive-font-min),1rem)"></i><strong>NPS 82</strong></div>
     </div>
   </div>
   <div class="hr" id="hr">
@@ -571,8 +574,8 @@ footer::before{content:'';position:absolute;top:-1px;left:10%;right:10%;height:1
         <p class="bd">ICF onayli koclar, 360 geri bildirim, liderlik gelisimi.</p>
       </div>
       <div class="bc bs3" id="bc5">
-        <h3 style="color:#fff;font-size:2.8rem;margin-bottom:.2rem;position:relative;z-index:2;text-shadow:0 0 30px rgba(255,255,255,.3)">%94</h3>
-        <p style="color:rgba(255,255,255,.88);font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;position:relative;z-index:2">Hedef Basarisi</p>
+        <h3 style="color:#fff;font-size:max(var(--archive-font-min),2.8rem);margin-bottom:.2rem;position:relative;z-index:2;text-shadow:0 0 30px rgba(255,255,255,.3)">%94</h3>
+        <p style="color:rgba(255,255,255,.88);font-size:max(var(--archive-font-min),.72rem);font-weight:800;text-transform:uppercase;letter-spacing:.1em;position:relative;z-index:2">Hedef Basarisi</p>
         <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.1),transparent);border-radius:24px;animation:bs3-shine 3s ease-in-out infinite"></div>
         <style>@keyframes bs3-shine{0%,100%{opacity:.5}50%{opacity:1}}</style>
       </div>
@@ -580,7 +583,7 @@ footer::before{content:'';position:absolute;top:-1px;left:10%;right:10%;height:1
         <div class="bc-sp"></div>
         <i class="ph ph-kanban bci" style="color:#fbbf24;--ic:rgba(251,191,36,.8)"></i>
         <h3>Proje Yonetimi</h3>
-        <p class="bd" style="font-size:.8rem">Agile · Scrum · SAFe · PMO · PMP</p>
+        <p class="bd" style="font-size:max(var(--archive-font-min),.8rem)">Agile · Scrum · SAFe · PMO · PMP</p>
       </div>
     </div>
   </div>
@@ -594,16 +597,16 @@ footer::before{content:'';position:absolute;top:-1px;left:10%;right:10%;height:1
       <div class="slide">
         <div class="s-txt">
           <p class="eyebr">Adim 01</p>
-          <h2 style="font-size:clamp(2.2rem,4.5vw,3.4rem);font-weight:900;margin-bottom:1.1rem">Analiz &amp; <span class="grad">Tani</span></h2>
-          <p style="color:var(--txt2);line-height:1.85;font-size:1rem;max-width:460px">Sirketinizin kurumsal DNA'sini, piyasa pozisyonunu ve rekabet dinamiklerini tum boyutlariyla olcuyoruz. 180+ metrik ile veri odakli tani.</p>
+          <h2 style="font-size:max(var(--archive-font-min),clamp(2.2rem,4.5vw,3.4rem));font-weight:900;margin-bottom:1.1rem">Analiz &amp; <span class="grad">Tani</span></h2>
+          <p style="color:var(--txt2);line-height:1.85;font-size:max(var(--archive-font-min),1rem);max-width:460px">Sirketinizin kurumsal DNA'sini, piyasa pozisyonunu ve rekabet dinamiklerini tum boyutlariyla olcuyoruz. 180+ metrik ile veri odakli tani.</p>
           <div class="pr" style="margin-top:1.5rem"><span class="pill pp">180+ Metrik</span><span class="pill pc">Benchmark</span><span class="pill pm">Swot Analizi</span></div>
         </div>
         <div class="s-vis">
           <div class="s-num">01</div>
           <div class="s-card">
-            <i class="ph ph-magnifying-glass" style="font-size:2.5rem;color:#9d54f6;display:block;margin-bottom:1rem;filter:drop-shadow(0 0 12px rgba(157,84,246,.7))"></i>
-            <h4 style="font-family:'Bricolage Grotesque',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:.5rem">Durum Tespiti</h4>
-            <p style="font-size:.85rem;color:var(--mut);line-height:1.65">Tam spektrum diagnosis — dijital, operasyonel, stratejik</p>
+            <i class="ph ph-magnifying-glass" style="font-size:max(var(--archive-font-min),2.5rem);color:#9d54f6;display:block;margin-bottom:1rem;filter:drop-shadow(0 0 12px rgba(157,84,246,.7))"></i>
+            <h4 style="font-family:'Bricolage Grotesque',sans-serif;font-size:max(var(--archive-font-min),1.1rem);font-weight:800;margin-bottom:.5rem">Durum Tespiti</h4>
+            <p style="font-size:max(var(--archive-font-min),.85rem);color:var(--mut);line-height:1.65">Tam spektrum diagnosis — dijital, operasyonel, stratejik</p>
             <div style="margin-top:1.5rem;height:3px;border-radius:2px;background:var(--grd);animation:prog-fill 3s ease-in-out infinite"></div>
             <style>@keyframes prog-fill{0%{width:0%;opacity:.5}70%{width:100%;opacity:1}100%{width:100%;opacity:.5}}</style>
           </div>
@@ -612,20 +615,20 @@ footer::before{content:'';position:absolute;top:-1px;left:10%;right:10%;height:1
       <div class="slide">
         <div class="s-txt">
           <p class="eyebr">Adim 02</p>
-          <h2 style="font-size:clamp(2.2rem,4.5vw,3.4rem);font-weight:900;margin-bottom:1.1rem">Strateji &amp; <span class="grad2">Yol Haritasi</span></h2>
-          <p style="color:var(--txt2);line-height:1.85;font-size:1rem;max-width:460px">OKR kaskadi, BSC scorecard ve 3-yillik stratejik yol haritasi. Her hedef icin somut KPI'lar, zaman planlamasi ve kaynak tahsisi.</p>
+          <h2 style="font-size:max(var(--archive-font-min),clamp(2.2rem,4.5vw,3.4rem));font-weight:900;margin-bottom:1.1rem">Strateji &amp; <span class="grad2">Yol Haritasi</span></h2>
+          <p style="color:var(--txt2);line-height:1.85;font-size:max(var(--archive-font-min),1rem);max-width:460px">OKR kaskadi, BSC scorecard ve 3-yillik stratejik yol haritasi. Her hedef icin somut KPI'lar, zaman planlamasi ve kaynak tahsisi.</p>
           <div class="pr" style="margin-top:1.5rem"><span class="pill pc">OKR Kaskadi</span><span class="pill pp">BSC</span><span class="pill pg">36 Ay Plan</span></div>
         </div>
         <div class="s-vis">
           <div class="s-num">02</div>
           <div class="s-card">
-            <i class="ph ph-map-trifold" style="font-size:2.5rem;color:#38e0f8;display:block;margin-bottom:1rem;filter:drop-shadow(0 0 12px rgba(56,224,248,.7))"></i>
-            <h4 style="font-family:'Bricolage Grotesque',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:.5rem">12-24-36 Ay Harita</h4>
-            <p style="font-size:.85rem;color:var(--mut);line-height:1.65">Hedef kaskadi ile tam strateji planlamasi</p>
+            <i class="ph ph-map-trifold" style="font-size:max(var(--archive-font-min),2.5rem);color:#38e0f8;display:block;margin-bottom:1rem;filter:drop-shadow(0 0 12px rgba(56,224,248,.7))"></i>
+            <h4 style="font-family:'Bricolage Grotesque',sans-serif;font-size:max(var(--archive-font-min),1.1rem);font-weight:800;margin-bottom:.5rem">12-24-36 Ay Harita</h4>
+            <p style="font-size:max(var(--archive-font-min),.85rem);color:var(--mut);line-height:1.65">Hedef kaskadi ile tam strateji planlamasi</p>
             <div style="margin-top:1.5rem;display:grid;grid-template-columns:repeat(3,1fr);gap:.3rem">
-              <div style="height:36px;border-radius:6px;background:rgba(56,224,248,.15);border:1px solid rgba(56,224,248,.2);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#a5f3fc">12 ay</div>
-              <div style="height:36px;border-radius:6px;background:rgba(157,84,246,.12);border:1px solid rgba(157,84,246,.2);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#c4b5fd">24 ay</div>
-              <div style="height:36px;border-radius:6px;background:rgba(255,95,172,.1);border:1px solid rgba(255,95,172,.2);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#fbb6ce">36 ay</div>
+              <div style="height:36px;border-radius:6px;background:rgba(56,224,248,.15);border:1px solid rgba(56,224,248,.2);display:flex;align-items:center;justify-content:center;font-size:max(var(--archive-font-min),.65rem);font-weight:700;color:#a5f3fc">12 ay</div>
+              <div style="height:36px;border-radius:6px;background:rgba(157,84,246,.12);border:1px solid rgba(157,84,246,.2);display:flex;align-items:center;justify-content:center;font-size:max(var(--archive-font-min),.65rem);font-weight:700;color:#c4b5fd">24 ay</div>
+              <div style="height:36px;border-radius:6px;background:rgba(255,95,172,.1);border:1px solid rgba(255,95,172,.2);display:flex;align-items:center;justify-content:center;font-size:max(var(--archive-font-min),.65rem);font-weight:700;color:#fbb6ce">36 ay</div>
             </div>
           </div>
         </div>
@@ -633,16 +636,16 @@ footer::before{content:'';position:absolute;top:-1px;left:10%;right:10%;height:1
       <div class="slide">
         <div class="s-txt">
           <p class="eyebr">Adim 03</p>
-          <h2 style="font-size:clamp(2.2rem,4.5vw,3.4rem);font-weight:900;margin-bottom:1.1rem">Uygulama &amp; <span class="grad">Sonuc</span></h2>
-          <p style="color:var(--txt2);line-height:1.85;font-size:1rem;max-width:460px">Agile sprint metodolojisi ile haftalik iterasyon. Gercek zamanli OKR dashboard izleme ve aylik yonetim raporlamasi ile kanıtlanmıs %94 hedef basarisi.</p>
+          <h2 style="font-size:max(var(--archive-font-min),clamp(2.2rem,4.5vw,3.4rem));font-weight:900;margin-bottom:1.1rem">Uygulama &amp; <span class="grad">Sonuc</span></h2>
+          <p style="color:var(--txt2);line-height:1.85;font-size:max(var(--archive-font-min),1rem);max-width:460px">Agile sprint metodolojisi ile haftalik iterasyon. Gercek zamanli OKR dashboard izleme ve aylik yonetim raporlamasi ile kanıtlanmıs %94 hedef basarisi.</p>
           <div class="pr" style="margin-top:1.5rem"><span class="pill pk">%94 Basari</span><span class="pill pm">Agile Sprint</span><span class="pill pp">Live Dashboard</span></div>
         </div>
         <div class="s-vis">
           <div class="s-num">03</div>
           <div class="s-card">
-            <i class="ph ph-rocket-launch" style="font-size:2.5rem;color:#ff5fac;display:block;margin-bottom:1rem;filter:drop-shadow(0 0 12px rgba(255,95,172,.7))"></i>
-            <h4 style="font-family:'Bricolage Grotesque',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:.5rem">Lansman &amp; Olcekleme</h4>
-            <p style="font-size:.85rem;color:var(--mut);line-height:1.65">Kanıtlanmıs metodoloji ile surdurulebilir buyume</p>
+            <i class="ph ph-rocket-launch" style="font-size:max(var(--archive-font-min),2.5rem);color:#ff5fac;display:block;margin-bottom:1rem;filter:drop-shadow(0 0 12px rgba(255,95,172,.7))"></i>
+            <h4 style="font-family:'Bricolage Grotesque',sans-serif;font-size:max(var(--archive-font-min),1.1rem);font-weight:800;margin-bottom:.5rem">Lansman &amp; Olcekleme</h4>
+            <p style="font-size:max(var(--archive-font-min),.85rem);color:var(--mut);line-height:1.65">Kanıtlanmıs metodoloji ile surdurulebilir buyume</p>
             <div style="margin-top:1.25rem;display:flex;gap:.3rem;align-items:flex-end">
               <div style="flex:1;height:20px;background:rgba(255,95,172,.2);border-radius:4px"></div>
               <div style="flex:1;height:30px;background:rgba(255,95,172,.35);border-radius:4px"></div>
@@ -767,19 +770,19 @@ footer::before{content:'';position:absolute;top:-1px;left:10%;right:10%;height:1
         <div class="tc-orb" style="--oc:rgba(157,84,246,.3)" id="tc1orb"></div>
         <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
         <p class="tq">E-ticaret hacmimizi 3 ayda 4 katina cikardik. Veri odakli yaklasimlar gercekten ilham verici ve sonuc odakli.</p>
-        <div class="ta"><div class="av" style="background:linear-gradient(135deg,#9d54f6,#ff5fac);--ac:rgba(157,84,246,.5)">SY</div><div><div style="font-weight:700;font-size:.9rem">Selin Yilmaz</div><div style="font-size:.76rem;color:var(--mut)">Kurucu, PureBeauty</div></div></div>
+        <div class="ta"><div class="av" style="background:linear-gradient(135deg,#9d54f6,#ff5fac);--ac:rgba(157,84,246,.5)">SY</div><div><div style="font-weight:700;font-size:max(var(--archive-font-min),.9rem)">Selin Yilmaz</div><div style="font-size:max(var(--archive-font-min),.76rem);color:var(--mut)">Kurucu, PureBeauty</div></div></div>
       </div>
       <div class="tc" id="tc2">
         <div class="tc-orb" style="--oc:rgba(56,224,248,.25)" id="tc2orb"></div>
         <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
         <p class="tq">Dijital donusum surecimizde essis bir rehber oldular. Tum operasyonel sureclerimizi AI ile entegre ettiler, verimliligi %60 arttirdik.</p>
-        <div class="ta"><div class="av" style="background:linear-gradient(135deg,#38e0f8,#6366f1);--ac:rgba(56,224,248,.5)">MA</div><div><div style="font-weight:700;font-size:.9rem">Merve Aksoy</div><div style="font-size:.76rem;color:var(--mut)">COO, TechSolutions AS</div></div></div>
+        <div class="ta"><div class="av" style="background:linear-gradient(135deg,#38e0f8,#6366f1);--ac:rgba(56,224,248,.5)">MA</div><div><div style="font-weight:700;font-size:max(var(--archive-font-min),.9rem)">Merve Aksoy</div><div style="font-size:max(var(--archive-font-min),.76rem);color:var(--mut)">COO, TechSolutions AS</div></div></div>
       </div>
       <div class="tc" id="tc3">
         <div class="tc-orb" style="--oc:rgba(251,191,36,.25)" id="tc3orb"></div>
         <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
         <p class="tq">Mentorluk programi kariyerimin donum noktasi oldu. Amazon'da ilk 6 ayda 200K TL ciro elde ettim.</p>
-        <div class="ta"><div class="av" style="background:linear-gradient(135deg,#fbbf24,#f59e0b);--ac:rgba(251,191,36,.5)">ED</div><div><div style="font-weight:700;font-size:.9rem">Ece Demir</div><div style="font-size:.76rem;color:var(--mut)">E-Ihracat Girisimcisi</div></div></div>
+        <div class="ta"><div class="av" style="background:linear-gradient(135deg,#fbbf24,#f59e0b);--ac:rgba(251,191,36,.5)">ED</div><div><div style="font-weight:700;font-size:max(var(--archive-font-min),.9rem)">Ece Demir</div><div style="font-size:max(var(--archive-font-min),.76rem);color:var(--mut)">E-Ihracat Girisimcisi</div></div></div>
       </div>
     </div>
   </div>
@@ -795,7 +798,7 @@ footer::before{content:'';position:absolute;top:-1px;left:10%;right:10%;height:1
     <div class="pgrid3">
       <div class="pcard" style="--pf:linear-gradient(135deg,#9d54f6,#ff5fac)">
         <div class="pcname">Bireysel</div>
-        <div class="pcprice">2.990<span style="font-size:1.1rem;font-family:'Urbanist',sans-serif;font-weight:400;color:var(--mut)"> TL/ay</span></div>
+        <div class="pcprice">2.990<span style="font-size:max(var(--archive-font-min),1.1rem);font-family:'Urbanist',sans-serif;font-weight:400;color:var(--mut)"> TL/ay</span></div>
         <div class="pcsub">Kariyer gelisimi ve temel danismanlik</div>
         <ul class="pcf">
           <li><i class="ph ph-check-circle" style="color:var(--pur)"></i>1 Egitim Programi Erisimi</li>
@@ -808,7 +811,7 @@ footer::before{content:'';position:absolute;top:-1px;left:10%;right:10%;height:1
       <div class="pcard feat" style="--pf:linear-gradient(135deg,#9d54f6,#ff5fac)">
         <div class="pcbadge">En Populer</div>
         <div class="pcname">Profesyonel</div>
-        <div class="pcprice grad">7.990<span style="font-size:1.1rem;font-family:'Urbanist',sans-serif;font-weight:400;-webkit-text-fill-color:var(--mut)"> TL/ay</span></div>
+        <div class="pcprice grad">7.990<span style="font-size:max(var(--archive-font-min),1.1rem);font-family:'Urbanist',sans-serif;font-weight:400;-webkit-text-fill-color:var(--mut)"> TL/ay</span></div>
         <div class="pcsub">Girisimciler ve orta olcekli sirketler icin</div>
         <ul class="pcf">
           <li><i class="ph ph-check-circle" style="color:var(--pur)"></i>Tum Egitim Programlari</li>
@@ -847,7 +850,7 @@ footer::before{content:'';position:absolute;top:-1px;left:10%;right:10%;height:1
       <p>Titanlar topluluuguna katil. Ilk gorusme ucretsiz, taahut gerektirmez.</p>
       <form class="erow" onsubmit="return false">
         <input type="email" placeholder="E-posta adresin..."/>
-        <button class="btn bp" style="border-radius:100px;padding:10px 22px;font-size:.88rem">Baslayalim <i class="ph ph-arrow-right"></i></button>
+        <button class="btn bp" style="border-radius:100px;padding:10px 22px;font-size:max(var(--archive-font-min),.88rem)">Baslayalim <i class="ph ph-arrow-right"></i></button>
       </form>
       <div class="tpills">
         <span class="tpill"><i class="ph ph-lock-simple"></i>Kredi karti gerekmez</span>
@@ -864,7 +867,7 @@ footer::before{content:'';position:absolute;top:-1px;left:10%;right:10%;height:1
   <div class="container">
     <div class="ftgrid">
       <div>
-        <div class="logo-w" style="margin-bottom:1rem"><div class="lmk" style="width:40px;height:40px;font-size:1rem">T</div><span class="lt" style="font-size:1.3rem">Titanlar</span></div>
+        <div class="logo-w" style="margin-bottom:1rem"><div class="lmk" style="width:40px;height:40px;font-size:max(var(--archive-font-min),1rem)">T</div><span class="lt" style="font-size:max(var(--archive-font-min),1.3rem)">Titanlar</span></div>
         <p class="ftdesc">Z kusaginin dinamizmi ile enterprise standartlarini birlestiren Turkiye'nin lider danismanlik ve egitim platformu. 2010'dan bu yana kesintisiz.</p>
         <div class="socs">
           <a href="#" class="soc" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
@@ -896,9 +899,9 @@ footer::before{content:'';position:absolute;top:-1px;left:10%;right:10%;height:1
       </div>
       <div>
         <div class="fth">Bulten</div>
-        <p style="font-size:.82rem;color:var(--mut);margin-bottom:.8rem;line-height:1.6">Haftalik strateji ve sektor icgoruleri.</p>
+        <p style="font-size:max(var(--archive-font-min),.82rem);color:var(--mut);margin-bottom:.8rem;line-height:1.6">Haftalik strateji ve sektor icgoruleri.</p>
         <div class="nlform"><input type="email" class="nlinput" placeholder="e-posta..."/><button class="nlbtn">Abone Ol</button></div>
-        <p style="font-size:.7rem;color:rgba(244,238,255,.28);display:flex;align-items:center;gap:.3rem"><i class="ph ph-lock-simple"></i>Spam yok. Iptal kolay.</p>
+        <p style="font-size:max(var(--archive-font-min),.7rem);color:rgba(244,238,255,.28);display:flex;align-items:center;gap:.3rem"><i class="ph ph-lock-simple"></i>Spam yok. Iptal kolay.</p>
       </div>
     </div>
     <div class="ftbot">
@@ -925,7 +928,7 @@ document.addEventListener('mousemove', e => {
 (function lerpRing(){
   rx+=(mx-rx)*.1; ry+=(my-ry)*.1;
   gsap.set(curRing,{x:rx-18,y:ry-18});
-  requestAnimationFrame(lerpRing);
+  if (!archiveMotionQuery.matches) requestAnimationFrame(lerpRing);
 })();
 document.querySelectorAll('a,button,.bc,.pgc,.pcard,.tc,.sgi,.soc,.btn').forEach(el=>{
   el.addEventListener('mouseenter',()=>document.body.classList.add('cx'));
@@ -1029,9 +1032,9 @@ function drawGL(t){
   drawLinks(pts);
   ctx2.fillStyle=vg;
   ctx2.fillRect(0,0,W,H);
-  requestAnimationFrame(drawGL);
+  if (!archiveMotionQuery.matches) requestAnimationFrame(drawGL);
 }
-requestAnimationFrame(drawGL);
+if (!archiveMotionQuery.matches) requestAnimationFrame(drawGL);
 
 /* ═══════════════════════════════════════════════════════
    3. NAV SCROLL
@@ -1307,7 +1310,7 @@ function paraFrame(){
     const py=el.style.getPropertyValue('--py')||'0px';
     // only add if not being tilt-animated (rough check via gsap ticker)
   });
-  requestAnimationFrame(paraFrame);
+  if (!archiveMotionQuery.matches) requestAnimationFrame(paraFrame);
 }
 
 /* ═══════════════════════════════════════════════════════

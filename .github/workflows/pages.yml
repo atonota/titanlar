@@ -15,6 +15,9 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  qa:
+    uses: ./.github/workflows/archive-qa.yml
+
   build:
     runs-on: ubuntu-latest
     steps:
@@ -31,7 +34,7 @@ jobs:
           path: dist
 
   deploy:
-    needs: build
+    needs: [build, qa]
     runs-on: ubuntu-latest
     environment:
       name: github-pages
