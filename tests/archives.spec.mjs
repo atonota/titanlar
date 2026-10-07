@@ -86,6 +86,7 @@ test('/v3/ reduced motion preserves all three story steps and entered text', asy
     expect(box.y).toBeGreaterThanOrEqual(0)
     expect(box.y + box.height).toBeLessThanOrEqual(568)
   }
+  await expect(page.locator('#sn1, #sn2, #sn3, #sn4')).toHaveText(['500+', '14 Yil', '%94', 'NPS 82'])
   expect(await page.locator('.slide').evaluateAll((elements) => elements.map((element) => element.scrollWidth - element.clientWidth)))
     .toEqual([0, 0, 0])
   const input = page.getByPlaceholder('E-posta adresin...', { exact: true })
@@ -100,6 +101,7 @@ test('/v3/ reduced motion preserves all three story steps and entered text', asy
 test('/v4/ reduced motion preserves natural scrolling and filter completion', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 568 })
   await page.goto('/titanlar/v4/')
+  await expect(page.locator('#sn1, #sn2, #sn3, #sn4')).toHaveText(['500+', '14 Yil', '%94', 'NPS 82'])
   expect(await page.evaluate(() => document.scrollingElement.scrollHeight)).toBeGreaterThan(568)
   await page.keyboard.press('PageDown')
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0)

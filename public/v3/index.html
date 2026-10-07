@@ -1201,6 +1201,13 @@ const stats=[
   {id:'sn3',target:94, format:v=>'%'+Math.round(v)},
   {id:'sn4',target:82, format:v=>'NPS '+Math.round(v)},
 ];
+function showFinalStats() {
+  if (archiveMotionQuery.matches) {
+    stats.forEach((s) => { document.getElementById(s.id).textContent = s.format(s.target); });
+  }
+}
+showFinalStats();
+archiveMotionQuery.addEventListener('change', showFinalStats);
 stats.forEach((s,i)=>{
   let obj={n:0};
   ScrollTrigger.create({trigger:'#basari',start:'top 85%',once:true,onEnter:()=>{
