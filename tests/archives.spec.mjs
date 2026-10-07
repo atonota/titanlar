@@ -147,3 +147,24 @@ test.describe('touch and keyboard together', () => {
     })
   }
 })
+
+
+test('/v4/ reduced motion keeps hover and dragging decoration still', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 })
+  await page.goto('/titanlar/v4/')
+  const stat = page.locator('.stat-c').first()
+  await stat.hover()
+  await expect(stat.locator('.stat-n')).toHaveCSS('transform', 'none')
+  await page.locator('#nav [data-scramble]').first().hover()
+  await expect(page.locator('#nav [data-scramble]').first()).toHaveText('Hizmetler')
+  await expect(stat.locator('.stat-n')).toHaveCSS('transform', 'none')
+  const carousel = page.locator('.tcarousel')
+  await carousel.scrollIntoViewIfNeeded()
+  const box = await carousel.boundingBox()
+  await page.mouse.move(box.x + box.width * 0.7, box.y + box.height * 0.5)
+  await page.mouse.down()
+  await page.mouse.move(box.x + box.width * 0.3, box.y + box.height * 0.5, { steps: 5 })
+  await expect(page.locator('.ttrack')).toHaveCSS('transform', 'none')
+  await page.mouse.up()
+  await expect(page.locator('.ttrack')).toHaveCSS('transform', 'none')
+})

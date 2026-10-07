@@ -129,9 +129,8 @@
   .archive-landing .slides-track { width: 100%; display: block; transform: none !important; }
   .archive-landing .slide { width: 100%; min-height: 0; flex-direction: column; align-items: stretch; flex-wrap: wrap; padding-block: calc(2 * var(--archive-gap)); }
   .archive-landing :is(.s-txt, .s-vis, .s-card) { min-width: 0; max-width: 100%; transform: none !important; }
-  .fe-hero-title, .fe-hero-title span { filter: none !important; transform: none !important; }
   .fe-circular, .archive-landing .btn, .archive-landing .soc { transform: none !important; }
-  .archive-landing :is(.scard, .pgcard, .stat-c, .tcard, .ctabox) { transform: none !important; }
+  .archive-landing :is(.scard, .pgcard, .stat-c, .stat-n, .tcard, .ttrack, .ctabox) { transform: none !important; }
 }
 
 @media (max-width: 52rem) {

@@ -734,6 +734,7 @@ ScrollTrigger.create({
 document.querySelectorAll('[data-scramble]').forEach(el=>{
   const orig = el.getAttribute('data-scramble');
   el.addEventListener('mouseenter',()=>{
+    if (archiveMotionQuery.matches) return;
     gsap.to(el,{duration:.6,scrambleText:{text:orig,chars:'ABEGILMNRSTU',revealDelay:.1,speed:0.7,newClass:'scramble'},ease:'none'});
   });
 });
@@ -814,7 +815,7 @@ scene.addEventListener('mousemove',e=>{
   const dy=(e.clientY-r.top)/r.height-.5;
   gsap.to(scene,{rotateY:dx*18,rotateX:-dy*18,duration:.5,ease:'power2.out',transformPerspective:900,transformStyle:'preserve-3d'});
 });
-scene.addEventListener('mouseleave',()=>gsap.to(scene,{rotateY:0,rotateX:0,duration:1,ease:'elastic.out(1,.5)'}));
+scene.addEventListener('mouseleave',()=>{ if (archiveMotionQuery.matches) return; gsap.to(scene,{rotateY:0,rotateX:0,duration:1,ease:'elastic.out(1,.5)'}); });
 
 /* ═══════════════════════════════════════════════════
    PHYSICS2D — click particle burst
@@ -848,7 +849,7 @@ document.querySelectorAll('.btn').forEach(btn=>{
     const dy=e.clientY-(r.top+r.height/2);
     gsap.to(btn,{x:dx*.28,y:dy*.28,duration:.4,ease:'power2.out'});
   });
-  btn.addEventListener('mouseleave',()=>gsap.to(btn,{x:0,y:0,duration:1,ease:'elastic.out(1,.35)'}));
+  btn.addEventListener('mouseleave',()=>{ if (archiveMotionQuery.matches) return; gsap.to(btn,{x:0,y:0,duration:1,ease:'elastic.out(1,.35)'}); });
 });
 
 /* ═══════════════════════════════════════════════════
@@ -886,7 +887,7 @@ function addTilt(sel,max=12,persp=700){
       const dy=(e.clientY-r.top)/r.height-.5;
       gsap.to(el,{rotateY:dx*max*2,rotateX:-dy*max*2,duration:.35,ease:'power2.out',transformPerspective:persp,transformStyle:'preserve-3d',z:12});
     });
-    el.addEventListener('mouseleave',()=>gsap.to(el,{rotateY:0,rotateX:0,z:0,duration:.9,ease:'elastic.out(1,.4)'}));
+    el.addEventListener('mouseleave',()=>{ if (archiveMotionQuery.matches) return; gsap.to(el,{rotateY:0,rotateX:0,z:0,duration:.9,ease:'elastic.out(1,.4)'}); });
   });
 }
 addTilt('.scard',12,800);
@@ -905,12 +906,12 @@ Draggable.create(track.parentElement,{
   onDragStart(){
     document.body.classList.add('dragging');
     document.querySelectorAll('.tcard').forEach(c=>c.classList.add('active-drag'));
-    gsap.to(track,{scale:.97,duration:.3,ease:'power2.out'});
+    if (!archiveMotionQuery.matches) gsap.to(track,{scale:.97,duration:.3,ease:'power2.out'});
   },
   onDragEnd(){
     document.body.classList.remove('dragging');
     document.querySelectorAll('.tcard').forEach(c=>c.classList.remove('active-drag'));
-    gsap.to(track,{scale:1,duration:.5,ease:'elastic.out(1,.5)'});
+    if (!archiveMotionQuery.matches) gsap.to(track,{scale:1,duration:.5,ease:'elastic.out(1,.5)'});
   }
 });
 /* cards tilt while dragging */
@@ -922,7 +923,7 @@ document.querySelectorAll('.tcard').forEach(c=>{
     const dy=(e.clientY-r.top)/r.height-.5;
     gsap.to(c,{rotateY:dx*10,rotateX:-dy*8,duration:.35,ease:'power2.out',transformPerspective:600});
   });
-  c.addEventListener('mouseleave',()=>gsap.to(c,{rotateY:0,rotateX:0,duration:.8,ease:'elastic.out(1,.4)'}));
+  c.addEventListener('mouseleave',()=>{ if (archiveMotionQuery.matches) return; gsap.to(c,{rotateY:0,rotateX:0,duration:.8,ease:'elastic.out(1,.4)'}); });
 });
 
 /* ═══════════════════════════════════════════════════
@@ -958,10 +959,12 @@ gsap.from('.stat-c',{
 /* stat card hover glow pulse */
 document.querySelectorAll('.stat-c').forEach((c,i)=>{
   c.addEventListener('mouseenter',()=>{
+    if (archiveMotionQuery.matches) return;
     gsap.to(c,{boxShadow:`0 0 50px ${['rgba(147,51,234,.3)','rgba(236,72,153,.3)','rgba(6,182,212,.3)','rgba(245,158,11,.3)'][i]},0 24px 60px rgba(0,0,0,.5)`,duration:.4});
     gsap.to(c.querySelector('.stat-n'),{scale:1.1,duration:.4,ease:'back.out(2)'});
   });
   c.addEventListener('mouseleave',()=>{
+    if (archiveMotionQuery.matches) return;
     gsap.to(c,{boxShadow:'none',duration:.4});
     gsap.to(c.querySelector('.stat-n'),{scale:1,duration:.4});
   });
