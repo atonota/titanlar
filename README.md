@@ -55,3 +55,26 @@ DNS kaydı kaynağı: [GitHub Pages özel alan adı rehberi](https://docs.github
 ## Lisans
 
 Proje lisansı henüz belirlenmedi. `src/components/reactbits/` altındaki bileşenler React Bits'ten alınmıştır ve `REACT-BITS-LICENSE.md` koşullarına tabidir.
+
+## Archived landing prototypes
+
+The recovered local Titanlar v3 and v4 landing prototypes are published at
+[https://titanlar.com/v3/](https://titanlar.com/v3/) and
+[https://titanlar.com/v4/](https://titanlar.com/v4/).
+Their original standalone HTML is kept in `public/v3/index.html` and
+`public/v4/index.html`; Vite copies these files into the Pages build.
+These historical previews retain their original CDN scripts and prototype interactions.
+
+## Selected historical homepage
+
+The homepage and [https://titanlar.com/izometrik/](https://titanlar.com/izometrik/)
+serve the isometric MARKA snapshot recovered from the 26 September 2026 local
+file history (the 13:38 build). `public/izometrik/index.html` contains its
+original compiled CSS and JavaScript. The document wrapper adds UTF-8, Turkish
+language metadata and a responsive viewport without changing the snapshot.
+
+The existing React source remains available in `src/`. After the normal Vite
+build, `scripts/select-homepage.mjs` selects the recovered snapshot for the
+root URL. The same GitHub Actions workflow publishes the homepage and all
+three archive routes on every push to `main`. The original local backups
+remain intact.

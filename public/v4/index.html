@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Titanlar | Ultra Experience</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,700;12..96,800;12..96,900&family=Urbanist:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<!-- GSAP 3.13 full suite -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollSmoother.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrambleTextPlugin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/DrawSVGPlugin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/MotionPathPlugin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/CustomEase.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/CustomBounce.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/Physics2DPlugin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/Draggable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/InertiaPlugin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/Flip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/Observer.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/EasePack.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/TextPlugin.min.js"></script>
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+<style>
+:root{
+  --bg:#020209;--bg2:#07061c;
+  --pur:#9333ea;--pur2:#a855f7;
+  --pink:#ec4899;--pink2:#f472b6;
+  --cyan:#06b6d4;--cyan2:#22d3ee;
+  --mint:#10b981;--gold:#f59e0b;--rose:#f43f5e;
+  --neon-pur:0 0 20px rgba(147,51,234,.8),0 0 60px rgba(147,51,234,.4);
+  --neon-pink:0 0 20px rgba(236,72,153,.8),0 0 60px rgba(236,72,153,.4);
+  --neon-cyan:0 0 20px rgba(6,182,212,.8),0 0 60px rgba(6,182,212,.4);
+  --g1:rgba(255,255,255,.035);--g2:rgba(255,255,255,.065);--g3:rgba(255,255,255,.12);
+  --gb:rgba(255,255,255,.07);--gb2:rgba(255,255,255,.14);
+  --txt:#f1ecff;--txt2:rgba(241,236,255,.72);--mut:rgba(241,236,255,.44);
+  --grd:linear-gradient(135deg,#9333ea,#ec4899);
+  --grd2:linear-gradient(135deg,#06b6d4,#6366f1);
+  --grd3:linear-gradient(135deg,#10b981,#06b6d4);
+  --ease-spring:cubic-bezier(.34,1.56,.64,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px}
+body{font-family:'Urbanist',sans-serif;background:var(--bg);color:var(--txt);overflow-x:hidden;-webkit-font-smoothing:antialiased;cursor:none}
+::-webkit-scrollbar{width:2px}
+::-webkit-scrollbar-thumb{background:var(--grd);border-radius:2px}
+h1,h2,h3,h4{font-family:'Bricolage Grotesque',sans-serif;letter-spacing:-.025em}
+.container{max-width:1340px;margin:0 auto;padding:0 5vw}
+#smooth-wrapper{overflow:hidden;height:100vh;width:100%}
+#smooth-content{will-change:transform}
+
+/* ── CURSOR ─────────────────────────────────────────── */
+#cur-dot{position:fixed;width:8px;height:8px;border-radius:50%;background:var(--grd);pointer-events:none;z-index:9999;mix-blend-mode:exclusion;will-change:transform}
+#cur-outer{position:fixed;width:40px;height:40px;border-radius:50%;border:1px solid rgba(147,51,234,.5);pointer-events:none;z-index:9998;will-change:transform;transition:width .3s var(--ease-spring),height .3s var(--ease-spring),border-color .3s}
+#cur-trail{position:fixed;width:280px;height:280px;border-radius:50%;pointer-events:none;z-index:0;mix-blend-mode:screen;background:radial-gradient(circle,rgba(147,51,234,.12) 0%,rgba(236,72,153,.06) 40%,transparent 70%);will-change:transform;filter:blur(8px)}
+body.hov #cur-outer{width:60px;height:60px;border-color:rgba(236,72,153,.8);background:rgba(236,72,153,.04)}
+body.dragging #cur-outer{width:80px;height:80px;border-color:rgba(6,182,212,.8);background:rgba(6,182,212,.04)}
+
+/* ── NAV ─────────────────────────────────────────── */
+#nav{position:fixed;top:1rem;left:50%;transform:translateX(-50%);z-index:1000;width:92%;max-width:1340px;display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.5rem;border-radius:100px;background:rgba(2,2,9,.5);backdrop-filter:blur(40px) saturate(200%);border:1px solid var(--gb);box-shadow:0 4px 30px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.04);transition:all .5s}
+#nav.sc{background:rgba(2,2,9,.9);border-color:rgba(147,51,234,.25)}
+.logo-w{display:flex;align-items:center;gap:.6rem;text-decoration:none}
+.lmk{width:36px;height:36px;border-radius:10px;background:var(--grd);display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:900;font-size:.95rem;color:#fff;box-shadow:var(--neon-pur)}
+.lt{font-family:'Bricolage Grotesque',sans-serif;font-weight:900;font-size:1.15rem;background:var(--grd);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.nl{display:flex;align-items:center;gap:1.5rem;list-style:none}
+.nl a{color:var(--txt2);text-decoration:none;font-size:.85rem;font-weight:500;transition:color .2s;cursor:none}
+.nl a:hover{color:var(--txt)}
+.btn{display:inline-flex;align-items:center;gap:.45rem;padding:10px 22px;border-radius:100px;font-family:'Urbanist',sans-serif;font-weight:700;font-size:.85rem;border:none;cursor:none;text-decoration:none;transition:transform .3s var(--ease-spring),box-shadow .3s;position:relative;overflow:hidden}
+.btn::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,.15);transform:translateX(-110%) skewX(-20deg);transition:transform .4s ease}
+.btn:hover::after{transform:translateX(110%) skewX(-20deg)}
+.bp{background:var(--grd);color:#fff;box-shadow:var(--neon-pur)}
+.bp:hover{transform:scale(1.06) translateY(-2px);box-shadow:0 0 30px rgba(147,51,234,.7),0 0 80px rgba(147,51,234,.3)}
+.bg{background:var(--g2);border:1px solid var(--gb2);color:var(--txt2)}
+.bg:hover{background:var(--g3);color:var(--txt);transform:translateY(-1px)}
+@media(max-width:900px){.nl{display:none}}
+
+/* ── DrawSVG BACKGROUND ─────────────────────────────────────────── */
+#svg-bg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.35}
+#svg-bg2{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.2}
+
+/* Physics particles */
+.phys-pt{position:fixed;width:8px;height:8px;border-radius:50%;pointer-events:none;z-index:9990}
+
+/* ── HERO ─────────────────────────────────────────── */
+.hero{min-height:100vh;display:flex;align-items:center;padding:0 5vw;padding-top:6rem;position:relative;overflow:hidden}
+.hl{flex:1;max-width:680px;position:relative;z-index:2}
+.hr{flex:1;position:relative;height:600px;z-index:2;display:flex;align-items:center;justify-content:center}
+.eyebr{display:inline-flex;align-items:center;gap:.6rem;font-size:.65rem;letter-spacing:.26em;text-transform:uppercase;font-weight:700;margin-bottom:1.5rem;background:var(--grd);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.eyebr::before{content:'';width:28px;height:1.5px;background:var(--grd);border-radius:2px;flex-shrink:0}
+h1.ht{font-size:clamp(3.5rem,8.5vw,7.5rem);font-weight:900;line-height:.92;letter-spacing:-.04em;margin-bottom:2rem}
+/* split text chars */
+.char{display:inline-block;will-change:transform}
+.line-wrap{overflow:hidden;display:block}
+.grad{background:var(--grd);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;display:inline-block}
+.grad2{background:var(--grd2);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;display:inline-block}
+.grad3{background:var(--grd3);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;display:inline-block}
+.hdesc{font-size:1.1rem;line-height:1.9;color:var(--txt2);max-width:540px;margin-bottom:2.75rem}
+.brow{display:flex;gap:.9rem;flex-wrap:wrap;margin-bottom:3rem}
+.trust{display:flex;gap:2rem;padding-top:2rem;border-top:1px solid var(--gb);flex-wrap:wrap}
+.ti{font-size:.8rem;color:var(--mut);display:flex;align-items:center;gap:.35rem}
+.ti i{font-size:1rem}.ti strong{color:var(--txt);font-weight:700}
+
+/* ── HERO 3D ORBIT ─────────────────────────────────────────── */
+.orbit-scene{width:460px;height:460px;position:relative;transform-style:preserve-3d;perspective:1200px}
+.orbit-core{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.core-card{width:190px;padding:1.75rem;border-radius:24px;background:var(--g2);backdrop-filter:blur(32px);border:1px solid var(--gb2);box-shadow:0 0 60px rgba(147,51,234,.2),inset 0 1px 0 rgba(255,255,255,.07);text-align:center}
+.core-val{font-family:'Bricolage Grotesque',sans-serif;font-size:3rem;font-weight:900;line-height:1;background:var(--grd);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.orbit-ring{position:absolute;border-radius:50%;border:1px dashed;animation:orbit-rot linear infinite;transform-style:preserve-3d}
+.r1{width:300px;height:300px;border-color:rgba(147,51,234,.3);animation-duration:14s;top:80px;left:80px}
+.r2{width:420px;height:420px;border-color:rgba(236,72,153,.2);animation-duration:22s;top:20px;left:20px;animation-direction:reverse}
+.r3{width:200px;height:200px;border-color:rgba(6,182,212,.25);animation-duration:9s;top:130px;left:130px}
+@keyframes orbit-rot{from{transform:rotateX(75deg) rotateZ(0deg)}to{transform:rotateX(75deg) rotateZ(360deg)}}
+.orbit-sat{position:absolute;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;transform:translateX(-50%) translateY(-50%)}
+/* motion path sats */
+#sat-path1,#sat-path2,#sat-path3{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}
+
+/* ── MARQUEE ─────────────────────────────────────────── */
+.mqs{overflow:hidden;border-top:1px solid rgba(147,51,234,.12);border-bottom:1px solid rgba(147,51,234,.12);position:relative;z-index:2}
+.mqs::before,.mqs::after{content:'';position:absolute;top:0;bottom:0;width:150px;z-index:2;pointer-events:none}
+.mqs::before{left:0;background:linear-gradient(90deg,var(--bg),transparent)}
+.mqs::after{right:0;background:linear-gradient(-90deg,var(--bg),transparent)}
+.mq-t{display:flex;width:max-content;padding:.9rem 0}
+.mq-f{animation:mq 24s linear infinite}
+.mq-r{animation:mq 30s linear infinite reverse}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.mqi{display:flex;align-items:center;gap:.6rem;padding:0 2rem;font-family:'Bricolage Grotesque',sans-serif;font-size:.95rem;font-weight:700;color:var(--mut);white-space:nowrap;cursor:none}
+.mqi:hover{color:var(--txt2)}
+.mqi i{font-size:1rem;flex-shrink:0}
+.mq-dot{width:5px;height:5px;border-radius:50%;background:var(--grd);margin:0 .5rem;flex-shrink:0}
+
+/* ── SERVICES — FLIP FILTER ─────────────────────────────────────────── */
+.services{padding:9rem 0;position:relative;z-index:2}
+.filter-tabs{display:flex;gap:.6rem;justify-content:center;margin-bottom:3.5rem;flex-wrap:wrap}
+.ftab{padding:8px 22px;border-radius:100px;font-size:.82rem;font-weight:700;background:var(--g1);border:1px solid var(--gb);color:var(--mut);cursor:none;transition:all .3s var(--ease-spring)}
+.ftab.on{background:var(--grd);color:#fff;border-color:transparent;box-shadow:var(--neon-pur)}
+.card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+.scard{padding:2.5rem;border-radius:24px;position:relative;overflow:hidden;cursor:none;background:var(--g1);backdrop-filter:blur(24px);border:1px solid var(--gb);box-shadow:0 16px 48px rgba(0,0,0,.4);transition:border-color .4s,box-shadow .4s}
+.scard:hover{border-color:var(--gb2);box-shadow:0 24px 60px rgba(0,0,0,.55),0 0 40px rgba(147,51,234,.08)}
+/* conic animated border */
+.scard::before{content:'';position:absolute;inset:-1px;border-radius:25px;background:conic-gradient(from var(--ca,0deg),transparent,var(--cc,rgba(147,51,234,.5)) 10%,transparent 20%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:destination-out;mask-composite:exclude;padding:1px;opacity:0;transition:opacity .4s;animation:ca-spin 3s linear infinite}
+.scard:hover::before{opacity:1}
+@property --ca{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes ca-spin{to{--ca:360deg}}
+/* scan */
+.scard-scan{position:absolute;top:-100%;left:0;right:0;height:60%;background:linear-gradient(180deg,transparent,rgba(255,255,255,.03) 50%,transparent);animation:sc-scan 4s ease-in-out infinite var(--sc-del,0s);pointer-events:none}
+@keyframes sc-scan{from{top:-60%}to{top:100%}}
+.scard .icon{font-size:2.4rem;margin-bottom:1.2rem;display:block;transition:transform .5s var(--ease-spring),filter .4s}
+.scard:hover .icon{transform:scale(1.2) translateY(-6px) rotate(-8deg);filter:drop-shadow(0 0 14px var(--ic-c,rgba(147,51,234,.9)))}
+.scard h3{font-family:'Bricolage Grotesque',sans-serif;font-size:1.2rem;font-weight:800;margin-bottom:.5rem}
+.scard p{font-size:.85rem;color:var(--mut);line-height:1.7}
+.pill{display:inline-flex;align-items:center;padding:3px 11px;border-radius:100px;font-size:.67rem;font-weight:700;letter-spacing:.02em}
+.pp{background:rgba(147,51,234,.1);border:1px solid rgba(147,51,234,.22);color:#c4b5fd}
+.pk{background:rgba(236,72,153,.09);border:1px solid rgba(236,72,153,.2);color:#fbb6ce}
+.pc{background:rgba(6,182,212,.08);border:1px solid rgba(6,182,212,.18);color:#a5f3fc}
+.pm{background:rgba(16,185,129,.07);border:1px solid rgba(16,185,129,.18);color:#6ee7b7}
+.pg{background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.18);color:#fde68a}
+.tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.75rem}
+.scard[data-cat="strateji"]{--cc:rgba(147,51,234,.6);--ic-c:rgba(167,139,250,.9)}
+.scard[data-cat="dijital"]{--cc:rgba(6,182,212,.6);--ic-c:rgba(6,182,212,.9)}
+.scard[data-cat="egitim"]{--cc:rgba(236,72,153,.6);--ic-c:rgba(236,72,153,.9)}
+.scard[data-cat="yazilim"]{--cc:rgba(16,185,129,.6);--ic-c:rgba(16,185,129,.9)}
+.scard.hidden{display:none} /* for Flip filter */
+@media(max-width:900px){.card-grid{grid-template-columns:1fr}}
+
+/* ── SCROLL MORPHING SECTION ─────────────────────────────────────────── */
+.morph-sec{padding:9rem 0;position:relative;z-index:2}
+.morph-inner{position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+#morph-svg-container{position:absolute;inset:0;pointer-events:none}
+.morph-text-wrap{position:relative;z-index:2;text-align:center}
+.morph-steps-wrap{position:relative;height:300vh}
+#morph-num{font-family:'Bricolage Grotesque',sans-serif;font-size:14rem;font-weight:900;line-height:1;color:rgba(255,255,255,.04);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;letter-spacing:-.06em;will-change:transform}
+
+/* ── STATS ─────────────────────────────────────────── */
+.stats-sec{padding:9rem 0;position:relative;z-index:2}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem}
+.stat-c{padding:2.75rem 1.5rem;border-radius:24px;text-align:center;position:relative;overflow:hidden;cursor:none;background:var(--g1);backdrop-filter:blur(24px);border:1px solid var(--gb)}
+/* drawsvg ring inside each stat */
+.stat-ring-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.4}
+.stat-n{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(2.8rem,5vw,4.8rem);font-weight:900;line-height:1;position:relative;z-index:1}
+.stat-l{font-size:.72rem;text-transform:uppercase;letter-spacing:.15em;color:var(--mut);font-weight:700;position:relative;z-index:1;margin-top:.4rem}
+@media(max-width:700px){.stats-grid{grid-template-columns:1fr 1fr}}
+
+/* ── DRAGGABLE TESTIMONIALS ─────────────────────────────────────────── */
+.testi-sec{padding:9rem 0;position:relative;z-index:2;overflow:hidden}
+.drag-hint{font-size:.78rem;color:var(--mut);text-align:center;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:center;gap:.4rem}
+.tcarousel{position:relative;overflow:visible;cursor:none}
+.ttrack{display:flex;gap:1.5rem;width:max-content;padding:.5rem 5vw .5rem calc(50vw - 250px)}
+.tcard{width:400px;flex-shrink:0;padding:2.4rem;border-radius:24px;background:var(--g1);backdrop-filter:blur(24px);border:1px solid var(--gb);box-shadow:0 20px 50px rgba(0,0,0,.4);cursor:grab;transition:box-shadow .3s;select:none}
+.tcard:active{cursor:grabbing}
+.tcard.active-drag{box-shadow:0 32px 70px rgba(0,0,0,.6),0 0 50px rgba(147,51,234,.15)}
+.tcard .quote{font-size:.95rem;line-height:1.9;color:var(--txt2);font-style:italic;margin:1rem 0 1.5rem;position:relative}
+.tcard .quote::before{content:'\u201C';font-size:3.5rem;line-height:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:900;color:var(--pur);opacity:.3;vertical-align:-.5rem;margin-right:.15rem}
+.stars{display:flex;gap:3px;margin-bottom:.75rem}
+.stars i{color:#f59e0b;font-size:.85rem}
+.ta{display:flex;align-items:center;gap:.75rem}
+.av{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:.88rem;color:#fff;flex-shrink:0}
+
+/* ── PROGRAMS ─────────────────────────────────────────── */
+.prog-sec{padding:9rem 0;position:relative;z-index:2}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:1.4rem}
+.pgcard{padding:2.4rem;border-radius:26px;position:relative;overflow:hidden;cursor:none;background:var(--g1);backdrop-filter:blur(24px);border:1px solid var(--gb);transition:all .45s var(--ease-spring)}
+.pgcard:hover{transform:translateY(-8px);border-color:var(--pb,rgba(147,51,234,.3));box-shadow:0 28px 70px rgba(0,0,0,.6),0 0 60px var(--pg,rgba(147,51,234,.07))}
+.pgcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--pt,var(--grd))}
+.pgcard-spin{position:absolute;inset:0;background:conic-gradient(from var(--psa,0deg) at 50% 50%,transparent 0%,var(--pg,rgba(147,51,234,.05)) 15%,transparent 30%);animation:pgcard-rot 8s linear infinite;opacity:0;transition:opacity .5s}
+@property --psa{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes pgcard-rot{to{--psa:360deg}}
+.pgcard:hover .pgcard-spin{opacity:1}
+.pgcard .picon{font-size:2.3rem;margin-bottom:1.1rem;display:block;transition:transform .5s var(--ease-spring),filter .4s}
+.pgcard:hover .picon{transform:scale(1.18) translateY(-5px);filter:drop-shadow(0 0 14px var(--ic-c,rgba(147,51,234,.9)))}
+.pgcard h3{font-family:'Bricolage Grotesque',sans-serif;font-size:1.25rem;font-weight:800;margin-bottom:.6rem}
+.pgcard p{font-size:.875rem;color:var(--txt2);line-height:1.8;margin-bottom:1.3rem}
+
+/* ── CTA ─────────────────────────────────────────── */
+.cta-sec{padding:9rem 0;position:relative;z-index:2}
+.ctabox{border-radius:48px;padding:8rem 8vw;text-align:center;position:relative;overflow:hidden}
+.cta-bg{position:absolute;inset:0;border-radius:48px;background:linear-gradient(135deg,#1e0550,#4c0a9c,#7c1278,#4c0a9c,#1e0550);background-size:400% 400%;animation:cta-grad 10s ease infinite}
+@keyframes cta-grad{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.cta-grid{position:absolute;inset:0;border-radius:48px;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:52px 52px;mask-image:radial-gradient(ellipse at 50% 50%,black 0%,transparent 65%)}
+.cta-orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;animation:dl-drift 12s ease-in-out infinite}
+@keyframes dl-drift{0%,100%{transform:translate(0,0)}33%{transform:translate(20px,-20px)}66%{transform:translate(-20px,20px)}}
+.ctabox h2{font-size:clamp(2.5rem,6vw,5rem);font-weight:900;color:#fff;margin-bottom:1.2rem;position:relative;z-index:1;text-shadow:0 0 60px rgba(147,51,234,.4)}
+.ctabox p{color:rgba(255,255,255,.78);max-width:520px;margin:0 auto 3rem;line-height:1.85;font-size:1.05rem;position:relative;z-index:1}
+.erow{display:flex;gap:.45rem;max-width:520px;margin:0 auto 2rem;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:100px;padding:.45rem .45rem .45rem 1.5rem;position:relative;z-index:1;backdrop-filter:blur(16px)}
+.erow input{flex:1;background:transparent;border:none;color:#fff;font-family:'Urbanist',sans-serif;font-size:.95rem;outline:none}
+.erow input::placeholder{color:rgba(255,255,255,.38)}
+.tpills{display:flex;gap:.7rem;flex-wrap:wrap;justify-content:center;position:relative;z-index:1}
+.tpill{padding:5px 14px;border-radius:100px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);font-size:.73rem;color:rgba(255,255,255,.75);display:inline-flex;align-items:center;gap:.3rem;transition:all .3s;cursor:none}
+.tpill:hover{background:rgba(255,255,255,.16);transform:translateY(-2px)}
+
+/* ── FOOTER ─────────────────────────────────────────── */
+footer{padding:5rem 0 2rem;border-top:1px solid var(--gb);position:relative;z-index:2}
+footer::before{content:'';position:absolute;top:-1px;left:15%;right:15%;height:1px;background:var(--grd);opacity:.35}
+.ftg{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:3rem;margin-bottom:4rem}
+.ftd{font-size:.875rem;color:var(--mut);line-height:1.85;max-width:270px;margin-bottom:1.5rem}
+.socs{display:flex;gap:.5rem;margin-top:1.2rem}
+.soc{width:38px;height:38px;border-radius:10px;background:var(--g1);border:1px solid var(--gb);display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:1rem;text-decoration:none;cursor:none;transition:all .35s var(--ease-spring)}
+.soc:hover{background:var(--g3);color:var(--txt);transform:translateY(-4px) scale(1.12);box-shadow:0 8px 20px rgba(147,51,234,.3)}
+.fth{font-family:'Bricolage Grotesque',sans-serif;font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.15em;color:var(--txt);margin-bottom:1rem}
+.ftl{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+.ftl a{color:var(--mut);font-size:.875rem;text-decoration:none;transition:all .25s;cursor:none;display:flex;align-items:center;gap:.35rem}
+.ftl a::before{content:'';width:0;height:1px;background:var(--grd);transition:width .25s;flex-shrink:0}
+.ftl a:hover{color:var(--txt2);padding-left:.25rem}.ftl a:hover::before{width:12px}
+.ftbot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;border-top:1px solid var(--gb);padding-top:1.5rem}
+.ftcopy{font-size:.75rem;color:rgba(241,236,255,.28)}
+.ftll{display:flex;gap:1.5rem}
+.ftll a{font-size:.75rem;color:rgba(241,236,255,.28);text-decoration:none;cursor:none;transition:color .2s}
+.ftll a:hover{color:var(--mut)}
+@media(max-width:900px){.ftg{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.hero{flex-direction:column}.hr{display:none}.ftg{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cur-dot"></div>
+<div id="cur-outer"></div>
+<div id="cur-trail"></div>
+
+<!-- DrawSVG background circuit lines -->
+<svg id="svg-bg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9333ea" stop-opacity=".8"/>
+      <stop offset="100%" stop-color="#ec4899" stop-opacity=".4"/>
+    </linearGradient>
+    <linearGradient id="lg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06b6d4" stop-opacity=".7"/>
+      <stop offset="100%" stop-color="#6366f1" stop-opacity=".3"/>
+    </linearGradient>
+  </defs>
+  <path id="sp1" d="M-100,450 Q200,200 400,350 T800,200 T1200,350 T1600,250" fill="none" stroke="url(#lg1)" stroke-width="1.5"/>
+  <path id="sp2" d="M0,700 Q300,500 500,600 T900,400 T1300,550 T1600,400" fill="none" stroke="url(#lg2)" stroke-width="1"/>
+  <path id="sp3" d="M200,0 Q400,300 300,500 T350,750 T500,900" fill="none" stroke="url(#lg1)" stroke-width=".8" opacity=".6"/>
+  <path id="sp4" d="M1200,0 Q1100,250 1150,450 T1050,700 T1200,900" fill="none" stroke="url(#lg2)" stroke-width=".8" opacity=".6"/>
+  <!-- grid dots -->
+  <g fill="rgba(147,51,234,.3)">
+    <circle cx="200" cy="200" r="2"/><circle cx="500" cy="150" r="2"/>
+    <circle cx="800" cy="250" r="2"/><circle cx="1100" cy="180" r="2"/>
+    <circle cx="350" cy="500" r="2"/><circle cx="650" cy="450" r="2"/>
+    <circle cx="950" cy="500" r="2"/><circle cx="1250" cy="450" r="2"/>
+    <circle cx="200" cy="700" r="2"/><circle cx="550" cy="750" r="2"/>
+    <circle cx="850" cy="700" r="2"/><circle cx="1150" cy="750" r="2"/>
+  </g>
+  <!-- horizontal lines animated -->
+  <line id="hl1" x1="0" y1="300" x2="1440" y2="300" stroke="rgba(147,51,234,.08)" stroke-width="1"/>
+  <line id="hl2" x1="0" y1="600" x2="1440" y2="600" stroke="rgba(6,182,212,.06)" stroke-width="1"/>
+</svg>
+
+<!-- ScrollSmoother wrapper -->
+<div id="smooth-wrapper">
+<div id="smooth-content">
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="logo-w"><div class="lmk">T</div><span class="lt">Titanlar</span></a>
+  <ul class="nl">
+    <li><a href="#hizmetler" data-scramble="Hizmetler">Hizmetler</a></li>
+    <li><a href="#basari" data-scramble="Basarilar">Basarilar</a></li>
+    <li><a href="#egitim" data-scramble="Egitim">Egitim</a></li>
+    <li><a href="#testi" data-scramble="Referanslar">Referanslar</a></li>
+    <li><a href="#cta" data-scramble="Iletisim">Iletisim</a></li>
+  </ul>
+  <div style="display:flex;gap:.55rem">
+    <a href="#" class="btn bg" style="padding:8px 18px;font-size:.82rem">Giris Yap</a>
+    <a href="#cta" class="btn bp" style="padding:9px 20px;font-size:.82rem">Ucretsiz Dene <i class="ph ph-sparkle"></i></a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero" data-speed=".8">
+  <div class="hl">
+    <div class="eyebr" id="eyebr">Turkiye'nin #1 Danismanlik Platformu</div>
+    <h1 class="ht" id="ht">
+      <span class="line-wrap"><span id="ht-l1">Kariyerini</span></span>
+      <span class="line-wrap"><span id="ht-l2" class="grad">Titanlar</span><span id="ht-l3" style="display:inline-block"> ile</span></span>
+      <span class="line-wrap"><span id="ht-l4">Sekillendir</span></span>
+    </h1>
+    <p class="hdesc" id="hdesc">Z kusaginin dinamizmi ile enterprise metodolojileri birlestiriyoruz. Danismanlik, egitim ve stratejik yonetimde tek adres.</p>
+    <div class="brow" id="brow">
+      <a href="#cta" class="btn bp" id="btn1"><i class="ph ph-calendar-check"></i> Ucretsiz Gorusme</a>
+      <a href="#egitim" class="btn bg" id="btn2"><i class="ph ph-graduation-cap"></i> Programlari Incele</a>
+    </div>
+    <div class="trust" id="trust">
+      <div class="ti"><i class="ph-fill ph-seal-check" style="color:#10b981"></i><strong>500+</strong>&nbsp;Musteri</div>
+      <div class="ti"><i class="ph-fill ph-seal-check" style="color:#9333ea"></i><strong>%94</strong>&nbsp;Basari</div>
+      <div class="ti"><i class="ph-fill ph-seal-check" style="color:#ec4899"></i><strong>14 Yil</strong>&nbsp;Deneyim</div>
+      <div class="ti"><i class="ph-fill ph-seal-check" style="color:#f59e0b"></i><strong>NPS 82</strong></div>
+    </div>
+  </div>
+  <div class="hr">
+    <div class="orbit-scene" id="orbit">
+      <div class="orbit-core">
+        <div class="core-card">
+          <div style="font-size:1.8rem;margin-bottom:.5rem;filter:drop-shadow(0 0 10px rgba(147,51,234,.8))"><i class="ph-fill ph-trophy"></i></div>
+          <div class="core-val" id="core-num">500+</div>
+          <div style="font-size:.72rem;color:var(--mut);font-weight:700;margin-top:.3rem">Mutlu Musteri</div>
+        </div>
+      </div>
+      <div class="orbit-ring r1"></div>
+      <div class="orbit-ring r2"></div>
+      <div class="orbit-ring r3"></div>
+      <!-- MotionPath satellites (SVG-based) -->
+      <svg id="orbit-svg" style="position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none">
+        <path id="op1" d="M230,0 A230,230 0 1,1 229.99,0" fill="none"/>
+        <path id="op2" d="M155,0 A155,155 0 1,1 154.99,0" fill="none"/>
+        <path id="op3" d="M100,0 A100,100 0 1,1 99.99,0" fill="none"/>
+        <!-- satellites as foreignObject icons -->
+      </svg>
+      <!-- Satellite divs that follow motion paths -->
+      <div class="orbit-sat" id="sat1" style="background:linear-gradient(135deg,#9333ea,#a855f7);box-shadow:0 0 18px rgba(147,51,234,.7)"><i class="ph ph-lightning" style="color:#fff"></i></div>
+      <div class="orbit-sat" id="sat2" style="background:linear-gradient(135deg,#ec4899,#f472b6);box-shadow:0 0 18px rgba(236,72,153,.7)"><i class="ph ph-chart-line-up" style="color:#fff"></i></div>
+      <div class="orbit-sat" id="sat3" style="background:linear-gradient(135deg,#06b6d4,#22d3ee);box-shadow:0 0 18px rgba(6,182,212,.7)"><i class="ph ph-rocket-launch" style="color:#fff"></i></div>
+    </div>
+  </div>
+</section>
+
+<!-- DUAL MARQUEE -->
+<div class="mqs" data-speed=".95">
+  <div class="mq-t mq-f" id="mq1">
+    <span class="mqi"><i class="ph ph-compass" style="color:#9333ea"></i>Stratejik Yonetim<span class="mq-dot"></span></span>
+    <span class="mqi"><i class="ph ph-lightning" style="color:#06b6d4"></i>Dijital Donusum<span class="mq-dot"></span></span>
+    <span class="mqi"><i class="ph ph-storefront" style="color:#ec4899"></i>E-Ticaret<span class="mq-dot"></span></span>
+    <span class="mqi"><i class="ph ph-airplane-tilt" style="color:#10b981"></i>E-Ihracat<span class="mq-dot"></span></span>
+    <span class="mqi"><i class="ph ph-kanban" style="color:#f59e0b"></i>Proje Yonetimi<span class="mq-dot"></span></span>
+    <span class="mqi"><i class="ph ph-robot" style="color:#9333ea"></i>Yapay Zeka<span class="mq-dot"></span></span>
+    <span class="mqi"><i class="ph ph-code" style="color:#ec4899"></i>Yazilim<span class="mq-dot"></span></span>
+    <span class="mqi"><i class="ph ph-users" style="color:#06b6d4"></i>Mentorluk<span class="mq-dot"></span></span>
+    <span class="mqi"><i class="ph ph-compass" style="color:#9333ea"></i>Stratejik Yonetim<span class="mq-dot"></span></span>
+    <span class="mqi"><i class="ph ph-lightning" style="color:#06b6d4"></i>Dijital Donusum<span class="mq-dot"></span></span>
+    <span class="mqi"><i class="ph ph-storefront" style="color:#ec4899"></i>E-Ticaret<span class="mq-dot"></span></span>
+    <span class="mqi"><i class="ph ph-airplane-tilt" style="color:#10b981"></i>E-Ihracat<span class="mq-dot"></span></span>
+    <span class="mqi"><i class="ph ph-kanban" style="color:#f59e0b"></i>Proje Yonetimi<span class="mq-dot"></span></span>
+    <span class="mqi"><i class="ph ph-robot" style="color:#9333ea"></i>Yapay Zeka<span class="mq-dot"></span></span>
+    <span class="mqi"><i class="ph ph-code" style="color:#ec4899"></i>Yazilim<span class="mq-dot"></span></span>
+    <span class="mqi"><i class="ph ph-users" style="color:#06b6d4"></i>Mentorluk<span class="mq-dot"></span></span>
+  </div>
+  <div class="mq-t mq-r" id="mq2">
+    <span class="mqi"><i class="ph ph-certificate" style="color:#9333ea"></i>Sertifika Prog.<span class="mq-dot"></span></span>
+    <span class="mqi"><i class="ph ph-buildings" style="color:#ec4899"></i>Kurumsal Egitim<span class="mq-dot"></span></span>
+    <span class="mqi"><i class="ph ph-globe" style="color:#06b6d4"></i>Global Ihracat<span class="mq-dot"></span></span>
+    <span class="mqi"><i class="ph ph-chart-bar" style="color:#10b981"></i>Veri Analizleri<span class="mq-dot"></span></span>
+    <span class="mqi"><i class="ph ph-lightbulb" style="color:#f59e0b"></i>Startup Ekosistemi<span class="mq-dot"></span></span>
+    <span class="mqi"><i class="ph ph-star-four" style="color:#9333ea"></i>Enterprise<span class="mq-dot"></span></span>
+    <span class="mqi"><i class="ph ph-certificate" style="color:#9333ea"></i>Sertifika Prog.<span class="mq-dot"></span></span>
+    <span class="mqi"><i class="ph ph-buildings" style="color:#ec4899"></i>Kurumsal Egitim<span class="mq-dot"></span></span>
+    <span class="mqi"><i class="ph ph-globe" style="color:#06b6d4"></i>Global Ihracat<span class="mq-dot"></span></span>
+    <span class="mqi"><i class="ph ph-chart-bar" style="color:#10b981"></i>Veri Analizleri<span class="mq-dot"></span></span>
+    <span class="mqi"><i class="ph ph-lightbulb" style="color:#f59e0b"></i>Startup Ekosistemi<span class="mq-dot"></span></span>
+    <span class="mqi"><i class="ph ph-star-four" style="color:#9333ea"></i>Enterprise<span class="mq-dot"></span></span>
+  </div>
+</div>
+
+<!-- SERVICES w/ FLIP FILTER -->
+<section class="services" id="hizmetler">
+  <div class="container">
+    <div class="s-head" style="text-align:center;margin-bottom:5rem">
+      <p class="eyebr" style="justify-content:center">Hizmetlerimiz</p>
+      <h2 id="sh1" style="font-size:clamp(2.4rem,5vw,4rem);font-weight:900;margin-bottom:.9rem">Butunsel <span class="grad">Cozum</span> Ekosistemi</h2>
+      <p style="color:var(--txt2);max-width:500px;margin:0 auto;line-height:1.8">Stratejiden sahaya, vizyondan olculebilir sonuclara.</p>
+    </div>
+    <!-- Flip filter tabs -->
+    <div class="filter-tabs" id="ftabs">
+      <button class="ftab on" data-filter="all">Tumunu Goster</button>
+      <button class="ftab" data-filter="strateji">Strateji</button>
+      <button class="ftab" data-filter="dijital">Dijital</button>
+      <button class="ftab" data-filter="egitim">Egitim</button>
+      <button class="ftab" data-filter="yazilim">Yazilim</button>
+    </div>
+    <div class="card-grid" id="sgrid">
+      <div class="scard" data-cat="strateji"><div class="scard-scan"></div>
+        <i class="ph ph-compass icon" style="color:#a78bfa;--ic-c:rgba(167,139,250,.9)"></i>
+        <h3>Stratejik Yonetim</h3>
+        <p>OKR kaskadi, BSC, stratejik planlama atolyeleri ve yonetim kurulu destegi.</p>
+        <div class="tags"><span class="pill pp">OKR</span><span class="pill pp">BSC</span><span class="pill pp">C-Level</span></div>
+      </div>
+      <div class="scard" data-cat="dijital"><div class="scard-scan" style="--sc-del:.5s"></div>
+        <i class="ph ph-lightning icon" style="color:#22d3ee;--ic-c:rgba(34,211,238,.9)"></i>
+        <h3>Dijital Donusum</h3>
+        <p>ERP, CRM, AI otomasyon. %40 maliyet azalmasi, 3x karar hizi artisi.</p>
+        <div class="tags"><span class="pill pc">ERP</span><span class="pill pc">AI/ML</span><span class="pill pc">CRM</span></div>
+      </div>
+      <div class="scard" data-cat="yazilim"><div class="scard-scan" style="--sc-del:1s"></div>
+        <i class="ph ph-code icon" style="color:#4ade80;--ic-c:rgba(74,222,128,.9)"></i>
+        <h3>Yazilim Danismanligi</h3>
+        <p>Mimari tasarim, DevOps pipeline ve guvenlik denetimi hizmetleri.</p>
+        <div class="tags"><span class="pill pm">DevOps</span><span class="pill pm">Cloud</span><span class="pill pm">Security</span></div>
+      </div>
+      <div class="scard" data-cat="strateji"><div class="scard-scan" style="--sc-del:.3s"></div>
+        <i class="ph ph-users icon" style="color:#f472b6;--ic-c:rgba(244,114,182,.9)"></i>
+        <h3>Mentorluk ve Kocluk</h3>
+        <p>ICF onayli koclar, 360 geri bildirim, liderlik gelisimi programlari.</p>
+        <div class="tags"><span class="pill pk">ICF</span><span class="pill pk">360</span></div>
+      </div>
+      <div class="scard" data-cat="dijital"><div class="scard-scan" style="--sc-del:.8s"></div>
+        <i class="ph ph-robot icon" style="color:#a78bfa;--ic-c:rgba(167,139,250,.9)"></i>
+        <h3>AI Danismanligi</h3>
+        <p>LangChain, n8n, Custom GPT entegrasyonu ile sureclerinizi otomatize edin.</p>
+        <div class="tags"><span class="pill pp">LLM</span><span class="pill pp">Automation</span></div>
+      </div>
+      <div class="scard" data-cat="egitim"><div class="scard-scan" style="--sc-del:.6s"></div>
+        <i class="ph ph-kanban icon" style="color:#fbbf24;--ic-c:rgba(251,191,36,.9)"></i>
+        <h3>Proje Yonetimi</h3>
+        <p>Agile, Scrum, SAFe metodolojileri ile proje basarinizi optimize edin.</p>
+        <div class="tags"><span class="pill pg">Scrum</span><span class="pill pg">SAFe</span><span class="pill pg">PMO</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-sec" id="basari">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:4rem">
+      <p class="eyebr" style="justify-content:center">Rakamlarla</p>
+      <h2 id="sh2" style="font-size:clamp(2.4rem,5vw,4rem);font-weight:900">Kanitlanmis <span class="grad">Sonuclar</span></h2>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-c" id="sc1">
+        <svg class="stat-ring-svg" viewBox="0 0 200 200"><circle cx="100" cy="100" r="80" fill="none" stroke="rgba(147,51,234,.5)" stroke-width="1" id="sr1" stroke-dasharray="502" stroke-dashoffset="502" stroke-linecap="round"/></svg>
+        <div class="stat-n grad" id="sn1">0</div>
+        <div class="stat-l">Mutlu Musteri</div>
+      </div>
+      <div class="stat-c" id="sc2">
+        <svg class="stat-ring-svg" viewBox="0 0 200 200"><circle cx="100" cy="100" r="80" fill="none" stroke="rgba(236,72,153,.5)" stroke-width="1" id="sr2" stroke-dasharray="502" stroke-dashoffset="502" stroke-linecap="round"/></svg>
+        <div class="stat-n" id="sn2" style="background:var(--grd);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">0</div>
+        <div class="stat-l">Yillik Deneyim</div>
+      </div>
+      <div class="stat-c" id="sc3">
+        <svg class="stat-ring-svg" viewBox="0 0 200 200"><circle cx="100" cy="100" r="80" fill="none" stroke="rgba(6,182,212,.5)" stroke-width="1" id="sr3" stroke-dasharray="502" stroke-dashoffset="502" stroke-linecap="round"/></svg>
+        <div class="stat-n" id="sn3" style="background:var(--grd2);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">0</div>
+        <div class="stat-l">Basari Orani</div>
+      </div>
+      <div class="stat-c" id="sc4">
+        <svg class="stat-ring-svg" viewBox="0 0 200 200"><circle cx="100" cy="100" r="80" fill="none" stroke="rgba(245,158,11,.5)" stroke-width="1" id="sr4" stroke-dasharray="502" stroke-dashoffset="502" stroke-linecap="round"/></svg>
+        <div class="stat-n" id="sn4" style="background:linear-gradient(135deg,#f59e0b,#fbbf24);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">0</div>
+        <div class="stat-l">NPS Skoru</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAMS -->
+<section class="prog-sec" id="egitim">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:5rem">
+      <p class="eyebr" style="justify-content:center">Egitim Programlari</p>
+      <h2 id="sh3" style="font-size:clamp(2.4rem,5vw,4rem);font-weight:900;margin-bottom:.9rem">Gelecegi <span class="grad2">Insa Eden</span> Programlar</h2>
+      <p style="color:var(--txt2);max-width:500px;margin:0 auto;line-height:1.8">Her birinde yasayan, evrimlesip buyuyen ustalasma sureclerini yasatin.</p>
+    </div>
+    <div class="pgrid">
+      <div class="pgcard" data-speed="1.05" style="--pt:linear-gradient(135deg,#ec4899,#f43f5e);--pb:rgba(236,72,153,.35);--pg:rgba(236,72,153,.06);--ic-c:rgba(236,72,153,.9)">
+        <div class="pgcard-spin"></div>
+        <i class="ph ph-storefront picon" style="color:#ec4899"></i>
+        <h3>E-Ticaret Egitimi</h3>
+        <p>Shopify'dan WooCommerce'e, dropshipping'den D2C marka kurmaya. Basindan sonuna e-ticaret yonetimi.</p>
+        <div class="tags" style="margin-bottom:1.3rem"><span class="pill pk">Shopify</span><span class="pill pk">D2C</span><span class="pill pk">ROAS</span></div>
+        <a href="#cta" class="btn bp" style="width:100%;justify-content:center">Programa Katil <i class="ph ph-arrow-right"></i></a>
+      </div>
+      <div class="pgcard" data-speed=".97" style="--pt:linear-gradient(135deg,#06b6d4,#6366f1);--pb:rgba(6,182,212,.35);--pg:rgba(6,182,212,.05);--ic-c:rgba(6,182,212,.9)">
+        <div class="pgcard-spin"></div>
+        <i class="ph ph-airplane-tilt picon" style="color:#06b6d4"></i>
+        <h3>E-Ihracat Uzmanligi</h3>
+        <p>Amazon FBA, Etsy Global. Gumrukleme, global lojistik ve cross-border odeme yonetimi.</p>
+        <div class="tags" style="margin-bottom:1.3rem"><span class="pill pc">Amazon FBA</span><span class="pill pc">Etsy</span><span class="pill pc">Global</span></div>
+        <a href="#cta" class="btn bg" style="width:100%;justify-content:center">Programa Katil <i class="ph ph-arrow-right"></i></a>
+      </div>
+      <div class="pgcard" data-speed="1.02" style="--pt:linear-gradient(135deg,#f59e0b,#ef4444);--pb:rgba(245,158,11,.35);--pg:rgba(245,158,11,.04);--ic-c:rgba(245,158,11,.9)">
+        <div class="pgcard-spin"></div>
+        <i class="ph ph-kanban picon" style="color:#f59e0b"></i>
+        <h3>Proje Yonetimi Egitimi</h3>
+        <p>PMP, Scrum Master sertifikasyonu. Jira, Monday ile gercek proje yonetim metodolojileri.</p>
+        <div class="tags" style="margin-bottom:1.3rem"><span class="pill pg">PMP</span><span class="pill pg">Scrum</span><span class="pill pg">SAFe</span></div>
+        <a href="#cta" class="btn bg" style="width:100%;justify-content:center">Programa Katil <i class="ph ph-arrow-right"></i></a>
+      </div>
+      <div class="pgcard" data-speed="1.0" style="--pt:linear-gradient(135deg,#9333ea,#a855f7);--pb:rgba(147,51,234,.35);--pg:rgba(147,51,234,.06);--ic-c:rgba(147,51,234,.9)">
+        <div class="pgcard-spin"></div>
+        <i class="ph ph-robot picon" style="color:#9333ea"></i>
+        <h3>Yapay Zeka Atelyeleri</h3>
+        <p>ChatGPT, Midjourney, n8n ile uretkenligi katla. AI araclariyla is sureclerini otomatize et.</p>
+        <div class="tags" style="margin-bottom:1.3rem"><span class="pill pp">ChatGPT</span><span class="pill pp">n8n</span><span class="pill pp">AI</span></div>
+        <a href="#cta" class="btn bg" style="width:100%;justify-content:center">Programa Katil <i class="ph ph-arrow-right"></i></a>
+      </div>
+      <div class="pgcard" data-speed="1.04" style="--pt:linear-gradient(135deg,#10b981,#06b6d4);--pb:rgba(16,185,129,.35);--pg:rgba(16,185,129,.05);--ic-c:rgba(16,185,129,.9)">
+        <div class="pgcard-spin"></div>
+        <i class="ph ph-users picon" style="color:#10b981"></i>
+        <h3>Mentorluk Programi</h3>
+        <p>Birebir kariyer koclugu, 360 geri bildirim. ICF onayli koclarla aylik 4 seans.</p>
+        <div class="tags" style="margin-bottom:1.3rem"><span class="pill pm">1-1 Kocluk</span><span class="pill pm">ICF</span></div>
+        <a href="#cta" class="btn bg" style="width:100%;justify-content:center">Basvur <i class="ph ph-arrow-right"></i></a>
+      </div>
+      <div class="pgcard" data-speed=".98" style="--pt:linear-gradient(135deg,#f43f5e,#ec4899);--pb:rgba(244,63,94,.35);--pg:rgba(244,63,94,.04);--ic-c:rgba(244,63,94,.9)">
+        <div class="pgcard-spin"></div>
+        <i class="ph ph-lightbulb picon" style="color:#f43f5e"></i>
+        <h3>Girisimcilik Bootcamp</h3>
+        <p>MVP gelistirme, yatirimci sunumu ve startup networking. 12 haftalik yogun program.</p>
+        <div class="tags" style="margin-bottom:1.3rem"><span class="pill pk">MVP</span><span class="pill pk">Pitch</span></div>
+        <a href="#cta" class="btn bg" style="width:100%;justify-content:center">Bootcampe Katil <i class="ph ph-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DRAGGABLE TESTIMONIALS -->
+<section class="testi-sec" id="testi">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:3rem">
+      <p class="eyebr" style="justify-content:center">Basari Hikayeleri</p>
+      <h2 id="sh4" style="font-size:clamp(2.4rem,5vw,4rem);font-weight:900">Titanlarin <span class="grad">Sesine</span> Kulak Ver</h2>
+    </div>
+    <div class="drag-hint" id="drag-hint"><i class="ph ph-hand-grabbing"></i> Surukleyerek gezin</div>
+    <div class="tcarousel">
+      <div class="ttrack" id="ttrack">
+        <div class="tcard">
+          <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
+          <p class="quote">E-ticaret hacmimizi 3 ayda 4 katina cikardik. Veri odakli yaklasimlar gercekten ilham verici ve sonuc odakli calisiyorlar.</p>
+          <div class="ta"><div class="av" style="background:linear-gradient(135deg,#9333ea,#ec4899)">SY</div><div><div style="font-weight:700;font-size:.9rem">Selin Yilmaz</div><div style="font-size:.76rem;color:var(--mut)">Kurucu, PureBeauty</div></div></div>
+        </div>
+        <div class="tcard">
+          <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
+          <p class="quote">Dijital donusum surecimizde essis bir rehber oldular. AI entegrasyonu ile verimliligi %60 arttirdik.</p>
+          <div class="ta"><div class="av" style="background:linear-gradient(135deg,#06b6d4,#6366f1)">MA</div><div><div style="font-weight:700;font-size:.9rem">Merve Aksoy</div><div style="font-size:.76rem;color:var(--mut)">COO, TechSolutions AS</div></div></div>
+        </div>
+        <div class="tcard">
+          <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
+          <p class="quote">Mentorluk programi kariyerimin donum noktasi oldu. Amazon'da ilk 6 ayda 200K TL ciro elde ettim.</p>
+          <div class="ta"><div class="av" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">ED</div><div><div style="font-weight:700;font-size:.9rem">Ece Demir</div><div style="font-size:.76rem;color:var(--mut)">E-Ihracat Girisimcisi</div></div></div>
+        </div>
+        <div class="tcard">
+          <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
+          <p class="quote">Strateji atolyesi sonrasinda sirketimizin 3 yillik yol haritasini olusturup tum ekibe sunabilecek hale geldim.</p>
+          <div class="ta"><div class="av" style="background:linear-gradient(135deg,#10b981,#06b6d4)">AK</div><div><div style="font-weight:700;font-size:.9rem">Ayse Kara</div><div style="font-size:.76rem;color:var(--mut)">CEO, InnovateTR</div></div></div>
+        </div>
+        <div class="tcard">
+          <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
+          <p class="quote">E-ihracat programi sayesinde Avrupa pazarinda 3 farkli markam var. Titanlar olmasa bunlari basaramazdim.</p>
+          <div class="ta"><div class="av" style="background:linear-gradient(135deg,#f43f5e,#ec4899)">ZO</div><div><div style="font-weight:700;font-size:.9rem">Zeynep Ozturk</div><div style="font-size:.76rem;color:var(--mut)">Global Girişimci</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec" id="cta">
+  <div class="container">
+    <div class="ctabox">
+      <div class="cta-bg"></div>
+      <div class="cta-grid"></div>
+      <div class="cta-orb" style="width:350px;height:350px;background:radial-gradient(circle,rgba(147,51,234,.55),transparent 70%);top:-120px;left:-80px"></div>
+      <div class="cta-orb" style="width:300px;height:300px;background:radial-gradient(circle,rgba(236,72,153,.4),transparent 70%);bottom:-100px;right:-60px;animation-delay:3s"></div>
+      <h2 id="cta-h" style="position:relative;z-index:1">Gelecegi Sekillendirmeye<br>Hazir misin?</h2>
+      <p style="position:relative;z-index:1">Titanlar topluluuguna katil. Ilk gorusme tamamen ucretsiz.</p>
+      <form class="erow" onsubmit="return false">
+        <input type="email" placeholder="E-posta adresin..."/>
+        <button class="btn bp" style="border-radius:100px;padding:10px 22px">Baslayalim <i class="ph ph-arrow-right"></i></button>
+      </form>
+      <div class="tpills">
+        <span class="tpill"><i class="ph ph-lock-simple"></i>Kredi karti gerekmez</span>
+        <span class="tpill"><i class="ph ph-clock"></i>48 saat icinde yanit</span>
+        <span class="tpill"><i class="ph ph-shield-check"></i>KVKK uyumlu</span>
+        <span class="tpill"><i class="ph ph-star"></i>4.9 / 5.0</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="ftg">
+      <div>
+        <div class="logo-w" style="margin-bottom:1rem"><div class="lmk" style="width:40px;height:40px;font-size:1rem">T</div><span class="lt" style="font-size:1.3rem">Titanlar</span></div>
+        <p class="ftd">Z kusaginin dinamizmi ile enterprise standartlarini birlestiren Turkiye'nin lider danismanlik ve egitim platformu.</p>
+        <div class="socs">
+          <a href="#" class="soc"><i class="ph ph-instagram-logo"></i></a>
+          <a href="#" class="soc"><i class="ph ph-linkedin-logo"></i></a>
+          <a href="#" class="soc"><i class="ph ph-twitter-logo"></i></a>
+          <a href="#" class="soc"><i class="ph ph-youtube-logo"></i></a>
+          <a href="#" class="soc"><i class="ph ph-tiktok-logo"></i></a>
+        </div>
+      </div>
+      <div>
+        <div class="fth">Hizmetler</div>
+        <ul class="ftl">
+          <li><a href="#hizmetler">Stratejik Danismanlik</a></li>
+          <li><a href="#hizmetler">Dijital Donusum</a></li>
+          <li><a href="#hizmetler">Yazilim Danismanligi</a></li>
+          <li><a href="#hizmetler">Proje Yonetimi</a></li>
+          <li><a href="#hizmetler">AI Danismanligi</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="fth">Egitim</div>
+        <ul class="ftl">
+          <li><a href="#egitim">E-Ticaret</a></li>
+          <li><a href="#egitim">E-Ihracat</a></li>
+          <li><a href="#egitim">Proje Yonetimi Egit.</a></li>
+          <li><a href="#egitim">AI Atelyeleri</a></li>
+          <li><a href="#egitim">Girisimcilik</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="fth">Bulten</div>
+        <p style="font-size:.82rem;color:var(--mut);margin-bottom:.75rem;line-height:1.6">Haftalik strateji ve sektor icgoruleri.</p>
+        <div style="display:flex;border:1px solid var(--gb2);border-radius:12px;overflow:hidden;background:var(--g1);margin-bottom:.65rem">
+          <input type="email" style="flex:1;padding:.65rem 1rem;background:transparent;border:none;color:var(--txt);font-family:'Urbanist',sans-serif;font-size:.85rem;outline:none" placeholder="e-posta..."/>
+          <button style="padding:.65rem 1.1rem;background:var(--grd);border:none;color:#fff;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.78rem;cursor:none">Abone Ol</button>
+        </div>
+        <p style="font-size:.7rem;color:rgba(241,236,255,.28);display:flex;align-items:center;gap:.3rem"><i class="ph ph-lock-simple"></i>Spam yok.</p>
+      </div>
+    </div>
+    <div class="ftbot">
+      <div class="ftcopy">2026 <strong style="color:rgba(241,236,255,.4)">Titanlar.com</strong> — Tum haklar saklidir.</div>
+      <div class="ftll"><a href="#">Gizlilik</a><a href="#">Kullanim Sartlari</a><a href="#">KVKK</a><a href="#">Cerez</a></div>
+    </div>
+  </div>
+</footer>
+
+</div><!-- smooth-content -->
+</div><!-- smooth-wrapper -->
+
+<script>
+/* ═══════════════════════════════════════════════════
+   GSAP PLUGIN REGISTRATION — ALL PLUGINS
+═══════════════════════════════════════════════════ */
+gsap.registerPlugin(
+  ScrollTrigger, ScrollSmoother, SplitText, ScrambleTextPlugin,
+  DrawSVGPlugin, MotionPathPlugin, CustomEase, CustomBounce,
+  Physics2DPlugin, Draggable, InertiaPlugin, Flip,
+  Observer, EasePack, TextPlugin
+);
+
+/* CustomEase definitions */
+CustomEase.create("titanEase","M0,0 C0.126,0.382 0.282,0.674 0.44,0.822 0.632,1.002 0.818,1.001 1,1");
+CustomEase.create("titanBounce","M0,0 C0.14,0 0.242,0.438 0.272,0.561 0.313,0.728 0.354,0.963 0.362,1 0.37,0.985 0.414,0.936 0.44,0.929 0.518,0.906 0.573,0.95 0.607,0.983 0.652,1.024 0.702,1.064 0.718,1.036 0.796,0.996 0.838,0.985 0.874,0.984 0.906,0.984 0.962,0.99 1,1");
+CustomEase.create("slideIn","M0,0 C0.175,0 0.3,0.1 0.5,0.6 0.7,1.1 0.8,1.0 1,1");
+
+/* ═══════════════════════════════════════════════════
+   SCROLL SMOOTHER — buttery smooth parallax
+═══════════════════════════════════════════════════ */
+const smoother = ScrollSmoother.create({
+  wrapper: '#smooth-wrapper',
+  content: '#smooth-content',
+  smooth: 1.6,
+  smoothTouch: 0.1,
+  effects: true,
+  normalizeScroll: false,
+});
+
+/* ═══════════════════════════════════════════════════
+   CURSOR — triple layer (dot + ring + trail)
+═══════════════════════════════════════════════════ */
+const dot = document.getElementById('cur-dot');
+const ring = document.getElementById('cur-outer');
+const trail = document.getElementById('cur-trail');
+let mx=0,my=0,rx=0,ry=0,tx=0,ty=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  gsap.to(dot,{x:mx-4,y:my-4,duration:.06,ease:'none'});
+});
+(function lerpRingTrail(){
+  rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
+  tx+=(mx-tx)*.05; ty+=(my-ty)*.05;
+  gsap.set(ring,{x:rx-20,y:ry-20});
+  gsap.set(trail,{x:tx-140,y:ty-140});
+  requestAnimationFrame(lerpRingTrail);
+})();
+document.querySelectorAll('a,button,.scard,.pgcard,.tcard,.stat-c,.btn').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
+});
+/* show cursor on first move */
+document.addEventListener('mousemove',()=>{ ring.style.opacity='1'; trail.style.opacity='1'; },{once:true});
+ring.style.opacity='0'; trail.style.opacity='0';
+ring.style.transition='opacity .3s';trail.style.transition='opacity .3s';
+
+/* ═══════════════════════════════════════════════════
+   NAV SCROLL
+═══════════════════════════════════════════════════ */
+ScrollTrigger.create({
+  start:'top -60',
+  onUpdate(self){ document.getElementById('nav').classList.toggle('sc',self.scroll()>60); }
+});
+
+/* ═══════════════════════════════════════════════════
+   NAV SCRAMBLE TEXT on hover
+═══════════════════════════════════════════════════ */
+document.querySelectorAll('[data-scramble]').forEach(el=>{
+  const orig = el.getAttribute('data-scramble');
+  el.addEventListener('mouseenter',()=>{
+    gsap.to(el,{duration:.6,scrambleText:{text:orig,chars:'ABEGILMNRSTU',revealDelay:.1,speed:0.7,newClass:'scramble'},ease:'none'});
+  });
+});
+
+/* ═══════════════════════════════════════════════════
+   DRAWSVG — circuit lines drawing in
+═══════════════════════════════════════════════════ */
+gsap.set(['#sp1','#sp2','#sp3','#sp4'],{drawSVG:'0%'});
+const svgTL = gsap.timeline({
+  scrollTrigger:{trigger:'#hero',start:'top center',end:'bottom top',scrub:1.5}
+});
+svgTL
+  .to('#sp1',{drawSVG:'0% 100%',duration:2,ease:'power2.inOut'})
+  .to('#sp2',{drawSVG:'0% 100%',duration:2.5,ease:'power2.inOut'},'-=1.8')
+  .to('#sp3',{drawSVG:'0% 100%',duration:1.8,ease:'power2.inOut'},'-=2.2')
+  .to('#sp4',{drawSVG:'0% 100%',duration:2,ease:'power2.inOut'},'-=1.5');
+/* DrawSVG stat rings on scroll */
+const ringTargets=[{el:'#sr1',clr:'rgba(147,51,234,.9)'},{el:'#sr2',clr:'rgba(236,72,153,.9)'},{el:'#sr3',clr:'rgba(6,182,212,.9)'},{el:'#sr4',clr:'rgba(245,158,11,.9)'}];
+ringTargets.forEach((r,i)=>{
+  gsap.set(r.el,{drawSVG:'0%',stroke:r.clr});
+  ScrollTrigger.create({trigger:'#basari',start:'top 80%',once:true,onEnter:()=>{
+    gsap.to(r.el,{drawSVG:'0% 100%',duration:2.2,ease:'power2.inOut',delay:i*.15});
+  }});
+});
+
+/* ═══════════════════════════════════════════════════
+   HERO — SplitText char animation
+═══════════════════════════════════════════════════ */
+const lines=['#ht-l1','#ht-l3','#ht-l4'];
+const splitChars=[];
+lines.forEach(sel=>{
+  const el=document.querySelector(sel);
+  if(!el)return;
+  const sp=new SplitText(el,{type:'chars',charsClass:'char'});
+  splitChars.push(...sp.chars);
+});
+/* Hero brand with TextPlugin type-in */
+const htBrand=document.getElementById('ht-l2');
+htBrand.style.opacity='0';
+const heroTL=gsap.timeline({delay:.2});
+heroTL
+  .from('#eyebr',{y:28,opacity:0,duration:.8,ease:'titanEase'})
+  .from(splitChars,{
+    y:80,opacity:0,rotateX:-50,duration:.7,stagger:.025,
+    ease:'back.out(2)',transformOrigin:'50% 100%',transformPerspective:600
+  },'-=.5')
+  .to(htBrand,{opacity:1,duration:.3},'-=.3')
+  .from('#hdesc',{y:24,opacity:0,duration:.7,ease:'power3.out'},'-=.4')
+  .from('#brow > *',{y:18,opacity:0,duration:.55,stagger:.1,ease:'titanBounce'},'-=.4')
+  .from('#trust > *',{y:14,opacity:0,duration:.45,stagger:.07,ease:'power2.out'},'-=.35');
+
+/* ═══════════════════════════════════════════════════
+   MOTIONPATH — orbit satellites
+═══════════════════════════════════════════════════ */
+/* Get orbit scene center */
+const scene=document.getElementById('orbit');
+const cx=230,cy=230; // half of 460px
+/* outer orbit - sat1 */
+gsap.to('#sat1',{
+  duration:10,ease:'none',repeat:-1,
+  motionPath:{path:'#op1',align:'#op1',alignOrigin:[.5,.5],autoRotate:false,offsetX:cx,offsetY:cy}
+});
+gsap.to('#sat2',{
+  duration:16,ease:'none',repeat:-1,
+  motionPath:{path:'#op2',align:'#op2',alignOrigin:[.5,.5],autoRotate:false,offsetX:cx,offsetY:cy,start:.33}
+});
+gsap.to('#sat3',{
+  duration:7,ease:'none',repeat:-1,
+  motionPath:{path:'#op3',align:'#op3',alignOrigin:[.5,.5],autoRotate:false,offsetX:cx,offsetY:cy,start:.67}
+});
+/* core card oscillation */
+gsap.to('.core-card',{y:-18,duration:3.5,ease:'sine.inOut',yoyo:true,repeat:-1});
+/* 3D tilt orbit on hover */
+scene.addEventListener('mousemove',e=>{
+  const r=scene.getBoundingClientRect();
+  const dx=(e.clientX-r.left)/r.width-.5;
+  const dy=(e.clientY-r.top)/r.height-.5;
+  gsap.to(scene,{rotateY:dx*18,rotateX:-dy*18,duration:.5,ease:'power2.out',transformPerspective:900,transformStyle:'preserve-3d'});
+});
+scene.addEventListener('mouseleave',()=>gsap.to(scene,{rotateY:0,rotateX:0,duration:1,ease:'elastic.out(1,.5)'}));
+
+/* ═══════════════════════════════════════════════════
+   PHYSICS2D — click particle burst
+═══════════════════════════════════════════════════ */
+const ptColors=['#9333ea','#ec4899','#06b6d4','#10b981','#f59e0b','#f43f5e','#a855f7','#22d3ee'];
+document.addEventListener('click',e=>{
+  for(let i=0;i<14;i++){
+    const pt=document.createElement('div');
+    pt.className='phys-pt';
+    pt.style.cssText=`left:${e.clientX}px;top:${e.clientY}px;background:${ptColors[i%ptColors.length]};width:${6+Math.random()*8}px;height:${6+Math.random()*8}px`;
+    document.body.appendChild(pt);
+    gsap.to(pt,{
+      duration:1.2+Math.random()*.8,
+      physics2D:{velocity:200+Math.random()*300,angle:Math.random()*360,gravity:600+Math.random()*200,friction:.2},
+      opacity:0,scale:.1,
+      ease:'power2.in',
+      onComplete:()=>pt.remove()
+    });
+  }
+});
+
+/* ═══════════════════════════════════════════════════
+   MAGNETIC BUTTONS with physics feel
+═══════════════════════════════════════════════════ */
+document.querySelectorAll('.btn').forEach(btn=>{
+  btn.addEventListener('mousemove',e=>{
+    const r=btn.getBoundingClientRect();
+    const dx=e.clientX-(r.left+r.width/2);
+    const dy=e.clientY-(r.top+r.height/2);
+    gsap.to(btn,{x:dx*.28,y:dy*.28,duration:.4,ease:'power2.out'});
+  });
+  btn.addEventListener('mouseleave',()=>gsap.to(btn,{x:0,y:0,duration:1,ease:'elastic.out(1,.35)'}));
+});
+
+/* ═══════════════════════════════════════════════════
+   FLIP — service filter tabs
+═══════════════════════════════════════════════════ */
+const grid=document.getElementById('sgrid');
+document.querySelectorAll('.ftab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('on'));
+    tab.classList.add('on');
+    const filter=tab.dataset.filter;
+    const state=Flip.getState('.scard');
+    document.querySelectorAll('.scard').forEach(c=>{
+      const match=filter==='all'||c.dataset.cat===filter;
+      c.classList.toggle('hidden',!match);
+    });
+    Flip.from(state,{
+      duration:.6,ease:'titanEase',stagger:.045,
+      absolute:true,fade:true,
+      onEnter:els=>gsap.from(els,{opacity:0,scale:.85,duration:.5,ease:'back.out(1.6)'}),
+      onLeave:els=>gsap.to(els,{opacity:0,scale:.85,duration:.35})
+    });
+  });
+});
+
+/* ═══════════════════════════════════════════════════
+   3D TILT — cards
+═══════════════════════════════════════════════════ */
+function addTilt(sel,max=12,persp=700){
+  document.querySelectorAll(sel).forEach(el=>{
+    el.addEventListener('mousemove',e=>{
+      const r=el.getBoundingClientRect();
+      const dx=(e.clientX-r.left)/r.width-.5;
+      const dy=(e.clientY-r.top)/r.height-.5;
+      gsap.to(el,{rotateY:dx*max*2,rotateX:-dy*max*2,duration:.35,ease:'power2.out',transformPerspective:persp,transformStyle:'preserve-3d',z:12});
+    });
+    el.addEventListener('mouseleave',()=>gsap.to(el,{rotateY:0,rotateX:0,z:0,duration:.9,ease:'elastic.out(1,.4)'}));
+  });
+}
+addTilt('.scard',12,800);
+addTilt('.pgcard',10,750);
+addTilt('.stat-c',8,600);
+
+/* ═══════════════════════════════════════════════════
+   DRAGGABLE TESTIMONIALS + InertiaPlugin
+═══════════════════════════════════════════════════ */
+const track=document.getElementById('ttrack');
+Draggable.create(track,{
+  type:'x',
+  inertia:true,
+  edgeResistance:.85,
+  bounds:{minX:-(track.scrollWidth-window.innerWidth*1.1),maxX:0},
+  cursor:'grab',activeCursor:'grabbing',
+  onDragStart(){
+    document.body.classList.add('dragging');
+    document.querySelectorAll('.tcard').forEach(c=>c.classList.add('active-drag'));
+    gsap.to(track,{scale:.97,duration:.3,ease:'power2.out'});
+  },
+  onDragEnd(){
+    document.body.classList.remove('dragging');
+    document.querySelectorAll('.tcard').forEach(c=>c.classList.remove('active-drag'));
+    gsap.to(track,{scale:1,duration:.5,ease:'elastic.out(1,.5)'});
+  }
+});
+/* cards tilt while dragging */
+document.querySelectorAll('.tcard').forEach(c=>{
+  c.addEventListener('mousemove',e=>{
+    const r=c.getBoundingClientRect();
+    const dx=(e.clientX-r.left)/r.width-.5;
+    const dy=(e.clientY-r.top)/r.height-.5;
+    gsap.to(c,{rotateY:dx*10,rotateX:-dy*8,duration:.35,ease:'power2.out',transformPerspective:600});
+  });
+  c.addEventListener('mouseleave',()=>gsap.to(c,{rotateY:0,rotateX:0,duration:.8,ease:'elastic.out(1,.4)'}));
+});
+
+/* ═══════════════════════════════════════════════════
+   STATS — DrawSVG ring + odometer
+═══════════════════════════════════════════════════ */
+const stats=[
+  {id:'sn1',target:500,fmt:v=>Math.round(v)+'+'},
+  {id:'sn2',target:14, fmt:v=>Math.round(v)+' Yil'},
+  {id:'sn3',target:94, fmt:v=>'%'+Math.round(v)},
+  {id:'sn4',target:82, fmt:v=>'NPS '+Math.round(v)},
+];
+stats.forEach((s,i)=>{
+  let obj={n:0};
+  ScrollTrigger.create({trigger:'#basari',start:'top 82%',once:true,onEnter:()=>{
+    gsap.to(obj,{n:s.target,duration:2+i*.12,ease:'power2.out',delay:i*.1,
+      onUpdate(){document.getElementById(s.id).textContent=s.fmt(obj.n);}
+    });
+  }});
+});
+/* stat card reveal */
+gsap.from('.stat-c',{
+  opacity:0,y:48,scale:.88,rotateY:-12,transformPerspective:800,
+  duration:.8,ease:'titanBounce',stagger:.12,clearProps:'all',
+  scrollTrigger:{trigger:'#basari',start:'top 84%',toggleActions:'play none none reverse'}
+});
+/* stat card hover glow pulse */
+document.querySelectorAll('.stat-c').forEach((c,i)=>{
+  c.addEventListener('mouseenter',()=>{
+    gsap.to(c,{boxShadow:`0 0 50px ${['rgba(147,51,234,.3)','rgba(236,72,153,.3)','rgba(6,182,212,.3)','rgba(245,158,11,.3)'][i]},0 24px 60px rgba(0,0,0,.5)`,duration:.4});
+    gsap.to(c.querySelector('.stat-n'),{scale:1.1,duration:.4,ease:'back.out(2)'});
+  });
+  c.addEventListener('mouseleave',()=>{
+    gsap.to(c,{boxShadow:'none',duration:.4});
+    gsap.to(c.querySelector('.stat-n'),{scale:1,duration:.4});
+  });
+});
+
+/* ═══════════════════════════════════════════════════
+   SECTION HEADINGS — SplitText scrub
+═══════════════════════════════════════════════════ */
+['#sh1','#sh2','#sh3','#sh4'].forEach((sel,i)=>{
+  const el=document.querySelector(sel);
+  if(!el)return;
+  const sp=new SplitText(el,{type:'words,chars',wordsClass:'word-w',charsClass:'s-char'});
+  gsap.from(sp.chars,{
+    opacity:0,y:50,rotateX:-40,transformOrigin:'50% 100%',transformPerspective:500,
+    duration:.7,stagger:.02,ease:'back.out(1.8)',clearProps:'all',
+    scrollTrigger:{trigger:el,start:'top 86%',toggleActions:'play none none reverse'}
+  });
+});
+
+/* ═══════════════════════════════════════════════════
+   SERVICES CARDS — ScrollTrigger stagger + bounce
+═══════════════════════════════════════════════════ */
+gsap.from('.scard',{
+  opacity:0,y:60,scale:.88,rotateX:15,transformPerspective:800,
+  duration:.85,ease:'titanBounce',stagger:{amount:.5,from:'start'},clearProps:'all',
+  scrollTrigger:{trigger:'#sgrid',start:'top 85%',toggleActions:'play none none reverse'}
+});
+
+/* ═══════════════════════════════════════════════════
+   PROGRAMS — ScrollTrigger + speed varied
+═══════════════════════════════════════════════════ */
+gsap.from('.pgcard',{
+  opacity:0,y:70,scale:.88,rotateX:12,transformPerspective:800,
+  duration:.9,ease:'titanEase',stagger:{amount:.55,from:'start'},clearProps:'all',
+  scrollTrigger:{trigger:'.pgrid',start:'top 85%',toggleActions:'play none none reverse'}
+});
+
+/* ═══════════════════════════════════════════════════
+   CTA — TextPlugin scramble entrance
+═══════════════════════════════════════════════════ */
+ScrollTrigger.create({trigger:'#cta',start:'top 80%',once:true,onEnter:()=>{
+  gsap.from('.ctabox',{opacity:0,scale:.96,y:40,duration:1,ease:'titanEase',clearProps:'all'});
+  const ctaH=document.getElementById('cta-h');
+  gsap.to(ctaH,{
+    duration:1.2,
+    scrambleText:{text:'Gelecegi Sekillendirmeye\nHazir misin?',chars:'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',revealDelay:.3,speed:.5},
+    ease:'none',delay:.3
+  });
+  gsap.from('.erow,.tpill',{opacity:0,y:24,duration:.6,stagger:.08,ease:'power3.out',delay:.6,clearProps:'all'});
+}});
+
+/* ═══════════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════════ */
+gsap.from('.ftg > *',{
+  opacity:0,y:36,duration:.7,stagger:.12,ease:'power3.out',clearProps:'all',
+  scrollTrigger:{trigger:'.ftg',start:'top 90%',toggleActions:'play none none reverse'}
+});
+gsap.from('.soc',{
+  opacity:0,scale:0,rotation:45,duration:.5,ease:'back.out(2.5)',stagger:.07,clearProps:'all',
+  scrollTrigger:{trigger:'.socs',start:'top 92%'}
+});
+
+/* ═══════════════════════════════════════════════════
+   OBSERVER — wheel & touch velocity for marquee speed
+═══════════════════════════════════════════════════ */
+Observer.create({
+  target:window,type:'wheel,touch',
+  onChangeY(self){
+    const v=Math.max(8,28-Math.abs(self.velocityY)*.03);
+    document.querySelector('.mq-f').style.animationDuration=v+'s';
+    document.querySelector('.mq-r').style.animationDuration=(v+6)+'s';
+  }
+});
+
+/* ═══════════════════════════════════════════════════
+   SCROLL PARALLAX — multiple depth layers via ST
+═══════════════════════════════════════════════════ */
+/* hero left, right at different rates (smoother handles [data-speed]) */
+/* Additional bento depth */
+document.querySelectorAll('.pgcard').forEach((c,i)=>{
+  gsap.to(c,{
+    y: i%2===0 ? -40 : 40,
+    ease:'none',
+    scrollTrigger:{trigger:'.pgrid',start:'top bottom',end:'bottom top',scrub:1.2+i*.1}
+  });
+});
+document.querySelectorAll('.scard').forEach((c,i)=>{
+  gsap.to(c,{
+    y: (i%3-1)*30,
+    ease:'none',
+    scrollTrigger:{trigger:'#sgrid',start:'top bottom',end:'bottom top',scrub:1+(i%3)*.2}
+  });
+});
+
+/* ═══════════════════════════════════════════════════
+   DRAG HINT — pulse animation
+═══════════════════════════════════════════════════ */
+gsap.to('#drag-hint i',{x:12,duration:1,ease:'sine.inOut',yoyo:true,repeat:-1});
+
+console.log('Titanlar v4 — full GSAP 3.13 power');
+</script>
+</body>
+</html>

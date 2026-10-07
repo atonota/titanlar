@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Titanlar | Kariyerini Sekillendir</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800;12..96,900&family=Urbanist:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+<style>
+/* ======================== RESET + ROOT ======================== */
+:root {
+  --bg:#03020e;
+  --pur:#9d54f6; --pink:#ff5fac; --cyan:#38e0f8; --mint:#34d399; --gold:#fbbf24;
+  --g1:rgba(255,255,255,.04); --g2:rgba(255,255,255,.07); --g3:rgba(255,255,255,.13);
+  --gb:rgba(255,255,255,.08); --gb2:rgba(255,255,255,.16); --gb3:rgba(255,255,255,.28);
+  --txt:#f4eeff; --txt2:rgba(244,238,255,.75); --mut:rgba(244,238,255,.48);
+  --grd:linear-gradient(135deg,#9d54f6,#ff5fac);
+  --grd2:linear-gradient(135deg,#38e0f8,#6366f1);
+  --grd3:linear-gradient(135deg,#34d399,#38e0f8);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:auto}
+body{
+  font-family:'Urbanist',sans-serif;
+  background:var(--bg);
+  color:var(--txt);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  cursor:none;
+}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:#03020e}
+::-webkit-scrollbar-thumb{background:linear-gradient(#9d54f6,#ff5fac);border-radius:2px}
+h1,h2,h3,h4,h5{font-family:'Bricolage Grotesque',sans-serif;letter-spacing:-.025em}
+.container{max-width:1320px;margin:0 auto;padding:0 5vw}
+
+/* ======================== CURSOR ======================== */
+#cur{
+  position:fixed;width:10px;height:10px;border-radius:50%;
+  background:var(--grd);pointer-events:none;z-index:9999;
+  mix-blend-mode:screen;will-change:transform;
+}
+#cur-ring{
+  position:fixed;width:36px;height:36px;border-radius:50%;
+  border:1.5px solid rgba(157,84,246,.6);pointer-events:none;z-index:9998;
+  will-change:transform;transition:width .25s,height .25s,border-color .25s,opacity .3s;
+  opacity:0;
+}
+body.cx #cur-ring{width:54px;height:54px;border-color:rgba(255,95,172,.7);background:rgba(255,95,172,.04)}
+body.visible #cur-ring{opacity:1}
+
+/* ======================== WEBGL CANVAS ======================== */
+#glc{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* ======================== NOISE GRAIN ======================== */
+body::after{
+  content:'';position:fixed;inset:0;z-index:9990;pointer-events:none;opacity:.35;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+}
+
+/* ======================== NAV ======================== */
+#nav{
+  position:fixed;top:.9rem;left:50%;transform:translateX(-50%);
+  z-index:1000;width:94%;max-width:1320px;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  padding:.7rem 1.4rem;border-radius:100px;
+  background:rgba(3,2,14,.45);
+  backdrop-filter:blur(32px) saturate(180%);
+  -webkit-backdrop-filter:blur(32px) saturate(180%);
+  border:1px solid var(--gb);
+  box-shadow:0 4px 30px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.05);
+  transition:background .5s,border-color .5s,box-shadow .5s;
+}
+#nav.sc{background:rgba(3,2,14,.88);border-color:rgba(157,84,246,.22);box-shadow:0 8px 40px rgba(0,0,0,.7)}
+.logo-w{display:flex;align-items:center;gap:.6rem;text-decoration:none;flex-shrink:0}
+.lmk{
+  width:36px;height:36px;border-radius:10px;
+  background:var(--grd);display:flex;align-items:center;justify-content:center;
+  font-family:'Bricolage Grotesque',sans-serif;font-weight:900;font-size:.95rem;color:#fff;
+  box-shadow:0 0 20px rgba(157,84,246,.55),0 0 50px rgba(157,84,246,.15);
+  animation:logo-pulse 3s ease-in-out infinite;
+}
+@keyframes logo-pulse{0%,100%{box-shadow:0 0 20px rgba(157,84,246,.55),0 0 50px rgba(157,84,246,.15)}50%{box-shadow:0 0 30px rgba(157,84,246,.8),0 0 70px rgba(157,84,246,.3)}}
+.lt{font-family:'Bricolage Grotesque',sans-serif;font-weight:900;font-size:1.15rem;letter-spacing:-.02em;background:linear-gradient(135deg,#c084fc,#f472b6);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.nlinks{display:flex;align-items:center;gap:1.4rem;list-style:none}
+.nlinks a{color:var(--txt2);text-decoration:none;font-size:.85rem;font-weight:500;position:relative;transition:color .2s}
+.nlinks a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1.5px;background:var(--grd);transition:width .3s;border-radius:2px}
+.nlinks a:hover{color:var(--txt)}.nlinks a:hover::after{width:100%}
+.btn{display:inline-flex;align-items:center;gap:.45rem;padding:10px 22px;border-radius:100px;font-family:'Urbanist',sans-serif;font-weight:700;font-size:.85rem;border:none;cursor:none;text-decoration:none;position:relative;overflow:hidden;transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s}
+.btn::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,.12);transform:translateX(-110%) skewX(-15deg);transition:transform .45s ease}
+.btn:hover::after{transform:translateX(110%) skewX(-15deg)}
+.bp{background:var(--grd);color:#fff;box-shadow:0 0 24px rgba(157,84,246,.38)}
+.bp:hover{transform:translateY(-2px) scale(1.04);box-shadow:0 8px 30px rgba(157,84,246,.55)}
+.bg{background:var(--g2);border:1px solid var(--gb2);color:var(--txt2)}
+.bg:hover{background:var(--g3);border-color:var(--gb3);color:var(--txt);transform:translateY(-1px)}
+@media(max-width:900px){.nlinks{display:none}}
+
+/* ======================== HERO ======================== */
+.hero{
+  min-height:100vh;display:flex;align-items:center;
+  padding:0 5vw;padding-top:5.5rem;
+  position:relative;overflow:hidden;
+}
+/* depth layers for hero parallax */
+.depth-layer{position:absolute;inset:0;pointer-events:none;will-change:transform}
+#dl1{background:radial-gradient(ellipse at 15% 35%,rgba(157,84,246,.28) 0%,transparent 52%);animation:dl-drift 16s ease-in-out infinite}
+#dl2{background:radial-gradient(ellipse at 85% 65%,rgba(255,95,172,.22) 0%,transparent 48%);animation:dl-drift 12s ease-in-out infinite reverse 2s}
+#dl3{background:radial-gradient(ellipse at 55% 20%,rgba(56,224,248,.14) 0%,transparent 40%);animation:dl-drift 20s ease-in-out infinite 4s}
+@keyframes dl-drift{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(20px,-15px) scale(1.05)}50%{transform:translate(35px,20px) scale(.97)}75%{transform:translate(-15px,30px) scale(1.03)}}
+.hl{flex:1;max-width:660px;z-index:2;position:relative}
+.hr{flex:1;position:relative;height:580px;display:flex;align-items:center;justify-content:center;z-index:2}
+/* eyebrow */
+.eyebr{
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-size:.65rem;letter-spacing:.26em;text-transform:uppercase;
+  color:transparent;background:var(--grd);-webkit-background-clip:text;background-clip:text;
+  font-weight:700;margin-bottom:1.5rem;
+}
+.eyebr::before{content:'';width:28px;height:1.5px;background:var(--grd);border-radius:2px;flex-shrink:0}
+.eyebr::after{content:'';width:80px;height:1px;background:linear-gradient(90deg,rgba(157,84,246,.4),transparent);flex-shrink:0}
+/* HERO H1 */
+h1.ht{font-size:clamp(3.4rem,8vw,6.8rem);font-weight:900;line-height:.96;margin-bottom:1.75rem;perspective:800px}
+.hc{display:inline-block;will-change:transform,opacity;transform-origin:50% 100%}
+.grad{background:var(--grd);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.grad2{background:var(--grd2);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hdesc{font-size:1.05rem;line-height:1.9;color:var(--txt2);max-width:520px;margin-bottom:2.5rem}
+.brow{display:flex;gap:.85rem;flex-wrap:wrap;margin-bottom:3rem}
+.trust{display:flex;gap:1.75rem;flex-wrap:wrap;padding-top:1.75rem;border-top:1px solid var(--gb)}
+.ti{display:flex;align-items:center;gap:.35rem;font-size:.78rem;color:var(--mut);transition:color .3s}
+.ti:hover{color:var(--txt2)}.ti strong{color:var(--txt);font-weight:700}
+
+/* ======================== HERO FLOATING CARDS ======================== */
+.fc{
+  position:absolute;padding:1.5rem 1.75rem;border-radius:22px;
+  background:var(--g1);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
+  border:1px solid var(--gb2);
+  box-shadow:0 20px 60px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.08);
+  will-change:transform;cursor:none;
+  transform-style:preserve-3d;min-width:180px;
+}
+.fc1{top:5%;right:10%} .fc2{top:44%;right:-1%} .fc3{bottom:7%;right:16%}
+/* pulsing aura behind each card */
+.fc::before{content:'';position:absolute;inset:-8px;border-radius:30px;background:var(--aura,var(--grd));filter:blur(20px);opacity:.12;z-index:-1;animation:aura-pulse 3s ease-in-out infinite}
+@keyframes aura-pulse{0%,100%{opacity:.12;transform:scale(1)}50%{opacity:.2;transform:scale(1.05)}}
+.fc2::before{animation-delay:.8s} .fc3::before{animation-delay:1.6s}
+.fci{font-size:1.85rem;margin-bottom:.8rem;display:block;filter:drop-shadow(0 0 10px var(--ic-clr,rgba(157,84,246,.8)))}
+.fcv{font-family:'Bricolage Grotesque',sans-serif;font-size:2.1rem;font-weight:900;line-height:1}
+.fch{font-family:'Bricolage Grotesque',sans-serif;font-size:.88rem;font-weight:800;margin:.35rem 0 .15rem;color:var(--txt)}
+.fcp{font-size:.73rem;color:var(--mut)}
+/* shimmer sweep */
+.fc::after{content:'';position:absolute;top:0;left:-100%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.05),transparent);animation:card-shimmer 4s ease-in-out infinite}
+@keyframes card-shimmer{0%,100%{left:-100%}50%{left:200%}}
+.fc2::after{animation-delay:1.2s} .fc3::after{animation-delay:2.4s}
+
+/* ======================== PILL TAGS ======================== */
+.pill{display:inline-flex;align-items:center;padding:4px 12px;border-radius:100px;font-size:.68rem;font-weight:700;letter-spacing:.02em}
+.pp{background:rgba(157,84,246,.1);border:1px solid rgba(157,84,246,.22);color:#c4b5fd}
+.pk{background:rgba(255,95,172,.09);border:1px solid rgba(255,95,172,.2);color:#fbb6ce}
+.pc{background:rgba(56,224,248,.08);border:1px solid rgba(56,224,248,.18);color:#a5f3fc}
+.pm{background:rgba(52,211,153,.07);border:1px solid rgba(52,211,153,.18);color:#6ee7b7}
+.pg{background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.18);color:#fde68a}
+.pr{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.65rem}
+
+/* ======================== MARQUEE ======================== */
+.mqsec{
+  padding:0;overflow:hidden;position:relative;z-index:3;
+  border-top:1px solid rgba(157,84,246,.12);
+  border-bottom:1px solid rgba(157,84,246,.12);
+  background:linear-gradient(90deg,rgba(157,84,246,.04),rgba(255,95,172,.04),rgba(56,224,248,.04));
+}
+.mqsec::before,.mqsec::after{content:'';position:absolute;top:0;bottom:0;width:160px;z-index:2;pointer-events:none}
+.mqsec::before{left:0;background:linear-gradient(90deg,var(--bg),transparent)}
+.mqsec::after{right:0;background:linear-gradient(-90deg,var(--bg),transparent)}
+.mq-row{display:flex;width:max-content;padding:1rem 0}
+.mq-fwd{animation:mq-run 22s linear infinite}
+.mq-rev{animation:mq-run 26s linear infinite reverse}
+@keyframes mq-run{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.mqi{display:flex;align-items:center;gap:.6rem;padding:0 2rem;white-space:nowrap;font-family:'Bricolage Grotesque',sans-serif;font-size:1rem;font-weight:700;color:var(--mut);transition:color .3s}
+.mqi:hover{color:var(--txt2)}.mqi i{font-size:1rem;flex-shrink:0}
+.mqi .sep{width:4px;height:4px;border-radius:50%;margin:0 .3rem;flex-shrink:0;background:var(--grd)}
+
+/* ======================== SECTION COMMON ======================== */
+.section{padding:9rem 0;position:relative;z-index:2}
+.sh{text-align:center;margin-bottom:5rem}
+.sh .eyebr{justify-content:center}
+.sh h2{font-size:clamp(2.4rem,5vw,4.2rem);font-weight:900;margin-bottom:.9rem;line-height:1.05}
+.sh p{color:var(--txt2);max-width:520px;margin:0 auto;line-height:1.8;font-size:1rem}
+
+/* ======================== BENTO GRID ======================== */
+.bento{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:260px;gap:1.2rem}
+.bc{
+  padding:2.4rem 2rem;border-radius:24px;display:flex;flex-direction:column;
+  justify-content:space-between;position:relative;overflow:hidden;
+  transform-style:preserve-3d;cursor:none;
+  background:rgba(255,255,255,.035);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border:1px solid var(--gb);
+  box-shadow:0 18px 50px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.05);
+  transition:box-shadow .4s,border-color .4s;will-change:transform;
+}
+/* animated gradient border on hover */
+.bc::before{content:'';position:absolute;inset:-1px;border-radius:25px;background:conic-gradient(from var(--ba,0deg),transparent 0%,transparent 80%,rgba(157,84,246,.5) 85%,rgba(255,95,172,.5) 90%,transparent 95%);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:destination-out;mask-composite:exclude;padding:1px;opacity:0;transition:opacity .4s;z-index:1}
+.bc:hover{border-color:rgba(157,84,246,.2);box-shadow:0 24px 60px rgba(0,0,0,.6),0 0 40px rgba(157,84,246,.07),inset 0 1px 0 rgba(255,255,255,.08)}
+.bc:hover::before{opacity:1;animation:border-sweep 2s linear infinite}
+@property --ba{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes border-sweep{to{--ba:360deg}}
+/* spotlight */
+.bc-sp{position:absolute;inset:0;border-radius:24px;opacity:0;pointer-events:none;background:radial-gradient(circle 200px at var(--sx,50%) var(--sy,50%),rgba(255,255,255,.07),transparent);transition:opacity .3s;z-index:0}
+.bc:hover .bc-sp{opacity:1}
+/* scan line per card */
+.bc::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--scan-clr,linear-gradient(90deg,transparent,rgba(157,84,246,.5),transparent));transform:translateY(-4px);animation:bc-scan var(--scan-dur,5s) linear infinite var(--scan-del,0s);opacity:0}
+.bc:hover::after{opacity:1}
+@keyframes bc-scan{from{transform:translateY(-4px)}to{transform:translateY(264px)}}
+.bl{grid-column:1/8;grid-row:1/3;background:linear-gradient(135deg,rgba(157,84,246,.1) 0%,rgba(157,84,246,.03) 60%,transparent);--scan-clr:linear-gradient(90deg,transparent,rgba(157,84,246,.6),rgba(255,95,172,.4),transparent);--scan-dur:6s}
+.bm{grid-column:8/13;grid-row:1/3;background:linear-gradient(135deg,rgba(56,224,248,.07) 0%,transparent);--scan-clr:linear-gradient(90deg,transparent,rgba(56,224,248,.6),transparent);--scan-dur:7s;--scan-del:.5s}
+.bs1{grid-column:1/5;--scan-del:.3s;--scan-dur:5.5s}
+.bs2{grid-column:5/9;--scan-del:.7s;--scan-dur:6.5s}
+.bs3{grid-column:9/11;background:var(--grd);border:none;overflow:hidden}
+.bs3::after{display:none}
+.bs3::before{display:none}
+.bs4{grid-column:11/13;--scan-del:1.1s;--scan-dur:5s}
+.bci{font-size:2.3rem;margin-bottom:1rem;display:block;position:relative;z-index:2;transition:transform .5s cubic-bezier(.34,1.56,.64,1),filter .4s}
+.bc:hover .bci{transform:translateY(-6px) scale(1.18) rotate(-8deg);filter:drop-shadow(0 0 14px var(--ic,rgba(157,84,246,.8)))}
+.bc h3{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.2rem;margin-bottom:.45rem;position:relative;z-index:2}
+.bc .bd{font-size:.82rem;color:var(--mut);line-height:1.65;position:relative;z-index:2}
+.bc-lnk{color:rgba(157,84,246,.85);font-weight:700;font-size:.8rem;text-decoration:none;display:inline-flex;align-items:center;gap:.3rem;transition:gap .3s,color .2s;position:relative;z-index:2}
+.bc-lnk:hover{gap:.7rem;color:#c4b5fd}
+@media(max-width:900px){.bento{display:flex;flex-direction:column}.bc{min-height:200px}}
+
+/* ======================== SCROLL STORY (PINNED) ======================== */
+.story-wrap{position:relative;height:280vh;z-index:2}
+.story-pin{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:center}
+/* horizontal slides */
+.slides-track{display:flex;width:300%;height:100%}
+.slide{flex:0 0 33.333%;display:flex;align-items:center;justify-content:center;padding:0 8vw;gap:6vw}
+.s-txt{flex:1;max-width:480px}
+.s-num{font-family:'Bricolage Grotesque',sans-serif;font-size:9rem;font-weight:900;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.06);position:absolute;top:50%;right:10%;transform:translateY(-50%);pointer-events:none;letter-spacing:-.05em}
+.s-vis{flex:1;display:flex;justify-content:center;align-items:center;position:relative}
+.s-card{
+  width:340px;padding:2.5rem;border-radius:26px;position:relative;
+  background:var(--g2);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
+  border:1px solid var(--gb2);box-shadow:0 24px 60px rgba(0,0,0,.5);
+  transform-style:preserve-3d;
+}
+/* story progress bar */
+#story-prog{position:absolute;bottom:0;left:0;height:2px;background:var(--grd);width:0%;transition:width .05s linear;z-index:5}
+/* story dots */
+#sdots{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;gap:.6rem;z-index:5}
+.sdot{height:6px;border-radius:100px;background:rgba(255,255,255,.2);transition:all .4s cubic-bezier(.34,1.56,.64,1)}
+.sdot.a{background:var(--grd);width:28px!important}
+
+/* ======================== STATS ======================== */
+.stats-s{padding:9rem 0;position:relative;z-index:2}
+.stats-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 20% 50%,rgba(157,84,246,.14) 0%,transparent 55%),
+    radial-gradient(ellipse at 80% 50%,rgba(255,95,172,.1) 0%,transparent 50%),
+    radial-gradient(ellipse at 50% 0%,rgba(56,224,248,.08) 0%,transparent 40%);
+  animation:stats-bg-anim 10s ease-in-out infinite;
+}
+@keyframes stats-bg-anim{0%,100%{opacity:.7}50%{opacity:1}}
+.sgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem}
+.sgi{
+  padding:3rem 1.5rem;border-radius:24px;text-align:center;position:relative;overflow:hidden;
+  background:var(--g1);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border:1px solid var(--gb);cursor:none;
+  transition:transform .4s cubic-bezier(.34,1.56,.64,1),border-color .4s,box-shadow .4s;
+}
+.sgi:hover{transform:translateY(-8px) scale(1.02);border-color:var(--gb2);box-shadow:0 24px 60px rgba(0,0,0,.5),0 0 40px rgba(157,84,246,.1)}
+/* rotating ring background */
+.sgi-ring{
+  position:absolute;inset:-40%;border-radius:50%;
+  border:60px solid transparent;pointer-events:none;
+  animation:ring-spin 8s linear infinite;opacity:0;
+  transition:opacity .5s;
+}
+.sgi:hover .sgi-ring{opacity:1}
+@keyframes ring-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+/* number */
+.sgn{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(3rem,5.5vw,5rem);font-weight:900;line-height:1;margin-bottom:.5rem;position:relative;z-index:1;transition:transform .4s}
+.sgi:hover .sgn{transform:scale(1.08)}
+.sgl{font-size:.75rem;color:var(--mut);text-transform:uppercase;letter-spacing:.14em;font-weight:700;position:relative;z-index:1}
+.sgp{font-size:.82rem;color:var(--mut);margin-top:.4rem;line-height:1.5;position:relative;z-index:1}
+@media(max-width:700px){.sgrid{grid-template-columns:1fr 1fr}}
+
+/* ======================== PROGRAMS ======================== */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:1.5rem}
+.pgc{
+  padding:2.4rem;border-radius:26px;position:relative;overflow:hidden;
+  background:var(--g1);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border:1px solid var(--gb);
+  box-shadow:0 18px 50px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.04);
+  cursor:none;transform-style:preserve-3d;
+  transition:border-color .4s,box-shadow .4s,transform .4s cubic-bezier(.34,1.56,.64,1);
+}
+.pgc:hover{border-color:var(--pb,rgba(157,84,246,.3));box-shadow:0 28px 70px rgba(0,0,0,.6),0 0 50px var(--pg,rgba(157,84,246,.08));transform:translateY(-6px)}
+/* top accent */
+.pgc::before{content:'';position:absolute;top:0;left:0;right:0;height:2.5px;background:var(--pt,var(--grd));z-index:1}
+/* inner glow sweep */
+.pgc-sw{position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(from var(--sa,0deg),transparent 0%,var(--pg,rgba(157,84,246,.05)) 10%,transparent 20%);animation:pgc-spin 8s linear infinite;pointer-events:none;opacity:0;transition:opacity .5s}
+.pgc:hover .pgc-sw{opacity:1}
+@property --sa{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes pgc-spin{to{--sa:360deg}}
+/* icon */
+.pgci{font-size:2.3rem;margin-bottom:1.1rem;display:block;position:relative;z-index:2;transition:transform .5s cubic-bezier(.34,1.56,.64,1),filter .4s}
+.pgc:hover .pgci{transform:scale(1.15) translateY(-5px);filter:drop-shadow(0 0 14px var(--ic,currentColor))}
+.pgc h3{font-family:'Bricolage Grotesque',sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:.65rem;position:relative;z-index:2}
+.pgc .pgd{font-size:.875rem;color:var(--txt2);line-height:1.8;margin-bottom:1.35rem;position:relative;z-index:2}
+/* scan hover line */
+.pgc-scan{position:absolute;top:0;left:0;right:0;height:100%;background:linear-gradient(180deg,var(--pg,rgba(157,84,246,.03)) 0%,transparent 100%);opacity:0;transition:opacity .5s;pointer-events:none;z-index:0}
+.pgc:hover .pgc-scan{opacity:1}
+
+/* ======================== TESTIMONIALS ======================== */
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
+@media(max-width:900px){.tgrid{grid-template-columns:1fr}}
+.tc{
+  padding:2.4rem;border-radius:24px;position:relative;overflow:hidden;cursor:none;
+  background:var(--g1);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border:1px solid var(--gb);
+  transition:transform .4s cubic-bezier(.34,1.56,.64,1),border-color .4s,box-shadow .4s;
+  transform-style:preserve-3d;
+}
+.tc:hover{transform:translateY(-6px) rotateX(1deg);border-color:var(--gb2);box-shadow:0 28px 60px rgba(0,0,0,.55),0 0 40px rgba(157,84,246,.06)}
+/* mouse-follow orb */
+.tc-orb{position:absolute;width:280px;height:280px;border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);background:radial-gradient(circle,var(--oc,rgba(157,84,246,.25)) 0%,transparent 70%);filter:blur(30px);opacity:0;transition:opacity .4s;z-index:0;will-change:transform}
+.tc:hover .tc-orb{opacity:1}
+.stars{display:flex;gap:3px;margin-bottom:1rem;position:relative;z-index:1}
+.stars i{font-size:.85rem;transition:transform .2s,color .2s;color:#fbbf24}
+.tc:hover .stars i:nth-child(1){animation:star-wave .5s .0s forwards}
+.tc:hover .stars i:nth-child(2){animation:star-wave .5s .07s forwards}
+.tc:hover .stars i:nth-child(3){animation:star-wave .5s .14s forwards}
+.tc:hover .stars i:nth-child(4){animation:star-wave .5s .21s forwards}
+.tc:hover .stars i:nth-child(5){animation:star-wave .5s .28s forwards}
+@keyframes star-wave{0%{transform:scale(1) rotate(0)}40%{transform:scale(1.5) rotate(15deg);color:#fde68a}100%{transform:scale(1) rotate(0)}}
+.tq{font-size:.93rem;line-height:1.85;color:var(--txt2);font-style:italic;margin-bottom:1.6rem;position:relative;z-index:1}
+.tq::before{content:'\u201C';font-size:3rem;font-family:'Bricolage Grotesque',sans-serif;font-weight:900;color:rgba(157,84,246,.25);line-height:0;vertical-align:-.5rem;margin-right:.2rem}
+.ta{display:flex;align-items:center;gap:.75rem;position:relative;z-index:1}
+.av{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:.9rem;color:#fff;flex-shrink:0;box-shadow:0 0 16px var(--ac,rgba(157,84,246,.5));animation:av-pulse 3s ease-in-out infinite}
+@keyframes av-pulse{0%,100%{box-shadow:0 0 12px var(--ac,rgba(157,84,246,.4))}50%{box-shadow:0 0 24px var(--ac,rgba(157,84,246,.7))}}
+
+/* ======================== PRICING ======================== */
+.pgrid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
+.pcard{
+  padding:2.75rem;border-radius:28px;display:flex;flex-direction:column;
+  position:relative;overflow:hidden;cursor:none;
+  background:var(--g1);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border:1px solid var(--gb);
+  transition:transform .4s cubic-bezier(.34,1.56,.64,1),box-shadow .4s,border-color .4s;
+}
+.pcard:hover{transform:translateY(-8px);border-color:var(--gb2);box-shadow:0 30px 70px rgba(0,0,0,.6),0 0 60px rgba(157,84,246,.1)}
+/* corner flare */
+.pcard::before{content:'';position:absolute;top:-60px;right:-60px;width:160px;height:160px;border-radius:50%;background:var(--pf,var(--grd));filter:blur(50px);opacity:.07;transition:opacity .5s,transform .5s}
+.pcard:hover::before{opacity:.15;transform:scale(1.3)}
+/* featured */
+.feat{background:linear-gradient(160deg,rgba(157,84,246,.08),rgba(255,95,172,.05))!important;border:none!important}
+/* animated conic border for feat */
+.feat::after{content:'';position:absolute;inset:-2px;border-radius:30px;background:conic-gradient(from var(--fa,0deg),#9d54f6,#ff5fac,#38e0f8,#34d399,#9d54f6);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:destination-out;mask-composite:exclude;padding:2px;animation:feat-border 4s linear infinite;z-index:-1}
+@property --fa{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes feat-border{to{--fa:360deg}}
+.pcname{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--mut);margin-bottom:1rem}
+.pcprice{font-family:'Bricolage Grotesque',sans-serif;font-size:3.4rem;font-weight:900;line-height:1;margin-bottom:.35rem}
+.pcsub{font-size:.8rem;color:var(--mut);margin-bottom:1.75rem}
+.pcf{list-style:none;display:flex;flex-direction:column;gap:.7rem;margin-bottom:2rem;flex:1}
+.pcf li{display:flex;align-items:center;gap:.55rem;font-size:.875rem;color:var(--txt2)}
+.pcf i{font-size:1rem;flex-shrink:0;transition:transform .3s}
+.pcard:hover .pcf i{transform:scale(1.2)}
+.pcbadge{background:var(--grd);color:#fff;font-size:.6rem;font-weight:800;padding:3px 10px;border-radius:100px;margin-bottom:.8rem;display:inline-block;letter-spacing:.08em;text-transform:uppercase;animation:badge-glow 2s ease-in-out infinite}
+@keyframes badge-glow{0%,100%{box-shadow:0 0 12px rgba(157,84,246,.4)}50%{box-shadow:0 0 24px rgba(255,95,172,.6)}}
+@media(max-width:800px){.pgrid3{grid-template-columns:1fr}}
+
+/* ======================== CTA ======================== */
+.ctas{padding:9rem 0;position:relative;z-index:2}
+.ctabox{
+  border-radius:44px;padding:7rem 7vw;text-align:center;
+  position:relative;overflow:hidden;
+}
+/* animated mesh gradient */
+.ctabg{
+  position:absolute;inset:0;border-radius:44px;
+  background:linear-gradient(135deg,#1a0550,#3d0a8c,#78126c,#3d0a8c,#1a0550);
+  background-size:300% 300%;
+  animation:cta-grad 9s ease infinite;
+}
+@keyframes cta-grad{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+/* grid overlay */
+.cta-grid{position:absolute;inset:0;border-radius:44px;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse at 50% 50%,black 0%,transparent 72%)}
+/* floating orbs inside cta */
+.cta-orb{position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none;animation:dl-drift 12s ease-in-out infinite}
+.ctabox h2{font-size:clamp(2.4rem,5.5vw,4.5rem);font-weight:900;color:#fff;margin-bottom:1.1rem;position:relative;z-index:1;text-shadow:0 0 40px rgba(157,84,246,.3)}
+.ctabox p{color:rgba(255,255,255,.82);max-width:500px;margin:0 auto 3rem;line-height:1.8;position:relative;z-index:1;font-size:1.05rem}
+.erow{display:flex;gap:.45rem;max-width:500px;margin:0 auto 2rem;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:100px;padding:.45rem .45rem .45rem 1.5rem;position:relative;z-index:1;backdrop-filter:blur(16px)}
+.erow input{flex:1;background:transparent;border:none;color:#fff;font-family:'Urbanist',sans-serif;font-size:.95rem;outline:none}
+.erow input::placeholder{color:rgba(255,255,255,.42)}
+.tpills{display:flex;gap:.7rem;flex-wrap:wrap;justify-content:center;position:relative;z-index:1}
+.tpill{padding:5px 14px;border-radius:100px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.14);font-size:.73rem;color:rgba(255,255,255,.78);display:inline-flex;align-items:center;gap:.3rem;transition:all .3s;cursor:none}
+.tpill:hover{background:rgba(255,255,255,.17);transform:translateY(-2px)}
+
+/* ======================== FOOTER ======================== */
+footer{padding:5.5rem 0 2.5rem;border-top:1px solid var(--gb);position:relative;z-index:2}
+/* gradient top line */
+footer::before{content:'';position:absolute;top:-1px;left:10%;right:10%;height:1px;background:var(--grd);opacity:.4}
+.ftgrid{display:grid;grid-template-columns:1.7fr 1fr 1fr 1fr;gap:3rem;margin-bottom:4.5rem}
+.ftdesc{font-size:.875rem;color:var(--mut);line-height:1.85;max-width:270px;margin-bottom:1.5rem}
+.socs{display:flex;gap:.5rem;margin-top:1.5rem}
+.soc{width:38px;height:38px;border-radius:10px;background:var(--g1);border:1px solid var(--gb);display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:1rem;text-decoration:none;cursor:none;transition:all .35s cubic-bezier(.34,1.56,.64,1)}
+.soc:hover{background:var(--g3);color:var(--txt);transform:translateY(-4px) scale(1.1);border-color:var(--gb2);box-shadow:0 8px 20px rgba(157,84,246,.25)}
+.fth{font-family:'Bricolage Grotesque',sans-serif;font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.15em;color:var(--txt);margin-bottom:1.1rem}
+.ftl{list-style:none;display:flex;flex-direction:column;gap:.55rem}
+.ftl a{color:var(--mut);font-size:.875rem;text-decoration:none;transition:all .25s;display:inline-flex;align-items:center;gap:.35rem}
+.ftl a::before{content:'';width:0;height:1px;background:var(--grd);transition:width .25s;flex-shrink:0}
+.ftl a:hover{color:var(--txt2);padding-left:.25rem}.ftl a:hover::before{width:12px}
+.ftbot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;border-top:1px solid var(--gb);padding-top:1.5rem}
+.ftcopy{font-size:.76rem;color:rgba(244,238,255,.28)}
+.ftll{display:flex;gap:1.5rem}
+.ftll a{font-size:.76rem;color:rgba(244,238,255,.28);text-decoration:none;transition:color .2s;cursor:none}
+.ftll a:hover{color:var(--mut)}
+.nlform{display:flex;border:1px solid var(--gb2);border-radius:14px;overflow:hidden;margin-bottom:.65rem;background:rgba(255,255,255,.02)}
+.nlinput{flex:1;padding:.7rem 1rem;background:transparent;border:none;color:var(--txt);font-family:'Urbanist',sans-serif;font-size:.85rem;outline:none}
+.nlinput::placeholder{color:rgba(244,238,255,.28)}
+.nlbtn{padding:.65rem 1.1rem;background:var(--grd);border:none;color:#fff;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.78rem;cursor:none;transition:opacity .2s}
+.nlbtn:hover{opacity:.85}
+@media(max-width:900px){.ftgrid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.hero{flex-direction:column;padding-top:8rem;min-height:auto;padding-bottom:4rem}.hr{display:none}.ftgrid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cur"></div><div id="cur-ring"></div>
+
+<!-- WebGL Canvas -->
+<canvas id="glc"></canvas>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="logo-w"><div class="lmk">T</div><span class="lt">Titanlar</span></a>
+  <ul class="nlinks">
+    <li><a href="#hizmetler">Hizmetler</a></li>
+    <li><a href="#egitim">Egitim</a></li>
+    <li><a href="#basari">Basarilar</a></li>
+    <li><a href="#fiyatlar">Fiyatlar</a></li>
+    <li><a href="#cta">Iletisim</a></li>
+  </ul>
+  <div style="display:flex;gap:.55rem;flex-shrink:0">
+    <a href="#" class="btn bg" style="padding:8px 18px;font-size:.82rem">Giris Yap</a>
+    <a href="#cta" class="btn bp" style="padding:9px 20px;font-size:.82rem">Ucretsiz Dene <i class="ph ph-sparkle"></i></a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="depth-layer" id="dl1"></div>
+  <div class="depth-layer" id="dl2"></div>
+  <div class="depth-layer" id="dl3"></div>
+  <div class="hl" id="hl">
+    <div class="eyebr" id="eyebr">Turkiye'nin #1 Danismanlik Platformu</div>
+    <h1 class="ht" id="ht">
+      <span class="hc" id="hc1">K</span><span class="hc" id="hc2">a</span><span class="hc" id="hc3">r</span><span class="hc" id="hc4">i</span><span class="hc" id="hc5">y</span><span class="hc" id="hc6">e</span><span class="hc" id="hc7">r</span><span class="hc" id="hc8">i</span><span class="hc" id="hc9">n</span><span class="hc" id="hc10">i</span><br>
+      <span id="ht-brand" class="grad" style="display:inline-block">Titanlar</span><span class="hc" style="display:inline-block"> ile</span><br>
+      <span class="hc">S</span><span class="hc">e</span><span class="hc">k</span><span class="hc">i</span><span class="hc">l</span><span class="hc">l</span><span class="hc">e</span><span class="hc">n</span><span class="hc">d</span><span class="hc">i</span><span class="hc">r</span>
+    </h1>
+    <p class="hdesc" id="hdesc">Z kusaginin dinamizmi ile enterprise metodolojileri birlestiriyoruz. Danismanlik, egitim ve stratejik yonetimde tek adres.</p>
+    <div class="brow" id="brow">
+      <a href="#cta" class="btn bp"><i class="ph ph-calendar-check"></i> Ucretsiz Gorusme</a>
+      <a href="#egitim" class="btn bg"><i class="ph ph-graduation-cap"></i> Programlari Incele</a>
+    </div>
+    <div class="trust" id="trust">
+      <div class="ti"><i class="ph-fill ph-seal-check" style="color:#34d399;font-size:1rem"></i><strong>500+</strong>&nbsp;Musteri</div>
+      <div class="ti"><i class="ph-fill ph-seal-check" style="color:#9d54f6;font-size:1rem"></i><strong>%94</strong>&nbsp;Basari</div>
+      <div class="ti"><i class="ph-fill ph-seal-check" style="color:#ff5fac;font-size:1rem"></i><strong>14 Yil</strong>&nbsp;Deneyim</div>
+      <div class="ti"><i class="ph-fill ph-seal-check" style="color:#fbbf24;font-size:1rem"></i><strong>NPS 82</strong></div>
+    </div>
+  </div>
+  <div class="hr" id="hr">
+    <div class="fc fc1" id="fc1" style="--aura:linear-gradient(135deg,#9d54f6,#ff5fac)">
+      <i class="ph-fill ph-users-three fci" style="color:#a78bfa;--ic-clr:rgba(167,139,250,.8)"></i>
+      <div class="fcv grad">500+</div>
+      <div class="fch">Aktif Musteri</div><div class="fcp">Buyuyen ekosistem</div>
+    </div>
+    <div class="fc fc2" id="fc2" style="--aura:linear-gradient(135deg,#38e0f8,#6366f1)">
+      <i class="ph-fill ph-chart-line-up fci" style="color:#ff5fac;--ic-clr:rgba(255,95,172,.8)"></i>
+      <div class="fcv" style="background:linear-gradient(135deg,#ff5fac,#f43f5e);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">%94</div>
+      <div class="fch">Hedef Basarisi</div><div class="fcp">OKR tamamlama orani</div>
+    </div>
+    <div class="fc fc3" id="fc3" style="--aura:linear-gradient(135deg,#fbbf24,#f59e0b)">
+      <i class="ph-fill ph-trophy fci" style="color:#fbbf24;--ic-clr:rgba(251,191,36,.8)"></i>
+      <div class="fcv" style="background:linear-gradient(135deg,#fbbf24,#f59e0b);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">NPS 82</div>
+      <div class="fch">Musteri Memnuniyeti</div><div class="fcp">Promoter orani %91</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="mqsec">
+  <div class="mq-row mq-fwd" id="mq1">
+    <div class="mqi"><i class="ph ph-compass" style="color:#9d54f6"></i>Stratejik Yonetim<span class="sep"></span></div>
+    <div class="mqi"><i class="ph ph-lightning" style="color:#38e0f8"></i>Dijital Donusum<span class="sep"></span></div>
+    <div class="mqi"><i class="ph ph-storefront" style="color:#ff5fac"></i>E-Ticaret Egitimi<span class="sep"></span></div>
+    <div class="mqi"><i class="ph ph-airplane-tilt" style="color:#34d399"></i>E-Ihracat Uzmanligi<span class="sep"></span></div>
+    <div class="mqi"><i class="ph ph-kanban" style="color:#fbbf24"></i>Proje Yonetimi<span class="sep"></span></div>
+    <div class="mqi"><i class="ph ph-users" style="color:#9d54f6"></i>Mentorluk Kocluk<span class="sep"></span></div>
+    <div class="mqi"><i class="ph ph-robot" style="color:#38e0f8"></i>Yapay Zeka<span class="sep"></span></div>
+    <div class="mqi"><i class="ph ph-code" style="color:#ff5fac"></i>Yazilim Danismanligi<span class="sep"></span></div>
+    <div class="mqi"><i class="ph ph-compass" style="color:#9d54f6"></i>Stratejik Yonetim<span class="sep"></span></div>
+    <div class="mqi"><i class="ph ph-lightning" style="color:#38e0f8"></i>Dijital Donusum<span class="sep"></span></div>
+    <div class="mqi"><i class="ph ph-storefront" style="color:#ff5fac"></i>E-Ticaret Egitimi<span class="sep"></span></div>
+    <div class="mqi"><i class="ph ph-airplane-tilt" style="color:#34d399"></i>E-Ihracat Uzmanligi<span class="sep"></span></div>
+    <div class="mqi"><i class="ph ph-kanban" style="color:#fbbf24"></i>Proje Yonetimi<span class="sep"></span></div>
+    <div class="mqi"><i class="ph ph-users" style="color:#9d54f6"></i>Mentorluk Kocluk<span class="sep"></span></div>
+    <div class="mqi"><i class="ph ph-robot" style="color:#38e0f8"></i>Yapay Zeka<span class="sep"></span></div>
+    <div class="mqi"><i class="ph ph-code" style="color:#ff5fac"></i>Yazilim Danismanligi<span class="sep"></span></div>
+  </div>
+  <div class="mq-row mq-rev" id="mq2">
+    <div class="mqi"><i class="ph ph-star-four" style="color:#fbbf24"></i>Enterprise Cozumler<span class="sep"></span></div>
+    <div class="mqi"><i class="ph ph-certificate" style="color:#9d54f6"></i>Sertifika Programlari<span class="sep"></span></div>
+    <div class="mqi"><i class="ph ph-globe" style="color:#38e0f8"></i>Global Ihracat<span class="sep"></span></div>
+    <div class="mqi"><i class="ph ph-chart-bar" style="color:#ff5fac"></i>Veri Analizleri<span class="sep"></span></div>
+    <div class="mqi"><i class="ph ph-rocket-launch" style="color:#34d399"></i>Startup Ekosistemi<span class="sep"></span></div>
+    <div class="mqi"><i class="ph ph-buildings" style="color:#fbbf24"></i>Kurumsal Egitim<span class="sep"></span></div>
+    <div class="mqi"><i class="ph ph-star-four" style="color:#fbbf24"></i>Enterprise Cozumler<span class="sep"></span></div>
+    <div class="mqi"><i class="ph ph-certificate" style="color:#9d54f6"></i>Sertifika Programlari<span class="sep"></span></div>
+    <div class="mqi"><i class="ph ph-globe" style="color:#38e0f8"></i>Global Ihracat<span class="sep"></span></div>
+    <div class="mqi"><i class="ph ph-chart-bar" style="color:#ff5fac"></i>Veri Analizleri<span class="sep"></span></div>
+    <div class="mqi"><i class="ph ph-rocket-launch" style="color:#34d399"></i>Startup Ekosistemi<span class="sep"></span></div>
+    <div class="mqi"><i class="ph ph-buildings" style="color:#fbbf24"></i>Kurumsal Egitim<span class="sep"></span></div>
+  </div>
+</div>
+
+<!-- SERVICES BENTO -->
+<section class="section" id="hizmetler">
+  <div class="container">
+    <div class="sh">
+      <p class="eyebr" style="justify-content:center">Hizmetlerimiz</p>
+      <h2>Butunsel <span class="grad">Cozum</span> Ekosistemi</h2>
+      <p>Stratejiden sahaya, vizyondan olculebilir sonuclara — tek catı altinda.</p>
+    </div>
+    <div class="bento" id="bento">
+      <div class="bc bl" id="bc1">
+        <div class="bc-sp"></div>
+        <div>
+          <i class="ph ph-compass bci" style="color:#a78bfa;--ic:rgba(167,139,250,.8)"></i>
+          <h3>Stratejik Yonetim Danismanligi</h3>
+          <p class="bd">OKR kaskadi, BSC, stratejik planlama atolyeleri ve yonetim kurulu destegi. Vizyondan operasyona tam donusum yonetimi.</p>
+          <div class="pr"><span class="pill pp">OKR</span><span class="pill pp">BSC</span><span class="pill pp">8-12 Hafta</span><span class="pill pp">C-Level</span></div>
+        </div>
+        <a href="#cta" class="bc-lnk">Detayli Bilgi <i class="ph ph-arrow-up-right"></i></a>
+      </div>
+      <div class="bc bm" id="bc2">
+        <div class="bc-sp"></div>
+        <div>
+          <i class="ph ph-lightning bci" style="color:#38e0f8;--ic:rgba(56,224,248,.8)"></i>
+          <h3>Dijital Donusum</h3>
+          <p class="bd">ERP, CRM, yapay zeka otomasyonu. Satici bagimsiz teknoloji secimi ile %40 maliyet azalmasi ve 3x karar hizi artisi.</p>
+          <div class="pr"><span class="pill pc">ERP</span><span class="pill pc">AI/ML</span><span class="pill pc">CRM</span><span class="pill pc">Cloud</span></div>
+        </div>
+        <a href="#cta" class="bc-lnk" style="color:#38e0f8">Baslayalim <i class="ph ph-arrow-right"></i></a>
+      </div>
+      <div class="bc bs1" id="bc3">
+        <div class="bc-sp"></div>
+        <i class="ph ph-code bci" style="color:#ff5fac;--ic:rgba(255,95,172,.8)"></i>
+        <h3>Yazilim Danismanligi</h3>
+        <p class="bd">Mimari tasarim, kod kalitesi, DevOps pipeline ve guvenlik denetimi.</p>
+      </div>
+      <div class="bc bs2" id="bc4">
+        <div class="bc-sp"></div>
+        <i class="ph ph-users-four bci" style="color:#34d399;--ic:rgba(52,211,153,.8)"></i>
+        <h3>Mentorluk ve Kocluk</h3>
+        <p class="bd">ICF onayli koclar, 360 geri bildirim, liderlik gelisimi.</p>
+      </div>
+      <div class="bc bs3" id="bc5">
+        <h3 style="color:#fff;font-size:2.8rem;margin-bottom:.2rem;position:relative;z-index:2;text-shadow:0 0 30px rgba(255,255,255,.3)">%94</h3>
+        <p style="color:rgba(255,255,255,.88);font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;position:relative;z-index:2">Hedef Basarisi</p>
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.1),transparent);border-radius:24px;animation:bs3-shine 3s ease-in-out infinite"></div>
+        <style>@keyframes bs3-shine{0%,100%{opacity:.5}50%{opacity:1}}</style>
+      </div>
+      <div class="bc bs4" id="bc6">
+        <div class="bc-sp"></div>
+        <i class="ph ph-kanban bci" style="color:#fbbf24;--ic:rgba(251,191,36,.8)"></i>
+        <h3>Proje Yonetimi</h3>
+        <p class="bd" style="font-size:.8rem">Agile · Scrum · SAFe · PMO · PMP</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PINNED SCROLL STORY -->
+<section class="story-wrap" id="story-wrap">
+  <div class="story-pin" id="story-pin">
+    <div id="story-prog"></div>
+    <div class="slides-track" id="slides-track">
+      <div class="slide">
+        <div class="s-txt">
+          <p class="eyebr">Adim 01</p>
+          <h2 style="font-size:clamp(2.2rem,4.5vw,3.4rem);font-weight:900;margin-bottom:1.1rem">Analiz &amp; <span class="grad">Tani</span></h2>
+          <p style="color:var(--txt2);line-height:1.85;font-size:1rem;max-width:460px">Sirketinizin kurumsal DNA'sini, piyasa pozisyonunu ve rekabet dinamiklerini tum boyutlariyla olcuyoruz. 180+ metrik ile veri odakli tani.</p>
+          <div class="pr" style="margin-top:1.5rem"><span class="pill pp">180+ Metrik</span><span class="pill pc">Benchmark</span><span class="pill pm">Swot Analizi</span></div>
+        </div>
+        <div class="s-vis">
+          <div class="s-num">01</div>
+          <div class="s-card">
+            <i class="ph ph-magnifying-glass" style="font-size:2.5rem;color:#9d54f6;display:block;margin-bottom:1rem;filter:drop-shadow(0 0 12px rgba(157,84,246,.7))"></i>
+            <h4 style="font-family:'Bricolage Grotesque',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:.5rem">Durum Tespiti</h4>
+            <p style="font-size:.85rem;color:var(--mut);line-height:1.65">Tam spektrum diagnosis — dijital, operasyonel, stratejik</p>
+            <div style="margin-top:1.5rem;height:3px;border-radius:2px;background:var(--grd);animation:prog-fill 3s ease-in-out infinite"></div>
+            <style>@keyframes prog-fill{0%{width:0%;opacity:.5}70%{width:100%;opacity:1}100%{width:100%;opacity:.5}}</style>
+          </div>
+        </div>
+      </div>
+      <div class="slide">
+        <div class="s-txt">
+          <p class="eyebr">Adim 02</p>
+          <h2 style="font-size:clamp(2.2rem,4.5vw,3.4rem);font-weight:900;margin-bottom:1.1rem">Strateji &amp; <span class="grad2">Yol Haritasi</span></h2>
+          <p style="color:var(--txt2);line-height:1.85;font-size:1rem;max-width:460px">OKR kaskadi, BSC scorecard ve 3-yillik stratejik yol haritasi. Her hedef icin somut KPI'lar, zaman planlamasi ve kaynak tahsisi.</p>
+          <div class="pr" style="margin-top:1.5rem"><span class="pill pc">OKR Kaskadi</span><span class="pill pp">BSC</span><span class="pill pg">36 Ay Plan</span></div>
+        </div>
+        <div class="s-vis">
+          <div class="s-num">02</div>
+          <div class="s-card">
+            <i class="ph ph-map-trifold" style="font-size:2.5rem;color:#38e0f8;display:block;margin-bottom:1rem;filter:drop-shadow(0 0 12px rgba(56,224,248,.7))"></i>
+            <h4 style="font-family:'Bricolage Grotesque',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:.5rem">12-24-36 Ay Harita</h4>
+            <p style="font-size:.85rem;color:var(--mut);line-height:1.65">Hedef kaskadi ile tam strateji planlamasi</p>
+            <div style="margin-top:1.5rem;display:grid;grid-template-columns:repeat(3,1fr);gap:.3rem">
+              <div style="height:36px;border-radius:6px;background:rgba(56,224,248,.15);border:1px solid rgba(56,224,248,.2);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#a5f3fc">12 ay</div>
+              <div style="height:36px;border-radius:6px;background:rgba(157,84,246,.12);border:1px solid rgba(157,84,246,.2);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#c4b5fd">24 ay</div>
+              <div style="height:36px;border-radius:6px;background:rgba(255,95,172,.1);border:1px solid rgba(255,95,172,.2);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#fbb6ce">36 ay</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide">
+        <div class="s-txt">
+          <p class="eyebr">Adim 03</p>
+          <h2 style="font-size:clamp(2.2rem,4.5vw,3.4rem);font-weight:900;margin-bottom:1.1rem">Uygulama &amp; <span class="grad">Sonuc</span></h2>
+          <p style="color:var(--txt2);line-height:1.85;font-size:1rem;max-width:460px">Agile sprint metodolojisi ile haftalik iterasyon. Gercek zamanli OKR dashboard izleme ve aylik yonetim raporlamasi ile kanıtlanmıs %94 hedef basarisi.</p>
+          <div class="pr" style="margin-top:1.5rem"><span class="pill pk">%94 Basari</span><span class="pill pm">Agile Sprint</span><span class="pill pp">Live Dashboard</span></div>
+        </div>
+        <div class="s-vis">
+          <div class="s-num">03</div>
+          <div class="s-card">
+            <i class="ph ph-rocket-launch" style="font-size:2.5rem;color:#ff5fac;display:block;margin-bottom:1rem;filter:drop-shadow(0 0 12px rgba(255,95,172,.7))"></i>
+            <h4 style="font-family:'Bricolage Grotesque',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:.5rem">Lansman &amp; Olcekleme</h4>
+            <p style="font-size:.85rem;color:var(--mut);line-height:1.65">Kanıtlanmıs metodoloji ile surdurulebilir buyume</p>
+            <div style="margin-top:1.25rem;display:flex;gap:.3rem;align-items:flex-end">
+              <div style="flex:1;height:20px;background:rgba(255,95,172,.2);border-radius:4px"></div>
+              <div style="flex:1;height:30px;background:rgba(255,95,172,.35);border-radius:4px"></div>
+              <div style="flex:1;height:45px;background:rgba(255,95,172,.5);border-radius:4px"></div>
+              <div style="flex:1;height:60px;background:var(--grd);border-radius:4px;box-shadow:0 0 12px rgba(255,95,172,.4)"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="sdots"><div class="sdot a" style="width:28px"></div><div class="sdot" style="width:8px"></div><div class="sdot" style="width:8px"></div></div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-s" id="basari">
+  <div class="stats-bg"></div>
+  <div class="container">
+    <div class="sh" style="margin-bottom:4rem">
+      <p class="eyebr" style="justify-content:center">Rakamlarla Titanlar</p>
+      <h2>Kanitlanmis <span class="grad">Sonuclar</span></h2>
+    </div>
+    <div class="sgrid">
+      <div class="glass sgi" id="sg1" style="background:var(--g1);backdrop-filter:blur(24px);border:1px solid var(--gb)">
+        <div class="sgi-ring" style="background:conic-gradient(rgba(157,84,246,.4),transparent,rgba(157,84,246,.1))"></div>
+        <div class="sgn grad" id="sn1">0+</div>
+        <div class="sgl">Mutlu Musteri</div>
+        <div class="sgp">Aktif danismanlik ekosisteminde</div>
+      </div>
+      <div class="glass sgi" id="sg2" style="background:var(--g1);backdrop-filter:blur(24px);border:1px solid var(--gb)">
+        <div class="sgi-ring" style="background:conic-gradient(rgba(255,95,172,.4),transparent,rgba(255,95,172,.1))"></div>
+        <div class="sgn" id="sn2" style="background:linear-gradient(135deg,#ff5fac,#f43f5e);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">0</div>
+        <div class="sgl">Yillik Deneyim</div>
+        <div class="sgp">2010'dan bu yana kesintisiz</div>
+      </div>
+      <div class="glass sgi" id="sg3" style="background:var(--g1);backdrop-filter:blur(24px);border:1px solid var(--gb)">
+        <div class="sgi-ring" style="background:conic-gradient(rgba(56,224,248,.4),transparent,rgba(56,224,248,.1))"></div>
+        <div class="sgn" id="sn3" style="background:linear-gradient(135deg,#38e0f8,#6366f1);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">%0</div>
+        <div class="sgl">Basari Orani</div>
+        <div class="sgp">OKR hedef tamamlama</div>
+      </div>
+      <div class="glass sgi" id="sg4" style="background:var(--g1);backdrop-filter:blur(24px);border:1px solid var(--gb)">
+        <div class="sgi-ring" style="background:conic-gradient(rgba(251,191,36,.4),transparent,rgba(251,191,36,.1))"></div>
+        <div class="sgn" id="sn4" style="background:linear-gradient(135deg,#fbbf24,#f59e0b);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">0</div>
+        <div class="sgl">NPS Skoru</div>
+        <div class="sgp">Promoter orani %91</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAMS -->
+<section class="section" id="egitim">
+  <div class="container">
+    <div class="sh">
+      <p class="eyebr" style="justify-content:center">Egitim Programlari</p>
+      <h2>Gelecegi <span class="grad2">Insa Eden</span> Programlar</h2>
+      <p>Sertifikali, akredite ve endustri uzmanlari tarafindan verilen programlar.</p>
+    </div>
+    <div class="pgrid">
+      <div class="pgc" style="--pt:linear-gradient(135deg,#ff5fac,#f43f5e);--pb:rgba(255,95,172,.3);--pg:rgba(255,95,172,.06);--ic:rgba(255,95,172,.9)">
+        <div class="pgc-sw"></div><div class="pgc-scan"></div>
+        <i class="ph ph-storefront pgci" style="color:#ff5fac"></i>
+        <h3>E-Ticaret Egitimi</h3>
+        <p class="pgd">Shopify'dan WooCommerce'e, dropshipping'den D2C marka kurmaya. Basindan sonuna e-ticaret yonetimi ve pazarlama.</p>
+        <div class="pr" style="margin-bottom:1.35rem"><span class="pill pk">Shopify</span><span class="pill pk">D2C</span><span class="pill pk">ROAS</span><span class="pill pk">Meta Ads</span></div>
+        <a href="#cta" class="btn bp" style="width:100%;justify-content:center">Programa Katil <i class="ph ph-arrow-right"></i></a>
+      </div>
+      <div class="pgc" style="--pt:linear-gradient(135deg,#38e0f8,#6366f1);--pb:rgba(56,224,248,.3);--pg:rgba(56,224,248,.05);--ic:rgba(56,224,248,.9)">
+        <div class="pgc-sw"></div><div class="pgc-scan"></div>
+        <i class="ph ph-airplane-tilt pgci" style="color:#38e0f8"></i>
+        <h3>E-Ihracat Uzmanligi</h3>
+        <p class="pgd">Amazon FBA, Etsy Global, AliExpress. Gumrukleme, global lojistik ve cross-border odeme yonetimi.</p>
+        <div class="pr" style="margin-bottom:1.35rem"><span class="pill pc">Amazon FBA</span><span class="pill pc">Etsy</span><span class="pill pc">Global Loj</span></div>
+        <a href="#cta" class="btn bg" style="width:100%;justify-content:center">Programa Katil <i class="ph ph-arrow-right"></i></a>
+      </div>
+      <div class="pgc" style="--pt:linear-gradient(135deg,#fbbf24,#f59e0b);--pb:rgba(251,191,36,.3);--pg:rgba(251,191,36,.04);--ic:rgba(251,191,36,.9)">
+        <div class="pgc-sw"></div><div class="pgc-scan"></div>
+        <i class="ph ph-kanban pgci" style="color:#fbbf24"></i>
+        <h3>Proje Yonetim Sist. Egitimi</h3>
+        <p class="pgd">PMP, PMI-ACP ve Scrum Master sertifikasyonu. Jira, Monday, Notion ile gercek proje yonetimi metodolojileri.</p>
+        <div class="pr" style="margin-bottom:1.35rem"><span class="pill pg">PMP</span><span class="pill pg">Scrum</span><span class="pill pg">SAFe</span></div>
+        <a href="#cta" class="btn bg" style="width:100%;justify-content:center">Programa Katil <i class="ph ph-arrow-right"></i></a>
+      </div>
+      <div class="pgc" style="--pt:linear-gradient(135deg,#9d54f6,#a855f7);--pb:rgba(157,84,246,.3);--pg:rgba(157,84,246,.06);--ic:rgba(157,84,246,.9)">
+        <div class="pgc-sw"></div><div class="pgc-scan"></div>
+        <i class="ph ph-users pgci" style="color:#9d54f6"></i>
+        <h3>Mentorluk Programi</h3>
+        <p class="pgd">Birebir kariyer koclugu, 360 geri bildirim ve liderlik gelisimi. Aylik 4x60dk. seans.</p>
+        <div class="pr" style="margin-bottom:1.35rem"><span class="pill pp">1-1 Kocluk</span><span class="pill pp">ICF Onayli</span></div>
+        <a href="#cta" class="btn bg" style="width:100%;justify-content:center">Basvur <i class="ph ph-arrow-right"></i></a>
+      </div>
+      <div class="pgc" style="--pt:linear-gradient(135deg,#34d399,#059669);--pb:rgba(52,211,153,.3);--pg:rgba(52,211,153,.05);--ic:rgba(52,211,153,.9)">
+        <div class="pgc-sw"></div><div class="pgc-scan"></div>
+        <i class="ph ph-robot pgci" style="color:#34d399"></i>
+        <h3>Yapay Zeka Atelyeleri</h3>
+        <p class="pgd">ChatGPT, Midjourney, n8n ve LangChain ile uretkenligi katla. AI araclariyla is sureclerini otomatize et.</p>
+        <div class="pr" style="margin-bottom:1.35rem"><span class="pill pm">ChatGPT</span><span class="pill pm">n8n</span><span class="pill pm">LangChain</span></div>
+        <a href="#cta" class="btn bg" style="width:100%;justify-content:center">Programa Katil <i class="ph ph-arrow-right"></i></a>
+      </div>
+      <div class="pgc" style="--pt:linear-gradient(135deg,#f43f5e,#ec4899);--pb:rgba(244,63,94,.3);--pg:rgba(244,63,94,.04);--ic:rgba(244,63,94,.9)">
+        <div class="pgc-sw"></div><div class="pgc-scan"></div>
+        <i class="ph ph-lightbulb pgci" style="color:#f472b6"></i>
+        <h3>Girisimcilik Bootcamp</h3>
+        <p class="pgd">Fikir dogrulama, MVP gelistirme, yatirimci sunumu ve startup ekosistemi networking. 12 haftalik yogun program.</p>
+        <div class="pr" style="margin-bottom:1.35rem"><span class="pill pk">MVP</span><span class="pill pk">Pitch Deck</span><span class="pill pk">Network</span></div>
+        <a href="#cta" class="btn bg" style="width:100%;justify-content:center">Bootcampe Katil <i class="ph ph-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section">
+  <div class="container">
+    <div class="sh" style="margin-bottom:4rem">
+      <p class="eyebr" style="justify-content:center">Basari Hikayeleri</p>
+      <h2>Titanlarin <span class="grad">Sesine</span> Kulak Ver</h2>
+    </div>
+    <div class="tgrid">
+      <div class="tc" id="tc1">
+        <div class="tc-orb" style="--oc:rgba(157,84,246,.3)" id="tc1orb"></div>
+        <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
+        <p class="tq">E-ticaret hacmimizi 3 ayda 4 katina cikardik. Veri odakli yaklasimlar gercekten ilham verici ve sonuc odakli.</p>
+        <div class="ta"><div class="av" style="background:linear-gradient(135deg,#9d54f6,#ff5fac);--ac:rgba(157,84,246,.5)">SY</div><div><div style="font-weight:700;font-size:.9rem">Selin Yilmaz</div><div style="font-size:.76rem;color:var(--mut)">Kurucu, PureBeauty</div></div></div>
+      </div>
+      <div class="tc" id="tc2">
+        <div class="tc-orb" style="--oc:rgba(56,224,248,.25)" id="tc2orb"></div>
+        <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
+        <p class="tq">Dijital donusum surecimizde essis bir rehber oldular. Tum operasyonel sureclerimizi AI ile entegre ettiler, verimliligi %60 arttirdik.</p>
+        <div class="ta"><div class="av" style="background:linear-gradient(135deg,#38e0f8,#6366f1);--ac:rgba(56,224,248,.5)">MA</div><div><div style="font-weight:700;font-size:.9rem">Merve Aksoy</div><div style="font-size:.76rem;color:var(--mut)">COO, TechSolutions AS</div></div></div>
+      </div>
+      <div class="tc" id="tc3">
+        <div class="tc-orb" style="--oc:rgba(251,191,36,.25)" id="tc3orb"></div>
+        <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
+        <p class="tq">Mentorluk programi kariyerimin donum noktasi oldu. Amazon'da ilk 6 ayda 200K TL ciro elde ettim.</p>
+        <div class="ta"><div class="av" style="background:linear-gradient(135deg,#fbbf24,#f59e0b);--ac:rgba(251,191,36,.5)">ED</div><div><div style="font-weight:700;font-size:.9rem">Ece Demir</div><div style="font-size:.76rem;color:var(--mut)">E-Ihracat Girisimcisi</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="fiyatlar">
+  <div class="container">
+    <div class="sh" style="margin-bottom:4rem">
+      <p class="eyebr" style="justify-content:center">Fiyatlandirma</p>
+      <h2>Buyuklugune Gore <span class="grad">Sec</span></h2>
+    </div>
+    <div class="pgrid3">
+      <div class="pcard" style="--pf:linear-gradient(135deg,#9d54f6,#ff5fac)">
+        <div class="pcname">Bireysel</div>
+        <div class="pcprice">2.990<span style="font-size:1.1rem;font-family:'Urbanist',sans-serif;font-weight:400;color:var(--mut)"> TL/ay</span></div>
+        <div class="pcsub">Kariyer gelisimi ve temel danismanlik</div>
+        <ul class="pcf">
+          <li><i class="ph ph-check-circle" style="color:var(--pur)"></i>1 Egitim Programi Erisimi</li>
+          <li><i class="ph ph-check-circle" style="color:var(--pur)"></i>Aylik 2x60dk. Kocluk</li>
+          <li><i class="ph ph-check-circle" style="color:var(--pur)"></i>Topluluk Erisimi</li>
+          <li><i class="ph ph-check-circle" style="color:var(--pur)"></i>Temel Strateji Araclari</li>
+        </ul>
+        <a href="#cta" class="btn bg" style="width:100%;justify-content:center">Basla <i class="ph ph-arrow-right"></i></a>
+      </div>
+      <div class="pcard feat" style="--pf:linear-gradient(135deg,#9d54f6,#ff5fac)">
+        <div class="pcbadge">En Populer</div>
+        <div class="pcname">Profesyonel</div>
+        <div class="pcprice grad">7.990<span style="font-size:1.1rem;font-family:'Urbanist',sans-serif;font-weight:400;-webkit-text-fill-color:var(--mut)"> TL/ay</span></div>
+        <div class="pcsub">Girisimciler ve orta olcekli sirketler icin</div>
+        <ul class="pcf">
+          <li><i class="ph ph-check-circle" style="color:var(--pur)"></i>Tum Egitim Programlari</li>
+          <li><i class="ph ph-check-circle" style="color:var(--pur)"></i>Haftalik 1-1 Mentorluk</li>
+          <li><i class="ph ph-check-circle" style="color:var(--pur)"></i>Dijital Donusum Paketi</li>
+          <li><i class="ph ph-check-circle" style="color:var(--pur)"></i>7/24 Teknik Destek</li>
+          <li><i class="ph ph-check-circle" style="color:var(--pur)"></i>OKR Dashboard Erisimi</li>
+        </ul>
+        <a href="#cta" class="btn bp" style="width:100%;justify-content:center">Hemen Katil <i class="ph ph-arrow-right"></i></a>
+      </div>
+      <div class="pcard" style="background:linear-gradient(135deg,rgba(5,5,17,.95),rgba(20,10,45,.9));border-color:rgba(157,84,246,.15);--pf:linear-gradient(135deg,#38e0f8,#6366f1)">
+        <div class="pcname">Enterprise</div>
+        <div class="pcprice">Teklif Al</div>
+        <div class="pcsub">Kurumsal firmalar ve holding yapilari</div>
+        <ul class="pcf">
+          <li><i class="ph ph-check-circle" style="color:var(--cyan)"></i>Ozel Kurumsal Program</li>
+          <li><i class="ph ph-check-circle" style="color:var(--cyan)"></i>Sahada Yerinde Destek</li>
+          <li><i class="ph ph-check-circle" style="color:var(--cyan)"></i>Yonetim Kurulu Danismanligi</li>
+          <li><i class="ph ph-check-circle" style="color:var(--cyan)"></i>Ozel SLA ve Raporlama</li>
+        </ul>
+        <a href="#cta" class="btn bg" style="width:100%;justify-content:center">Iletisime Gec <i class="ph ph-phone"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="ctas" id="cta">
+  <div class="container">
+    <div class="ctabox">
+      <div class="ctabg"></div>
+      <div class="cta-grid"></div>
+      <div class="cta-orb" style="width:300px;height:300px;background:radial-gradient(circle,rgba(157,84,246,.5),transparent 70%);top:-100px;left:-50px"></div>
+      <div class="cta-orb" style="width:250px;height:250px;background:radial-gradient(circle,rgba(255,95,172,.4),transparent 70%);bottom:-80px;right:-30px;animation-delay:2s"></div>
+      <h2>Gelecegi Sekillendirmeye<br>Hazir misin?</h2>
+      <p>Titanlar topluluuguna katil. Ilk gorusme ucretsiz, taahut gerektirmez.</p>
+      <form class="erow" onsubmit="return false">
+        <input type="email" placeholder="E-posta adresin..."/>
+        <button class="btn bp" style="border-radius:100px;padding:10px 22px;font-size:.88rem">Baslayalim <i class="ph ph-arrow-right"></i></button>
+      </form>
+      <div class="tpills">
+        <span class="tpill"><i class="ph ph-lock-simple"></i>Kredi karti gerekmez</span>
+        <span class="tpill"><i class="ph ph-clock"></i>48 saat icinde yanit</span>
+        <span class="tpill"><i class="ph ph-shield-check"></i>KVKK uyumlu</span>
+        <span class="tpill"><i class="ph ph-star"></i>4.9 / 5.0 puan</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="ftgrid">
+      <div>
+        <div class="logo-w" style="margin-bottom:1rem"><div class="lmk" style="width:40px;height:40px;font-size:1rem">T</div><span class="lt" style="font-size:1.3rem">Titanlar</span></div>
+        <p class="ftdesc">Z kusaginin dinamizmi ile enterprise standartlarini birlestiren Turkiye'nin lider danismanlik ve egitim platformu. 2010'dan bu yana kesintisiz.</p>
+        <div class="socs">
+          <a href="#" class="soc" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
+          <a href="#" class="soc" aria-label="LinkedIn"><i class="ph ph-linkedin-logo"></i></a>
+          <a href="#" class="soc" aria-label="Twitter/X"><i class="ph ph-twitter-logo"></i></a>
+          <a href="#" class="soc" aria-label="YouTube"><i class="ph ph-youtube-logo"></i></a>
+          <a href="#" class="soc" aria-label="TikTok"><i class="ph ph-tiktok-logo"></i></a>
+        </div>
+      </div>
+      <div>
+        <div class="fth">Hizmetler</div>
+        <ul class="ftl">
+          <li><a href="#hizmetler">Stratejik Danismanlik</a></li>
+          <li><a href="#hizmetler">Dijital Donusum</a></li>
+          <li><a href="#hizmetler">Yazilim Danismanligi</a></li>
+          <li><a href="#hizmetler">Proje Yonetimi</a></li>
+          <li><a href="#hizmetler">Mentorluk Kocluk</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="fth">Egitim</div>
+        <ul class="ftl">
+          <li><a href="#egitim">E-Ticaret Egitimi</a></li>
+          <li><a href="#egitim">E-Ihracat Uzmanligi</a></li>
+          <li><a href="#egitim">Proje Yonetim Sist.</a></li>
+          <li><a href="#egitim">Yapay Zeka Atelyeleri</a></li>
+          <li><a href="#egitim">Girisimcilik Bootcamp</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="fth">Bulten</div>
+        <p style="font-size:.82rem;color:var(--mut);margin-bottom:.8rem;line-height:1.6">Haftalik strateji ve sektor icgoruleri.</p>
+        <div class="nlform"><input type="email" class="nlinput" placeholder="e-posta..."/><button class="nlbtn">Abone Ol</button></div>
+        <p style="font-size:.7rem;color:rgba(244,238,255,.28);display:flex;align-items:center;gap:.3rem"><i class="ph ph-lock-simple"></i>Spam yok. Iptal kolay.</p>
+      </div>
+    </div>
+    <div class="ftbot">
+      <div class="ftcopy">2026 <strong style="color:rgba(244,238,255,.42)">Titanlar.com</strong> — Tum haklar saklidir.</div>
+      <div class="ftll"><a href="#">Gizlilik</a><a href="#">Kullanim Sartlari</a><a href="#">KVKK</a><a href="#">Cerez</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+/* ═══════════════════════════════════════════════════════
+   1. CUSTOM CURSOR
+═══════════════════════════════════════════════════════ */
+const cur = document.getElementById('cur');
+const curRing = document.getElementById('cur-ring');
+let mx=0, my=0, rx=0, ry=0;
+document.addEventListener('mousemove', e => {
+  mx=e.clientX; my=e.clientY;
+  document.body.classList.add('visible');
+  gsap.to(cur,{x:mx-5,y:my-5,duration:.08,ease:'none'});
+});
+(function lerpRing(){
+  rx+=(mx-rx)*.1; ry+=(my-ry)*.1;
+  gsap.set(curRing,{x:rx-18,y:ry-18});
+  requestAnimationFrame(lerpRing);
+})();
+document.querySelectorAll('a,button,.bc,.pgc,.pcard,.tc,.sgi,.soc,.btn').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('cx'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('cx'));
+});
+
+/* ═══════════════════════════════════════════════════════
+   2. WEBGL PARTICLE SYSTEM (fluid + reactive)
+═══════════════════════════════════════════════════════ */
+const glc = document.getElementById('glc');
+const ctx2 = glc.getContext('2d');
+let W,H,pts=[];
+const mouse={x:-999,y:-999,vx:0,vy:0};
+let pmx=0,pmy=0;
+
+function resize(){
+  W=glc.width=window.innerWidth;
+  H=glc.height=window.innerHeight;
+}
+resize(); window.addEventListener('resize',resize);
+
+document.addEventListener('mousemove',e=>{
+  mouse.vx=e.clientX-pmx; mouse.vy=e.clientY-pmy;
+  mouse.x=e.clientX; mouse.y=e.clientY;
+  pmx=e.clientX; pmy=e.clientY;
+});
+
+const PALETTES=[
+  ['rgba(157,84,246,','rgba(255,95,172,','rgba(56,224,248,'],
+  ['rgba(52,211,153,','rgba(56,224,248,','rgba(157,84,246,'],
+];
+class Particle{
+  constructor(){this.init(true)}
+  init(rand){
+    this.x=Math.random()*W; this.y=rand?Math.random()*H:H+10;
+    this.vx=(Math.random()-.5)*.6; this.vy=(Math.random()-.5)*.6-Math.random()*.2;
+    this.r=Math.random()*2.2+.4;
+    this.baseOp=Math.random()*.55+.1;
+    this.op=rand?Math.random()*this.baseOp:0;
+    this.col=PALETTES[0][Math.floor(Math.random()*3)];
+    this.twinkle=Math.random()*2+1;
+    this.twinkleOff=Math.random()*Math.PI*2;
+    this.depth=Math.random()*.8+.2; // parallax depth
+  }
+  update(t,scrollY){
+    // scroll parallax: deeper particles move slower
+    const pshift=scrollY*this.depth*.015;
+    // mouse repel
+    const dx=this.x-mouse.x, dy=this.y-mouse.y;
+    const dist=Math.sqrt(dx*dx+dy*dy);
+    if(dist<130){
+      const f=(130-dist)/130;
+      this.vx+=(dx/dist)*f*1.2+(mouse.vx*f*.08);
+      this.vy+=(dy/dist)*f*1.2+(mouse.vy*f*.08);
+    }
+    this.vx*=.96; this.vy*=.96;
+    this.x+=this.vx; this.y+=this.vy-pshift*.001;
+    if(this.x<0)this.vx+=.3; if(this.x>W)this.vx-=.3;
+    if(this.y<0||this.y>H)this.init(false);
+    this.op=Math.min(this.baseOp,this.op+.006);
+    // twinkle
+    const tw=Math.sin(t*this.twinkle+this.twinkleOff)*.5+.5;
+    this.drawOp=this.op*(0.6+tw*0.4);
+  }
+  draw(){
+    ctx2.beginPath();
+    ctx2.arc(this.x,this.y,this.r,0,Math.PI*2);
+    ctx2.fillStyle=this.col+this.drawOp+')';
+    ctx2.fill();
+  }
+}
+// connections
+function drawLinks(pts){
+  for(let i=0;i<pts.length;i++){
+    for(let j=i+1;j<pts.length;j++){
+      const dx=pts[i].x-pts[j].x, dy=pts[i].y-pts[j].y;
+      const d=Math.sqrt(dx*dx+dy*dy);
+      if(d<120){
+        ctx2.beginPath();
+        ctx2.moveTo(pts[i].x,pts[i].y);
+        ctx2.lineTo(pts[j].x,pts[j].y);
+        const op=(1-d/120)*.08;
+        ctx2.strokeStyle=`rgba(157,84,246,${op})`;
+        ctx2.lineWidth=.6;
+        ctx2.stroke();
+      }
+    }
+  }
+}
+for(let i=0;i<160;i++) pts.push(new Particle());
+let scrollY=0;
+window.addEventListener('scroll',()=>{scrollY=window.scrollY;},{passive:true});
+let raf=0;
+function drawGL(t){
+  ctx2.clearRect(0,0,W,H);
+  // vignette
+  const vg=ctx2.createRadialGradient(W/2,H/2,H*.1,W/2,H/2,H*.85);
+  vg.addColorStop(0,'transparent');
+  vg.addColorStop(1,'rgba(3,2,14,.6)');
+  pts.forEach(p=>{p.update(t/1000,scrollY);p.draw();});
+  drawLinks(pts);
+  ctx2.fillStyle=vg;
+  ctx2.fillRect(0,0,W,H);
+  requestAnimationFrame(drawGL);
+}
+requestAnimationFrame(drawGL);
+
+/* ═══════════════════════════════════════════════════════
+   3. NAV SCROLL
+═══════════════════════════════════════════════════════ */
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('sc',scrollY>60);
+},{passive:true});
+
+/* ═══════════════════════════════════════════════════════
+   4. HERO PARALLAX DEPTH on SCROLL
+═══════════════════════════════════════════════════════ */
+gsap.to('#dl1',{y:'-=120',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:1.5}});
+gsap.to('#dl2',{y:'+=80',x:'+=30',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:2}});
+gsap.to('#dl3',{y:'-=60',x:'-=20',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:1}});
+gsap.to('#hr',{y:'+=80',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:1.2}});
+gsap.to('#hl',{y:'+=40',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:.8}});
+
+/* ═══════════════════════════════════════════════════════
+   5. HERO ENTRANCE (char by char)
+═══════════════════════════════════════════════════════ */
+const chars = document.querySelectorAll('#ht .hc');
+const heroTL = gsap.timeline({delay:.15});
+heroTL
+  .from('#eyebr',{y:24,opacity:0,duration:.7,ease:'power3.out'})
+  .from('#ht-brand',{y:80,opacity:0,scale:.8,duration:.9,ease:'back.out(2)'},'-=.3')
+  .from(chars,{
+    y:100,opacity:0,rotateX:-80,
+    duration:.8,stagger:.03,ease:'back.out(1.5)',
+    transformOrigin:'50% 100%',transformPerspective:600
+  },'-=.8')
+  .from('#hdesc',{y:28,opacity:0,duration:.7,ease:'power3.out'},'-=.5')
+  .from('#brow > *',{y:20,opacity:0,duration:.55,stagger:.1,ease:'back.out(1.7)'},'-=.4')
+  .from('#trust > *',{y:14,opacity:0,duration:.5,stagger:.06,ease:'power2.out'},'-=.3')
+  .from('#fc1',{opacity:0,scale:.6,y:50,rotation:-8,duration:.9,ease:'back.out(2)'},'-=.6')
+  .from('#fc2',{opacity:0,scale:.6,y:50,rotation:8,duration:.9,ease:'back.out(2)'},'-=.75')
+  .from('#fc3',{opacity:0,scale:.6,y:50,rotation:-4,duration:.9,ease:'back.out(2)'},'-=.75');
+
+/* floating card oscillation */
+gsap.to('#fc1',{y:-28,rotation:.8,duration:3.4,ease:'sine.inOut',yoyo:true,repeat:-1});
+gsap.to('#fc2',{y:22,rotation:-1,duration:4.2,ease:'sine.inOut',yoyo:true,repeat:-1,delay:.7});
+gsap.to('#fc3',{y:-18,rotation:.5,duration:3.8,ease:'sine.inOut',yoyo:true,repeat:-1,delay:1.4});
+/* card shimmer + pulse are CSS animated */
+
+/* ═══════════════════════════════════════════════════════
+   6. 3D TILT — hero cards + bento + programs + pricing + testi
+═══════════════════════════════════════════════════════ */
+function addTilt(sel,maxAngle=14,perspective=700){
+  document.querySelectorAll(sel).forEach(el=>{
+    el.addEventListener('mousemove',e=>{
+      const r=el.getBoundingClientRect();
+      const dx=(e.clientX-r.left)/r.width-.5;
+      const dy=(e.clientY-r.top)/r.height-.5;
+      gsap.to(el,{
+        rotateY:dx*maxAngle*2,rotateX:-dy*maxAngle*2,
+        duration:.35,ease:'power2.out',
+        transformPerspective:perspective,transformStyle:'preserve-3d',
+        boxShadow:`${-dx*12}px ${-dy*12}px 50px rgba(0,0,0,.5),0 0 40px rgba(157,84,246,${Math.abs(dx)+Math.abs(dy)*.15})`
+      });
+      // spotlight update for bento
+      const sp=el.querySelector('.bc-sp');
+      if(sp){
+        const mx2=((e.clientX-r.left)/r.width)*100;
+        const my2=((e.clientY-r.top)/r.height)*100;
+        el.style.setProperty('--sx',mx2+'%');
+        el.style.setProperty('--sy',my2+'%');
+      }
+    });
+    el.addEventListener('mouseleave',()=>{
+      gsap.to(el,{rotateY:0,rotateX:0,duration:.7,ease:'elastic.out(1,.4)',boxShadow:'0 18px 50px rgba(0,0,0,.45)'});
+    });
+  });
+}
+addTilt('.bc',12,800);
+addTilt('.pgc',10,700);
+addTilt('.pcard',10,750);
+addTilt('.tc',8,600);
+addTilt('.fc',18,600);
+addTilt('.s-card',14,600);
+addTilt('.sgi',8,600);
+
+/* ═══════════════════════════════════════════════════════
+   7. MAGNETIC BUTTONS
+═══════════════════════════════════════════════════════ */
+document.querySelectorAll('.btn').forEach(btn=>{
+  btn.addEventListener('mousemove',e=>{
+    const r=btn.getBoundingClientRect();
+    const dx=e.clientX-(r.left+r.width/2);
+    const dy=e.clientY-(r.top+r.height/2);
+    gsap.to(btn,{x:dx*.3,y:dy*.3,duration:.35,ease:'power2.out'});
+  });
+  btn.addEventListener('mouseleave',()=>{
+    gsap.to(btn,{x:0,y:0,duration:.7,ease:'elastic.out(1,.4)'});
+  });
+});
+
+/* ═══════════════════════════════════════════════════════
+   8. BENTO REVEAL — multi-effect stagger
+═══════════════════════════════════════════════════════ */
+const bentoST = ScrollTrigger.create({
+  trigger:'#bento',start:'top 82%',
+  onEnter:()=>{
+    gsap.from('.bc',{
+      opacity:0,y:70,scale:.88,rotateX:15,
+      duration:.95,ease:'back.out(1.4)',stagger:{amount:.6,from:'start'},
+      transformPerspective:800,transformOrigin:'50% 100%',
+      clearProps:'all'
+    });
+    // icon bounce in separately
+    gsap.from('.bci',{
+      scale:0,rotation:-30,opacity:0,
+      duration:.7,ease:'back.out(2.5)',stagger:{amount:.5},delay:.2,
+      clearProps:'all'
+    });
+  }
+});
+
+/* ═══════════════════════════════════════════════════════
+   9. PINNED SCROLL STORY — scrub horizontal
+═══════════════════════════════════════════════════════ */
+const track = document.getElementById('slides-track');
+const prog  = document.getElementById('story-prog');
+const sdots = document.querySelectorAll('.sdot');
+
+gsap.to(track,{
+  x:()=>-(track.scrollWidth/3)*2,
+  ease:'none',
+  scrollTrigger:{
+    trigger:'#story-wrap',start:'top top',end:'bottom bottom',
+    scrub:.8,pin:'#story-pin',
+    onUpdate(self){
+      prog.style.width=(self.progress*100)+'%';
+      const idx=Math.round(self.progress*2);
+      sdots.forEach((d,i)=>{
+        d.classList.toggle('a',i===idx);
+        d.style.width=i===idx?'28px':'8px';
+        d.style.background=i===idx?'':'rgba(255,255,255,.2)';
+      });
+    }
+  }
+});
+// slide cards parallax depth
+gsap.to('.s-card',{
+  y:-50,rotateX:5,
+  ease:'none',
+  scrollTrigger:{trigger:'#story-wrap',start:'top top',end:'bottom bottom',scrub:2}
+});
+// slide text parallax
+gsap.to('.s-txt',{
+  x:-30,
+  ease:'none',
+  scrollTrigger:{trigger:'#story-wrap',start:'top top',end:'bottom bottom',scrub:1.5}
+});
+
+/* ═══════════════════════════════════════════════════════
+   10. STATS — odometer + ring + scale cascade
+═══════════════════════════════════════════════════════ */
+const stats=[
+  {id:'sn1',target:500,format:v=>Math.round(v)+'+'},
+  {id:'sn2',target:14, format:v=>Math.round(v)+' Yil'},
+  {id:'sn3',target:94, format:v=>'%'+Math.round(v)},
+  {id:'sn4',target:82, format:v=>'NPS '+Math.round(v)},
+];
+stats.forEach((s,i)=>{
+  let obj={n:0};
+  ScrollTrigger.create({trigger:'#basari',start:'top 85%',once:true,onEnter:()=>{
+    gsap.to(obj,{n:s.target,duration:2.2+i*.1,ease:'power2.out',delay:i*.08,
+      onUpdate(){document.getElementById(s.id).textContent=s.format(obj.n);}
+    });
+  }});
+});
+// stat cards cascade in
+gsap.from('.sgi',{
+  opacity:0,y:50,scale:.88,rotateY:15,
+  duration:.85,ease:'back.out(1.4)',stagger:.1,
+  transformPerspective:800,clearProps:'all',
+  scrollTrigger:{trigger:'#basari',start:'top 85%',toggleActions:'play none none reverse'}
+});
+
+/* ═══════════════════════════════════════════════════════
+   11. PROGRAMS — cascade + float on enter
+═══════════════════════════════════════════════════════ */
+gsap.from('.pgc',{
+  opacity:0,y:60,scale:.9,rotateX:10,
+  duration:.9,ease:'back.out(1.5)',stagger:{amount:.6},
+  transformPerspective:800,clearProps:'all',
+  scrollTrigger:{trigger:'.pgrid',start:'top 84%',toggleActions:'play none none reverse'}
+});
+
+/* ═══════════════════════════════════════════════════════
+   12. TESTIMONIALS — mouse-follow orbs
+═══════════════════════════════════════════════════════ */
+gsap.from('.tc',{
+  opacity:0,y:44,scale:.92,
+  duration:.85,ease:'back.out(1.4)',stagger:.14,clearProps:'all',
+  scrollTrigger:{trigger:'.tgrid',start:'top 85%',toggleActions:'play none none reverse'}
+});
+document.querySelectorAll('.tc').forEach(tc=>{
+  const orb=tc.querySelector('.tc-orb');
+  tc.addEventListener('mousemove',e=>{
+    const r=tc.getBoundingClientRect();
+    gsap.to(orb,{x:e.clientX-r.left-140,y:e.clientY-r.top-140,duration:.5,ease:'power2.out'});
+  });
+});
+
+/* ═══════════════════════════════════════════════════════
+   13. PRICING — stagger + glow cascade
+═══════════════════════════════════════════════════════ */
+gsap.from('.pcard',{
+  opacity:0,y:48,scale:.92,rotateY:-8,
+  duration:.9,ease:'back.out(1.4)',stagger:{amount:.35},
+  transformPerspective:900,clearProps:'all',
+  scrollTrigger:{trigger:'.pgrid3',start:'top 85%',toggleActions:'play none none reverse'}
+});
+
+/* ═══════════════════════════════════════════════════════
+   14. CTA — entrance
+═══════════════════════════════════════════════════════ */
+gsap.from('.ctabox',{
+  opacity:0,scale:.94,y:40,duration:1,ease:'power3.out',clearProps:'all',
+  scrollTrigger:{trigger:'.ctabox',start:'top 86%',toggleActions:'play none none reverse'}
+});
+gsap.from('.ctabox h2,.ctabox p,.erow,.tpill',{
+  opacity:0,y:24,duration:.7,stagger:.08,ease:'power3.out',clearProps:'all',
+  scrollTrigger:{trigger:'.ctabox',start:'top 82%',toggleActions:'play none none reverse'}
+});
+
+/* ═══════════════════════════════════════════════════════
+   15. FOOTER — wave
+═══════════════════════════════════════════════════════ */
+gsap.from('.ftgrid > *',{
+  opacity:0,y:32,duration:.7,stagger:.1,clearProps:'all',
+  scrollTrigger:{trigger:'.ftgrid',start:'top 90%',toggleActions:'play none none reverse'}
+});
+gsap.from('.soc',{
+  opacity:0,scale:0,rotation:45,duration:.5,ease:'back.out(2)',stagger:.06,clearProps:'all',
+  scrollTrigger:{trigger:'.socs',start:'top 92%'}
+});
+
+/* ═══════════════════════════════════════════════════════
+   16. SECTION HEADERS — scrub reveal
+═══════════════════════════════════════════════════════ */
+document.querySelectorAll('.sh').forEach(sh=>{
+  gsap.fromTo(sh,
+    {opacity:0,y:60,scale:.96},
+    {opacity:1,y:0,scale:1,duration:1,ease:'power3.out',clearProps:'all',
+     scrollTrigger:{trigger:sh,start:'top 86%',toggleActions:'play none none reverse'}}
+  );
+});
+
+/* ═══════════════════════════════════════════════════════
+   17. GLOBAL PARALLAX (depth layers follow scroll)
+═══════════════════════════════════════════════════════ */
+window.addEventListener('scroll',()=>{
+  const s=window.scrollY;
+  // sections shift at different depths
+  document.querySelectorAll('.section,.stats-s,.testi').forEach((sec,i)=>{
+    const sp=sec.querySelectorAll('.bc,.pgc,.pcard,.tc,.sgi');
+    sp.forEach((el,j)=>{
+      const depth=(j%3+1)*0.4;
+      const rect=el.getBoundingClientRect();
+      if(rect.top<window.innerHeight*1.5&&rect.bottom>-100){
+        const progress=(window.innerHeight-rect.top)/(window.innerHeight+rect.height);
+        el.style.setProperty('--py',`${(progress-.5)*depth*20}px`);
+      }
+    });
+  });
+},{passive:true});
+
+/* apply parallax var to transform */
+const paraEls=document.querySelectorAll('.bc,.pgc,.pcard,.tc,.sgi');
+function paraFrame(){
+  paraEls.forEach(el=>{
+    const py=el.style.getPropertyValue('--py')||'0px';
+    // only add if not being tilt-animated (rough check via gsap ticker)
+  });
+  requestAnimationFrame(paraFrame);
+}
+
+/* ═══════════════════════════════════════════════════════
+   18. MARQUEE SCROLL VELOCITY
+═══════════════════════════════════════════════════════ */
+const mq1=document.querySelector('.mq-fwd');
+const mq2=document.querySelector('.mq-rev');
+let lastSY=0,vel=0;
+window.addEventListener('scroll',()=>{
+  vel=window.scrollY-lastSY; lastSY=window.scrollY;
+  const speed=Math.max(8,22-Math.abs(vel)*.4);
+  if(mq1) mq1.style.animationDuration=speed+'s';
+  if(mq2) mq2.style.animationDuration=(speed+4)+'s';
+},{passive:true});
+
+console.log('Titanlar v3 — ultra-powered');
+</script>
+</body>
+</html>
