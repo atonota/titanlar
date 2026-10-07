@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
-# atonota/agency main dalındaki son commit'i, GitHub Actions "build" job'ı başarılıysa build edip yayınlar.
-# agency-update.timer 2 dakikada bir çalıştırır. Elle çalıştırmak güvenlidir.
+# Bu reponun main dalındaki son commit'ini, GitHub Actions CI job'ı başarılıysa build edip yayınlar.
+# <NAME>-update.timer 2 dakikada bir çalıştırır. Elle çalıştırmak güvenlidir. Proje ayarları: ops/project.env
 #   Sabitleme / geri alma: commit SHA'yı $BASE/state/pin dosyasına yaz. Silince main'i takip eder.
-# Çalışma dosyaları repo dışında: $BASE (varsayılan /opt/agency) → src/, releases/, current, state/
+# Çalışma dosyaları repo dışında: $BASE (varsayılan /opt/<NAME>) → src/, releases/, current, state/
 set -euo pipefail
-BASE="${AGENCY_BASE:-/opt/agency}"
-REPO_URL=https://github.com/atonota/agency.git
-API=https://api.github.com/repos/atonota/agency
-CHECK_NAME=build
+OPS="$(cd "$(dirname "$0")" && pwd)"; . "$OPS/project.env"
+BASE="${SITE_BASE:-/opt/$NAME}"
+REPO_URL="https://github.com/$REPO.git"
+API="https://api.github.com/repos/$REPO"
 NODE_IMAGE=node:24-alpine
 SRC="$BASE/src"; REL="$BASE/releases"; mkdir -p "$BASE/state" "$REL"
 exec 9>"$BASE/state/lock"; flock -n 9 || { echo "başka bir güncelleme çalışıyor"; exit 0; }
 
 if [ ! -d "$SRC/.git" ]; then
-  [ -e "$SRC" ] && { echo "HATA: $SRC var ama ayrı bir git kopyası değil (BASE=$BASE başka bir şeyin içinde olabilir). Klasörü kenara alın ya da AGENCY_BASE ile farklı bir dizin verin."; exit 1; }
+  [ -e "$SRC" ] && { echo "HATA: $SRC var ama ayrı bir git kopyası değil (BASE=$BASE başka bir şeyin içinde olabilir). Klasörü kenara alın ya da SITE_BASE ile farklı bir dizin verin."; exit 1; }
   git clone --quiet "$REPO_URL" "$SRC"
 fi
 git -C "$SRC" fetch --quiet origin main
@@ -38,7 +38,7 @@ echo "build: ${SHA:0:12}"
 git -C "$SRC" checkout --quiet --detach "$SHA"
 OUT="$REL/$SHA"; rm -rf "$OUT"
 # npm önbelleği kalıcı volume'da (her build'de baştan indirmesin)
-if docker run --rm -v "$SRC:/src:ro" -v "$REL:/out" -v agency-npm-cache:/root/.npm "$NODE_IMAGE" \
+if docker run --rm -v "$SRC:/src:ro" -v "$REL:/out" -v "$NAME-npm-cache:/root/.npm" "$NODE_IMAGE" \
      sh -c "cp -r /src /tmp/w && cd /tmp/w && rm -rf node_modules dist && npm ci --no-audit --no-fund --loglevel=error && npm run build && cp -r dist /out/$SHA"; then
   [ -f "$OUT/index.html" ] || { echo "dist/index.html yok"; echo "$SHA" > "$BASE/state/failed"; exit 1; }
   chmod -R a+rX "$OUT"
