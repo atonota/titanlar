@@ -43,6 +43,28 @@ for (const route of ['/', '/izometrik/', '/v3/', '/v4/']) {
     }
 
     await page.setViewportSize({ width: 320, height: 568 })
+    if (route.startsWith('/v')) {
+      const heading = page.locator('#ht')
+      await expect(heading).toBeVisible()
+      const hidden = await heading.evaluate((element) => Array.from(element.querySelectorAll('*')).filter((child) => {
+        if (!child.textContent.trim()) return false
+        for (let current = child; current; current = current.parentElement) {
+          const style = getComputedStyle(current)
+          if (Number(style.opacity) < 0.99 || style.visibility !== 'visible') return true
+        }
+        return false
+      }).map((child) => child.textContent))
+      expect(hidden, 'hero words must remain painted after responsive changes').toEqual([])
+      await heading.scrollIntoViewIfNeeded()
+      const visible = await heading.evaluate((element) => {
+        const box = element.getBoundingClientRect()
+        const nav = document.querySelector('#nav').getBoundingClientRect()
+        return { left: box.left, right: box.right, overlap: Math.max(0, Math.min(box.bottom, nav.bottom) - Math.max(box.top, nav.top)) }
+      })
+      expect(visible.left).toBeGreaterThanOrEqual(0)
+      expect(visible.right).toBeLessThanOrEqual(320)
+      expect(visible.overlap).toBe(0)
+    }
     await page.screenshot({ path: testInfo.outputPath('mobile.png'), animations: 'disabled' })
     await testInfo.attach('mobile', { path: testInfo.outputPath('mobile.png'), contentType: 'image/png' })
     expect(failures).toEqual([])

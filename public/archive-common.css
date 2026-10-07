@@ -36,7 +36,7 @@
 
 @media (max-width: 40rem) {
   .archive-landing #nav {
-    position: sticky;
+    position: relative;
     top: 0;
     left: auto;
     transform: none;
@@ -124,6 +124,13 @@
   .archive-landing :is(#cur, #cur-ring, #cur-dot, #cur-outer, #cur-trail) { display: none; }
   .archive-landing #smooth-wrapper { position: static !important; height: auto !important; overflow: visible !important; }
   .archive-landing #smooth-content { transform: none !important; }
+  /* ScrollTrigger refresh can reinstate entrance styles after a resize. */
+  .archive-landing .hero :is(.hl, #eyebr, #ht, #ht *, #hdesc, #brow, #brow > *, #trust, #trust > *) {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+  }
+
   .archive-landing .story-wrap { height: auto; }
   .archive-landing .story-pin { position: static; height: auto; overflow: visible; }
   .archive-landing .slides-track { width: 100%; display: block; transform: none !important; }
@@ -139,7 +146,7 @@
 
 @media (max-width: 64rem) {
   .archive-landing #nav {
-    position: sticky; top: 0; left: auto; transform: none; width: auto;
+    position: relative; top: 0; left: auto; transform: none; width: auto;
     margin: var(--archive-gap); padding: var(--archive-gap);
     border-radius: var(--archive-nav-radius); flex-wrap: wrap; gap: var(--archive-gap);
   }
