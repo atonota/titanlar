@@ -60,8 +60,9 @@ recovered compiled CSS and JavaScript. The document wrapper adds UTF-8, Turkish
 language metadata and a responsive viewport. Accessibility repairs normalize small
 font declarations to the shared 1rem minimum, preserve the user root text size,
 fix narrow-screen hero/navigation wrapping and provide visible keyboard focus.
-The v4 testimonial region also supports native keyboard scrolling; the landing
-animations respect reduced-motion preferences. The historical original remains
+The v4 testimonial region also supports native keyboard scrolling. The v3/v4
+previews have reduced-motion fallbacks; the historical bundled homepage effects
+have not had a complete accessibility audit. The historical original remains
 recoverable in commit `3a54d24` before these repairs.
 
 The existing React source remains available in `src/`. After the normal Vite

@@ -126,6 +126,14 @@ test.describe('touch and keyboard together', () => {
   for (const route of ['/v3/', '/v4/']) {
     test(`${route} retains standalone hit areas`, async ({ page }) => {
       await page.goto(`/titanlar${route}`)
+      console.log('Input capability evidence', route, await page.evaluate(() => ({
+        viewport: { width: innerWidth, height: innerHeight },
+        maxTouchPoints: navigator.maxTouchPoints,
+        pointerCoarse: matchMedia('(pointer: coarse)').matches,
+        anyPointerCoarse: matchMedia('(any-pointer: coarse)').matches,
+        hover: matchMedia('(hover: hover)').matches,
+        anyHover: matchMedia('(any-hover: hover)').matches,
+      })))
       const controls = await page.locator('.btn, .soc, .socs a').evaluateAll((elements) => {
         const minimum = matchMedia('(any-pointer: coarse)').matches ? 48 : 44
         return elements.filter((element) => element.getBoundingClientRect().width > 0).map((element) => ({
