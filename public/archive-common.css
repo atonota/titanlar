@@ -133,6 +133,10 @@
   .fe-circular, .archive-landing .btn, .archive-landing .soc { transform: none !important; }
 }
 
+@media (max-width: 52rem) {
+  .archive-landing :is(.ftgrid, .ftg) { grid-template-columns: minmax(0, 1fr); }
+}
+
 @media (max-width: 64rem) {
   .archive-landing #nav {
     position: sticky; top: 0; left: auto; transform: none; width: auto;
