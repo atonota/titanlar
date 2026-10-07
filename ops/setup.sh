@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Agency statik sitesi (Vite/React) — bir veya birden çok alan adında. Kaynak: github.com/atonota/agency
+# Statik site (Vite/React) yayını — bir veya birden çok alan adında. Proje ayarları: ops/project.env
 # Akış: main'e push → GitHub Actions "build" → sunucu timer'ı 2 dk içinde CI'dan geçen commit'i
 #        Node 24 konteynerinde npm ci + build eder → atomik olarak yayınlar. Başarısız build yayınlanmaz.
 # Önkoşul: Docker, host Caddy. İki Caddy düzeni otomatik algılanır:
@@ -7,15 +7,16 @@
 #   "sites-enabled" → /etc/caddy/sites-enabled/* (ör. srv01): SADECE yeni site dosyası eklenir, mevcut dosyalara,
 #                      firewall'a ve caddy.env'e dokunulmaz; doğrulama başarısızsa eklenen dosya geri alınır; reload (restart değil).
 # Kullanım (root):
-#   git clone https://github.com/atonota/agency.git /opt/agency/repo
-#   bash /opt/agency/repo/ops/setup.sh agency.titanlar.com      — alan adı ekle/güncelle
-#   bash /opt/agency/repo/ops/setup.sh cronbi.com               — ikinci alan adı (aynı build)
-#   bash /opt/agency/repo/ops/setup.sh                          — kayıtlı tüm alan adlarını yeniden uygula
-#   bash /opt/agency/repo/ops/setup.sh --remove cronbi.com      — alan adını kaldır
-# Tekrar çalıştırılabilir. Tüm alan adları aynı build'i (/opt/agency/current) ve aynı otomatik yayını paylaşır.
+#   git clone https://github.com/<REPO>.git /opt/<NAME>/repo
+#   bash /opt/<NAME>/repo/ops/setup.sh example.com www.example.com — alan adı ekle/güncelle
+#                                     (www.X ve X birlikte verilirse www.X → X kalıcı yönlendirme olur)
+#   bash /opt/<NAME>/repo/ops/setup.sh                          — kayıtlı (yoksa DEFAULT_DOMAINS) alan adlarını uygula
+#   bash /opt/<NAME>/repo/ops/setup.sh --remove example.com     — alan adını kaldır
+# Tekrar çalıştırılabilir. Tüm alan adları aynı build'i (/opt/<NAME>/current) ve aynı otomatik yayını paylaşır.
 set -euo pipefail
-OPS="$(cd "$(dirname "$0")" && pwd)"
-BASE="${AGENCY_BASE:-/opt/agency}"; export AGENCY_BASE="$BASE"
+OPS="$(cd "$(dirname "$0")" && pwd)"; . "$OPS/project.env"
+BASE="${SITE_BASE:-/opt/$NAME}"; export SITE_BASE="$BASE"
+MARK="github.com/$REPO"   # site dosyalarında sahiplik işareti
 log()  { printf '\n\033[1;34m==> %s\033[0m\n' "$*"; }
 warn() { printf '\033[1;33m[!] %s\033[0m\n' "$*"; }
 die()  { printf '\033[1;31m[x] %s\033[0m\n' "$*"; exit 1; }
@@ -26,9 +27,9 @@ for c in docker caddy git curl python3 flock dig; do command -v $c >/dev/null ||
 
 # Caddy düzeni
 if grep -qs 'import /etc/caddy/sites-enabled/' /etc/caddy/Caddyfile; then
-  LAYOUT=sites-enabled; SITE_DIR=/etc/caddy/sites-enabled; TMPL="$OPS/caddy/site.sites-enabled.tmpl"
+  LAYOUT=sites-enabled; SITE_DIR=/etc/caddy/sites-enabled; TMPL="$OPS/caddy/site.sites-enabled.tmpl"; RTMPL="$OPS/caddy/redirect.sites-enabled.tmpl"
 elif grep -qs 'import /etc/caddy/sites/' /etc/caddy/Caddyfile; then
-  LAYOUT=sites; SITE_DIR=/etc/caddy/sites; TMPL="$OPS/caddy/site.caddy.tmpl"
+  LAYOUT=sites; SITE_DIR=/etc/caddy/sites; TMPL="$OPS/caddy/site.caddy.tmpl"; RTMPL="$OPS/caddy/redirect.caddy.tmpl"
   command -v ufw >/dev/null || die "ufw yok"
 else die "/etc/caddy/Caddyfile içinde sites/ veya sites-enabled/ import'u bulunamadı — Caddy düzeni tanınmadı"; fi
 echo "Caddy düzeni: $LAYOUT ($SITE_DIR)"
@@ -37,7 +38,7 @@ echo "Caddy düzeni: $LAYOUT ($SITE_DIR)"
 DOMAINS_FILE="$BASE/state/domains"; mkdir -p "$BASE/state"
 # Önceki (tek alan adlı) kurulumdan geçiş: mevcut site dosyalarını listeye al
 if [ ! -s "$DOMAINS_FILE" ]; then
-  for f in "$SITE_DIR"/*.caddy; do grep -qs "github.com/atonota/agency" "$f" && basename "$f" .caddy >> "$DOMAINS_FILE"; done
+  for f in "$SITE_DIR"/*.caddy; do grep -qs "$MARK" "$f" && basename "$f" .caddy >> "$DOMAINS_FILE"; done
 fi
 valid() { [[ "$1" =~ ^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$ ]]; }
 if [ "${1:-}" = "--remove" ]; then
@@ -47,7 +48,7 @@ if [ "${1:-}" = "--remove" ]; then
 fi
 if [ "$#" -gt 0 ]; then DOMAINS=("$@")
 elif [ -s "$DOMAINS_FILE" ]; then mapfile -t DOMAINS < "$DOMAINS_FILE"
-else DOMAINS=(agency.titanlar.com); fi
+else read -r -a DOMAINS <<< "$DEFAULT_DOMAINS"; fi
 for D in "${DOMAINS[@]}"; do valid "$D" || die "geçersiz alan adı: $D"; done
 for D in "${DOMAINS[@]}"; do grep -qx "$D" "$DOMAINS_FILE" 2>/dev/null || echo "$D" >> "$DOMAINS_FILE"; done
 echo "Alan adları: ${DOMAINS[*]}"
@@ -76,9 +77,11 @@ chmod o+x "$BASE" 2>/dev/null || true
 NEW=()
 for D in "${DOMAINS[@]}"; do
   F="$SITE_DIR/$D.caddy"
-  if [ -e "$F" ] && ! grep -qs "github.com/atonota/agency" "$F"; then die "$F zaten var ve bu projeye ait değil — dokunulmadı"; fi
+  if [ -e "$F" ] && ! grep -qs "$MARK" "$F"; then die "$F zaten var ve bu projeye ait değil — dokunulmadı"; fi
   [ -e "$F" ] || NEW+=("$F")
-  sed -e "s|__BASE__|$BASE|g" -e "s|__DOMAIN__|$D|g" "$TMPL" > "$F.tmp" && mv "$F.tmp" "$F"
+  APEX="${D#www.}"; T="$TMPL"
+  if [ "$APEX" != "$D" ] && printf '%s\n' "${DOMAINS[@]}" | grep -qx "$APEX"; then T="$RTMPL"; fi   # www.X → X
+  sed -e "s|__BASE__|$BASE|g" -e "s|__DOMAIN__|$D|g" -e "s|__TARGET__|$APEX|g" -e "s|__REPO__|$REPO|g" "$T" > "$F.tmp" && mv "$F.tmp" "$F"
   chmod 644 "$F"
   if [ "$LAYOUT" = sites-enabled ]; then
     install -d -o caddy -g caddy /var/log/caddy/access_log /var/log/caddy/byte_log
@@ -98,13 +101,18 @@ else
 fi
 
 log "4/5 Otomatik yayın zamanlayıcısı (2 dk)"
-for u in service timer; do sed -e "s|__OPS__|$OPS|g" -e "s|__BASE__|$BASE|g" "$OPS/systemd/agency-update.$u" > "/etc/systemd/system/agency-update.$u"; done
-systemctl daemon-reload && systemctl enable --now agency-update.timer >/dev/null
-systemctl list-timers agency-update.timer --no-pager | head -2
+for u in service timer; do sed -e "s|__OPS__|$OPS|g" -e "s|__BASE__|$BASE|g" -e "s|__NAME__|$NAME|g" -e "s|__REPO__|$REPO|g" "$OPS/systemd/update.$u" > "/etc/systemd/system/$NAME-update.$u"; done
+systemctl daemon-reload && systemctl enable --now "$NAME-update.timer" >/dev/null
+systemctl list-timers "$NAME-update.timer" --no-pager | head -2
 
 log "5/5 Doğrulama (yeni alan adının SSL sertifikası birkaç saniye sürebilir)"
 code() { curl -s -o /dev/null -w '%{http_code}' --resolve "$1:443:$PUB" "https://$1$2"; }
 for D in "${DOMAINS[@]}"; do
+  if grep -qs "permanent" "$SITE_DIR/$D.caddy"; then
+    for i in $(seq 1 12); do c=$(code "$D" /); [[ "$c" =~ ^30[18]$ ]] && break; sleep 5; done
+    [[ "$c" =~ ^30[18]$ ]] && echo "OK  https://$D/ → $c (${D#www.} adresine yönlendirme)" || warn "https://$D/ yönlendirme değil ($c)"
+    continue
+  fi
   for i in $(seq 1 12); do [ "$(code "$D" /)" = 200 ] && break; sleep 5; done
   [ "$(code "$D" /)" = 200 ] && echo "OK  https://$D/ → 200" || warn "https://$D/ 200 değil (sertifika: journalctl -u caddy | grep -i $D)"
   [ "$(code "$D" /assets/app.js)" = 200 ] && echo "OK  https://$D/assets/app.js → 200" || warn "https://$D/assets/app.js 200 değil"
@@ -114,7 +122,7 @@ cat <<MSG
 
 Alan adları: $(tr '\n' ' ' < "$DOMAINS_FILE")
 Yayındaki sürüm:   cat $BASE/state/deployed
-Güncelleme kaydı:  journalctl -u agency-update --since today
-Hemen güncelle:    systemctl start agency-update.service
-Geri al/sabitle:   echo <commit-sha> > $BASE/state/pin && systemctl start agency-update.service
+Güncelleme kaydı:  journalctl -u $NAME-update --since today
+Hemen güncelle:    systemctl start $NAME-update.service
+Geri al/sabitle:   echo <commit-sha> > $BASE/state/pin && systemctl start $NAME-update.service
 MSG

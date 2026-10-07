@@ -1,0 +1,6 @@
+# __DOMAIN__ → https://__TARGET__ (kalıcı yönlendirme). Kaynak: github.com/__REPO__
+__DOMAIN__ {
+	bind {$PUBLIC_IP}
+	import common __DOMAIN__
+	redir https://__TARGET__{uri} permanent
+}
