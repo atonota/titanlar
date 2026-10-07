@@ -928,7 +928,7 @@ document.addEventListener('mousemove', e => {
 (function lerpRing(){
   rx+=(mx-rx)*.1; ry+=(my-ry)*.1;
   gsap.set(curRing,{x:rx-18,y:ry-18});
-  if (!archiveMotionQuery.matches) requestAnimationFrame(lerpRing);
+  window.archiveFrame(lerpRing);
 })();
 document.querySelectorAll('a,button,.bc,.pgc,.pcard,.tc,.sgi,.soc,.btn').forEach(el=>{
   el.addEventListener('mouseenter',()=>document.body.classList.add('cx'));
@@ -1032,9 +1032,9 @@ function drawGL(t){
   drawLinks(pts);
   ctx2.fillStyle=vg;
   ctx2.fillRect(0,0,W,H);
-  if (!archiveMotionQuery.matches) requestAnimationFrame(drawGL);
+  window.archiveFrame(drawGL);
 }
-if (!archiveMotionQuery.matches) requestAnimationFrame(drawGL);
+window.archiveFrame(drawGL);
 
 /* ═══════════════════════════════════════════════════════
    3. NAV SCROLL
@@ -1310,7 +1310,7 @@ function paraFrame(){
     const py=el.style.getPropertyValue('--py')||'0px';
     // only add if not being tilt-animated (rough check via gsap ticker)
   });
-  if (!archiveMotionQuery.matches) requestAnimationFrame(paraFrame);
+  window.archiveFrame(paraFrame);
 }
 
 /* ═══════════════════════════════════════════════════════

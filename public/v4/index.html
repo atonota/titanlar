@@ -708,7 +708,7 @@ document.addEventListener('mousemove',e=>{
   tx+=(mx-tx)*.05; ty+=(my-ty)*.05;
   gsap.set(ring,{x:rx-20,y:ry-20});
   gsap.set(trail,{x:tx-140,y:ty-140});
-  if (!archiveMotionQuery.matches) requestAnimationFrame(lerpRingTrail);
+  window.archiveFrame(lerpRingTrail);
 })();
 document.querySelectorAll('a,button,.scard,.pgcard,.tcard,.stat-c,.btn').forEach(el=>{
   el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
@@ -862,10 +862,10 @@ document.querySelectorAll('.ftab').forEach(tab=>{
       c.classList.toggle('hidden',!match);
     });
     Flip.from(state,{
-      duration:.6,ease:'titanEase',stagger:.045,
+      duration:archiveMotionQuery.matches ? 0 : .6,ease:'titanEase',stagger:.045,
       absolute:true,fade:true,
-      onEnter:els=>gsap.from(els,{opacity:0,scale:.85,duration:.5,ease:'back.out(1.6)'}),
-      onLeave:els=>gsap.to(els,{opacity:0,scale:.85,duration:.35})
+      onEnter:els=>gsap.from(els,{opacity:0,scale:.85,duration:archiveMotionQuery.matches ? 0 : .5,ease:'back.out(1.6)'}),
+      onLeave:els=>gsap.to(els,{opacity:0,scale:.85,duration:archiveMotionQuery.matches ? 0 : .35})
     });
   });
 });

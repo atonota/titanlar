@@ -61,3 +61,63 @@ test('/v4/ testimonials support keyboard scrolling', async ({ page }) => {
   await page.keyboard.press('ArrowRight')
   await expect.poll(() => carousel.evaluate((element) => element.scrollLeft)).toBeGreaterThan(0)
 })
+
+test('/v3/ reduced motion preserves all three story steps and entered text', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 })
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  await page.goto('/v3/')
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  for (const name of ['Analiz & Tani', 'Strateji & Yol Haritasi', 'Uygulama & Sonuc']) {
+    const heading = page.getByRole('heading', { name, exact: true })
+    await heading.scrollIntoViewIfNeeded()
+    const box = await heading.boundingBox()
+    expect(box.x).toBeGreaterThanOrEqual(0)
+    expect(box.x + box.width).toBeLessThanOrEqual(320)
+    expect(box.y).toBeGreaterThanOrEqual(0)
+    expect(box.y + box.height).toBeLessThanOrEqual(568)
+  }
+  const input = page.getByPlaceholder('E-posta adresin...', { exact: true })
+  await input.fill('regression@example.test')
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  await page.setViewportSize({ width: 720, height: 360 })
+  await expect(input).toHaveValue('regression@example.test')
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await expect(input).toHaveValue('regression@example.test')
+})
+
+test('/v4/ reduced motion preserves natural scrolling and filter completion', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 })
+  await page.goto('/v4/')
+  expect(await page.evaluate(() => document.scrollingElement.scrollHeight)).toBeGreaterThan(568)
+  await page.keyboard.press('PageDown')
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0)
+  await page.getByRole('button', { name: 'Strateji', exact: true }).click()
+  await expect(page.locator('.card-grid > [data-cat]:visible')).toHaveCount(1)
+  await page.getByRole('button', { name: 'Tumunu Goster', exact: true }).click()
+  await expect(page.locator('.card-grid > [data-cat]:visible')).toHaveCount(6)
+})
+
+test.describe('touch and keyboard together', () => {
+  test.use({ hasTouch: true, viewport: { width: 320, height: 568 } })
+  for (const route of ['/v3/', '/v4/']) {
+    test(`${route} retains standalone hit areas`, async ({ page }) => {
+      await page.goto(route)
+      const controls = await page.locator('.btn, .soc, .socs a').evaluateAll((elements) => {
+        const minimum = matchMedia('(any-pointer: coarse)').matches ? 48 : 44
+        return elements.filter((element) => element.getBoundingClientRect().width > 0).map((element) => ({
+          width: element.getBoundingClientRect().width,
+          height: element.getBoundingClientRect().height,
+          minimum,
+        }))
+      })
+      for (const control of controls) {
+        expect(control.width).toBeGreaterThanOrEqual(control.minimum)
+        expect(control.height).toBeGreaterThanOrEqual(control.minimum)
+      }
+      const input = page.getByPlaceholder('E-posta adresin...', { exact: true })
+      await input.tap()
+      await input.press('Tab')
+      await expect.poll(() => page.evaluate(() => getComputedStyle(document.activeElement).outlineStyle)).toBe('solid')
+    })
+  }
+})
