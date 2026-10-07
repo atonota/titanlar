@@ -123,7 +123,7 @@
   .archive-landing { height: auto !important; cursor: auto !important; }
   .archive-landing :is(#cur, #cur-ring, #cur-dot, #cur-outer, #cur-trail) { display: none; }
   .archive-landing #smooth-wrapper { position: static !important; height: auto !important; overflow: visible !important; }
-  .archive-landing #smooth-content { transform: none !important; }
+  .archive-landing :is(#smooth-content, [data-speed]) { transform: none !important; }
   /* ScrollTrigger refresh can reinstate entrance styles after a resize. */
   .archive-landing .hero :is(.hl, #eyebr, #ht, #ht *, #hdesc, #brow, #brow > *, #trust, #trust > *) {
     opacity: 1 !important;
