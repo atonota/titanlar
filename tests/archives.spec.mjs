@@ -127,14 +127,16 @@ test.describe('touch and keyboard together', () => {
       const controls = await page.locator('.btn, .soc, .socs a').evaluateAll((elements) => {
         const minimum = matchMedia('(any-pointer: coarse)').matches ? 48 : 44
         return elements.filter((element) => element.getBoundingClientRect().width > 0).map((element) => ({
+          label: element.textContent.trim(),
+          className: element.className,
           width: element.getBoundingClientRect().width,
           height: element.getBoundingClientRect().height,
           minimum,
         }))
       })
       for (const control of controls) {
-        expect(control.width).toBeGreaterThanOrEqual(control.minimum)
-        expect(control.height).toBeGreaterThanOrEqual(control.minimum)
+        expect(control.width, `${control.className}: ${control.label}`).toBeGreaterThanOrEqual(control.minimum)
+        expect(control.height, `${control.className}: ${control.label}`).toBeGreaterThanOrEqual(control.minimum)
       }
       const input = page.getByPlaceholder('E-posta adresin...', { exact: true })
       await input.tap()
