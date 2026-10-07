@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-const widths = [320, 360, 375, 390, 639, 640, 641, 768, 1023, 1024, 1025, 1280]
+const widths = [320, 360, 375, 390, 639, 640, 641, 768, 831, 832, 833, 1023, 1024, 1025, 1280]
 
 for (const route of ['/', '/izometrik/', '/v3/', '/v4/']) {
   test(`${route} retains readable text and reachable navigation`, async ({ page }, testInfo) => {
