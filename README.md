@@ -4,9 +4,9 @@
 
 Ajans sitesi taslağı. Çalışma footer'dan başladı: kurumsal bir footer'da ve Güven Merkezi'nde bulunan her öğenin hangi olgunluk aşamasında (Gün 1, Büyüme, Kurumsal olgunluk) gerektiğini gösteren, JSON içerikten beslenen bir motor.
 
-Yayın: https://atonota.github.io/titanlar/
+Yayın: https://titanlar.com/
 
-Hedef alan adı: https://titanlar.com/ (DNS bağlantısı tamamlanmalıdır).
+GitHub Pages adresi: https://atonota.github.io/titanlar/ (özel alan adına yönlenir).
 
 ## Yığın
 
@@ -38,7 +38,7 @@ npm run build
 
 Bu proje statik bir frontend olarak GitHub Pages'te yayınlanır. Sunucu veya Tailscale bağlantısı gerekmez. `ops/` kaynak projeden korunan Hetzner yayın referansıdır; bu reponun GitHub Pages yayını onu çalıştırmaz.
 
-Alan adının mevcut DNS sağlayıcısı Cloudflare'dır. GitHub Pages ayarlarında `titanlar.com` kaydedildikten sonra aşağıdaki kayıtlar uygulanır:
+Alan adının DNS sağlayıcısı Cloudflare'dır. GitHub Pages özel alan adı `titanlar.com` olarak kaydedilmiş ve aşağıdaki kayıtlar uygulanmıştır:
 
 | Tür | Ad | Değer |
 |---|---|---|
@@ -48,7 +48,7 @@ Alan adının mevcut DNS sağlayıcısı Cloudflare'dır. GitHub Pages ayarları
 | A | @ | 185.199.111.153 |
 | CNAME | www | atonota.github.io |
 
-Kayıtlar DNS only olarak uygulanır. Aynı adlardaki eski A/AAAA/CNAME kayıtlarıyla çakışma giderilir; diğer alt alan adları ve e-posta kayıtları korunur. DNS doğrulaması ve TLS sertifikası hazır olduğunda GitHub Pages'te HTTPS zorunlu tutulur.
+Kayıtlar DNS only durumundadır. GitHub Pages'te HTTPS zorunludur; `http://titanlar.com` ve `www.titanlar.com` ana HTTPS adresine yönlenir. `agency.titanlar.com` ayrı yayın olarak korunmuştur.
 
 DNS kaydı kaynağı: [GitHub Pages özel alan adı rehberi](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site).
 
